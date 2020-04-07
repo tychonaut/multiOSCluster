@@ -1,0 +1,2 @@
+
+.\rebootToSelectedOS "Windows"
