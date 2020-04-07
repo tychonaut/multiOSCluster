@@ -12,7 +12,8 @@ The master computer logs into the cluster nodes via SSH with admin/super user pr
 SSH is provieded either natively for Linux machines, or via MSYS2 on Windows.
 Manual input of user credentials are omitted via private/public keys an mutual registration of the public keys as trusted parties.
 
+Once logged in, local native scripts are executed that 
+1. Alter the EFI settings boot into the desired OS on next reboot
+2. perform the reboot.
 
-
-Automation without is possible
-It Uses sshd with public and private keys for remote access, and executes a tiny bash script on Linux. On Windows, it is much more complicated
+On Linux, this is a trivial two-liner
