@@ -1,6 +1,14 @@
 #!/usr/bin/env python3
 
-# code ported from https://github.com/chengxuncc/booToLinux/blob/master/main.go:
+# This script takes the output of the Windows PowerShell- command "bcdedit /enum firmware",
+# builds a dictionary that maps the "description" (a.k.a. name) entries of a boot loader to its "identifier".
+# This dictionary is then used to find the OS passed as the first argument.
+# On success, it prints the found identifier to the command line and exits with error code 0.
+# On Error, it prints an error message and exits with error code 1.
+# The output is supposed to be used to set the boot priority in the EFI 
+# in order to reboot into another (or the same) operating system.
+#
+# This code is ported from parts of https://github.com/chengxuncc/booToLinux/blob/master/main.go:
 
 import sys
 
@@ -70,7 +78,7 @@ for line in firmwareLines:
 
 if not osDescriptorToFindIdentifierFor in UEFIBootDictionary:
     print("Error! given OS named ", osDescriptorToFindIdentifierFor, "not found in UEFI description entries!")
-    exit(-1)
+    exit(1)
 else:
     print(UEFIBootDictionary[osDescriptorToFindIdentifierFor])
     # indicate success to the caller of the script:
