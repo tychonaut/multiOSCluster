@@ -16,4 +16,5 @@ Once logged in, local native scripts are executed that
 1. Alter the EFI settings boot into the desired OS on next reboot
 2. perform the reboot.
 
-On Linux, this is a trivial two-liner
+On Linux, this is a trivial two-liner.
+On Windows, it is way more complicated and currently realized as a combination of self-elevating powershell script which uses a python script for easier string manipulation.
