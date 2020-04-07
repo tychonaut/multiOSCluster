@@ -3,6 +3,7 @@
 # check following command to verify it's the Windows partition:
 # efibootmgr -v
 
+
 echo "looking for OS name \"$1\" in EFI boot option listing ..."
 
 relevantLine=$(efibootmgr -v | grep "$1")
