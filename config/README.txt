@@ -1,0 +1,1 @@
+The config files shall enable generalization of script files (instead of hard codes for a signel cluster)

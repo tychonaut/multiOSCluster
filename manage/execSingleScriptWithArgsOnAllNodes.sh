@@ -1,27 +1,30 @@
 #!/bin/sh
 
-#nodelist=["arenart1","arenart2","arenart3","arenart4","arenart5"]
+
+#usage example:  ./execSingleScriptWithArgsOnAllNodes.sh ./testScript1.sh "this is my argument"
 
 #https://stackoverflow.com/questions/8880603/loop-through-an-array-of-strings-in-bash
 
 declare -a hostnames=(
-#	"arenart1"
-#	"arenart2"
-#	"arenart3"
+	"arenamaster"
+	"arenart1"
+	"arenart2"
+	"arenart3"
 	"arenart4"
-#	"arenart5"
+	"arenart5"
 )
 
 declare -a usernames=(
-#	"ARENART1+arena"
-#	"ARENART2+arena"
-#	"ARENART3+arena"
+	"ARENAMASTER+arena"
+	"ARENART1+arena"
+	"ARENART2+arena"
+	"ARENART3+arena"
 	"ARENART4+arena"
-#	"ARENART5+arena"
+	"ARENART5+arena"
 )
 
 numNodes=${#hostnames[@]}
-echo $numNodes
+echo ${numNodes}
 
 echo "host names : ${hostnames[@]}"
 
@@ -44,3 +47,7 @@ done
 
 
 echo "done ssh"
+
+
+#scp /d/devel/scripts/multiOSCluster/manage/testScript1.sh ARENAMASTER+arena@arenamaster:/d/devel/scripts/multiOSCluster/manage/testScript1.sh
+#scp testScript1.sh ARENAMASTER+arena@arenamaster:testScript1.sh
