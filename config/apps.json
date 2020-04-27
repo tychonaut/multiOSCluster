@@ -1,0 +1,27 @@
+{
+  "_comment" : "this file is not used, just a brain storming, if complexity increases.",
+  "apps": {
+    "OpenSpace": {
+      "localLauncher": {
+        "Windows": {
+          "path": "D:\\devel\\OpenSpace\\OpenSpace_ownDeploy\\bin\\Release\\launchOpSpViaPSTools.ps1"
+        },
+        "Linux": null
+      },
+      "args": ""
+    },
+
+    "Google Earth": {
+      "localLauncher": {
+        "Windows": {
+          "path": "D:\\devel\\scripts\\startGoogleEarthOnThisMachine.ps1",
+          "path2": "C:\\Program Files\\Google\\Google Earth Pro\\client\\googleearth.exe"
+
+        },
+        "Linux": null
+      },
+      "args": ""
+    }
+  }
+
+}

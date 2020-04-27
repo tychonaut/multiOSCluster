@@ -1,0 +1,219 @@
+
+
+
+#==============================================================================
+# Install msys2
+
+doubleclick on:
+S:\Software_Drivers\msys2
+
+
+#-------------------------------------------
+# setting up msys sshd:
+
+# on each dome computer:
+
+start msys2 with admin shell:
+windows start -> type "msys" -> rightclick -> open file location -> rightclick on "MSYS2 MSYS" -> start as admin
+
+#needing NAS access: has to be added, because logged in as admin:
+net use S: '\\10.0.10.6\Shared' /user:<user> <password>
+
+#install dependencies for sshd setup:
+pacman -S openssh cygrunsrv mingw-w64-x86_64-editrights nano
+
+# execute a modded version of an old setup script (https://gist.github.com/samhocevar/00eec26d9e9988d080ac), 
+# because the new one created upon my request(https://www.msys2.org/wiki/Setting-up-SSHd/) didn't work
+/s/Software_Drivers/msys2/msys2-sshd-setup_old.sh
+
+
+#firewall: allow app in all 3 types (privatre, domain, public):
+C:\msys64\usr\bin\sshd.exe
+
+Also switch the weird "elevated user" for the sshd from the msys2 setup to local system user:
+(Actually, I personally requested an updated script tha would be much less complex. I received one, but it didn't work for me;
+Hence I used the "old setup script", which I also had to modify.)
+windows start -> type "services.msc" -> enter.
+find sshd -> right click -> properties -> Log on: Check "Local system account" and "Allow service to interact with Desktop"
+Then restart the sshd service in the same GUI.
+
+
+
+#-------------------------------------------
+commands for ssh -connection:
+
+ssh ARENAMASTER+arena@arenamaster
+ssh ARENART1+arena@arenart1
+ssh ARENART2+arena@arenart2
+ssh ARENART3+arena@arenart3
+ssh ARENART4+arena@arenart4
+ssh ARENART5+arena@arenart5
+
+
+#-------------------------------------------
+# make ssh-ing passwordless via RSA-keys
+
+# on office-pc and on arenamaster do for each dome pc you want to reach:
+
+# https://www.thegeekstuff.com/2008/11/3-steps-to-perform-ssh-login-without-password-using-ssh-keygen-ssh-copy-id/
+# only once per controller-machine:
+ssh-keygen.exe
+
+# add the generated PUBLIC key to "trusted devices" on each target machine, e.g.
+ssh-copy-id -i ~/.ssh/id_rsa.pub ARENART1+arena@arenart1
+ssh-copy-id -i ~/.ssh/id_rsa.pub ARENART2+arena@arenart2
+# etc.
+
+
+
+
+
+
+#-------------------------------------------
+# make ssh session gui-launchable:
+
+# https://superuser.com/questions/531787/starting-windows-gui-program-in-windows-through-cygwin-sshd-from-ssh-client
+# https://docs.microsoft.com/en-us/sysinternals/downloads/pstools
+
+copy S:\Software_Drivers\PSTools to D:\apps
+
+To remotely launch a program via powershell as admin:
+D:\apps\PSTools\PsExec64.exe 
+
+
+
+#-------------------------------------------
+# bind NAS to a remote bash session:
+
+
+# for access from  msys2 bash:
+
+	# https://stackoverflow.com/questions/2238935/cygwins-bash-cant-run-net-use-user-command
+	net use S: /user:"<username>" '\\10.0.10.6\Shared' <password>
+	#or maybe without drive letter, could omit some bugs (?):0
+	net use /user:"<username>" '\\10.0.10.6\Shared' <password>
+
+	#IMPORTANT: always end an SSH session  via "logout", NOT via "exit"! Otherwise,the NAS may not be mountable in a follow-up session.
+
+# from a powershell script to allow NAS- access to an application subsequently launched via PsExec64.exe:
+	
+	# Workaround for network shares with admin elevations, that avio somehow starts openspace with:
+	# https://superuser.com/questions/199387/elevated-command-line-prompt-cant-access-shared-drives
+	# the next command seems needed after a reboot:
+	D:\apps\PSTools\PsExec64.exe -i \\$(hostname) -d -s powershell.exe net use S: \\10.0.10.6\Shared /user:<username> <password> /Y
+
+#-------------------------------------------
+# install and use jq for parsing JSON config files:
+
+#in msys shell:
+
+ pacman -S mingw-w64-x86_64-winpthreads-git mingw-w64-x86_64-jq
+ #start via:
+ /mingw64/bin/jq
+
+
+# in powershell:
+https://stackoverflow.com/questions/16575419/powershell-retrieve-json-object-by-field-value
+
+
+
+
+
+#=================================================================================================
+# Workflow for UE4 install on each dome compuer:
+
+
+https://www.unrealengine.com/en-US/download
+
+
+check windows updates
+error: fix: disable WSUS stuff
+( https://thegeekpage.com/fix-installing-net-framework-3-5-failed-error-code-0x800f0954-on-windows-10/ )
+
+regedit
+Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU
+
+export stuff to Documents\backup_UE4_dotNET3_5_hack.reg
+
+UseWUServer: 1->0
+
+
+
+not reboot, but : ( https://www.yodernetwork.com/net-3-5-install-on-windows-10-error-0x8024401c-fix )
+
+services.msc
+windows update -> right click -> stop
+windows update -> right click -> start
+
+start -> "windows features" 
+.NET 3.5 (choos no subtrees)
+okay -> wait
+(now hopefully sucessfully installed)
+
+revert WSUS stuff
+regedit
+Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU
+UseWUServer: 0->1
+
+services.msc
+windows update -> right click -> stop
+windows update -> right click -> start
+
+start epic games launcher
+
+unreal engine -> install
+
+
+#-------------------------------------------
+# Install UE4 from Epic Launcher
+
+unreal engine -> launch
+
+
+#-------------------------------------------
+# Start UE4 engine, create nDisplay project
+Film, TV, live events
+
+nDisplay
+
+WITH starter content; ray tracing ENABLED
+
+#(take C: because of requirements to copy to the same folder everywhere! unfortunately, the master's D: is used for system partition; also, nDisplay requires no spaces (at least for deploy)!! ironically, the default path has spaces!)
+Folder: C:\Users\arena\Unreal_Projects
+project name: nDisplay_dome1
+
+
+
+#=================================================================================================
+# OpenSpace bug workaround: set primary display via comnand line
+
+https://stackoverflow.com/questions/32282531/how-can-i-swap-my-primary-monitor-in-a-batch-file
+
+
+
+
+
+
+
+	-- on dev pc:
+	--CONFIG = "D:/devel/openspace/_CONFIGS",
+	-- in dome:
+	-- CONFIG = "S:/development/OpenSpace/_CONFIGS",
+    CONFIG = "D:/devel/OpenSpace/localconfig_test",
+
+
+ D:\apps\PSTools\PsExec64.exe -i \\arenart1 -d -s D:\devel\OpenSpace\OpenSpace_ownDeploy\bin\Release\OpenSpace.exe
+ 
+ works when no network share is used:
+ powershell.exe "D:\\apps\\PSTools\\PsExec64.exe -i \\\\arenart4 -d -s D:\\devel\\OpenSpace\\OpenSpace_ownDeploy\\bin\\Release\\OpenSpace.exe"
+ powershell.exe –ExecutionPolicy Bypass "D:\\apps\\PSTools\\PsExec64.exe -i \\\\arenart4 -d -s D:\\devel\\OpenSpace\\OpenSpace_ownDeploy\\bin\\Release\\launchOpSp.bat"
+
+ this one seems the best remote invokation:
+ powershell.exe –ExecutionPolicy Bypass "D:\\devel\\OpenSpace\\OpenSpace_ownDeploy\\bin\\Release\\launchOpSpViaPSTools.ps1"
+ 
+ 
+ ssh ARENART2+arena@arenart2 "powershell.exe –ExecutionPolicy Bypass -File D:\\\\devel\\\\OpenSpace\\\\OpenSpace_ownDeploy\\\\bin\\\\Release\\\\launchOpSpViaPSTools.ps1"
+
+
+
+
