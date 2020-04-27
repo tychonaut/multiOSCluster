@@ -106,6 +106,7 @@ D:\apps\PSTools\PsExec64.exe
  pacman -S mingw-w64-x86_64-winpthreads-git mingw-w64-x86_64-jq
  #start via:
  /mingw64/bin/jq
+ or add /mingw64/bin/ to PATH
 
 
 # in powershell:
