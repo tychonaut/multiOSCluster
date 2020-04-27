@@ -1,6 +1,4 @@
 
-
-
 #==============================================================================
 # Install msys2
 
@@ -67,9 +65,7 @@ ssh-copy-id -i ~/.ssh/id_rsa.pub ARENART2+arena@arenart2
 
 
 
-
-
-#-------------------------------------------
+#-----------------------------------------
 # make ssh session gui-launchable:
 
 # https://superuser.com/questions/531787/starting-windows-gui-program-in-windows-through-cygwin-sshd-from-ssh-client
@@ -114,106 +110,6 @@ D:\apps\PSTools\PsExec64.exe
 
 # in powershell:
 https://stackoverflow.com/questions/16575419/powershell-retrieve-json-object-by-field-value
-
-
-
-
-
-#=================================================================================================
-# Workflow for UE4 install on each dome compuer:
-
-
-https://www.unrealengine.com/en-US/download
-
-
-check windows updates
-error: fix: disable WSUS stuff
-( https://thegeekpage.com/fix-installing-net-framework-3-5-failed-error-code-0x800f0954-on-windows-10/ )
-
-regedit
-Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU
-
-export stuff to Documents\backup_UE4_dotNET3_5_hack.reg
-
-UseWUServer: 1->0
-
-
-
-not reboot, but : ( https://www.yodernetwork.com/net-3-5-install-on-windows-10-error-0x8024401c-fix )
-
-services.msc
-windows update -> right click -> stop
-windows update -> right click -> start
-
-start -> "windows features" 
-.NET 3.5 (choos no subtrees)
-okay -> wait
-(now hopefully sucessfully installed)
-
-revert WSUS stuff
-regedit
-Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU
-UseWUServer: 0->1
-
-services.msc
-windows update -> right click -> stop
-windows update -> right click -> start
-
-start epic games launcher
-
-unreal engine -> install
-
-
-#-------------------------------------------
-# Install UE4 from Epic Launcher
-
-unreal engine -> launch
-
-
-#-------------------------------------------
-# Start UE4 engine, create nDisplay project
-Film, TV, live events
-
-nDisplay
-
-WITH starter content; ray tracing ENABLED
-
-#(take C: because of requirements to copy to the same folder everywhere! unfortunately, the master's D: is used for system partition; also, nDisplay requires no spaces (at least for deploy)!! ironically, the default path has spaces!)
-Folder: C:\Users\arena\Unreal_Projects
-project name: nDisplay_dome1
-
-
-
-#=================================================================================================
-# OpenSpace bug workaround: set primary display via comnand line
-
-https://stackoverflow.com/questions/32282531/how-can-i-swap-my-primary-monitor-in-a-batch-file
-
-
-
-
-
-
-
-	-- on dev pc:
-	--CONFIG = "D:/devel/openspace/_CONFIGS",
-	-- in dome:
-	-- CONFIG = "S:/development/OpenSpace/_CONFIGS",
-    CONFIG = "D:/devel/OpenSpace/localconfig_test",
-
-
- D:\apps\PSTools\PsExec64.exe -i \\arenart1 -d -s D:\devel\OpenSpace\OpenSpace_ownDeploy\bin\Release\OpenSpace.exe
- 
- works when no network share is used:
- powershell.exe "D:\\apps\\PSTools\\PsExec64.exe -i \\\\arenart4 -d -s D:\\devel\\OpenSpace\\OpenSpace_ownDeploy\\bin\\Release\\OpenSpace.exe"
- powershell.exe –ExecutionPolicy Bypass "D:\\apps\\PSTools\\PsExec64.exe -i \\\\arenart4 -d -s D:\\devel\\OpenSpace\\OpenSpace_ownDeploy\\bin\\Release\\launchOpSp.bat"
-
- this one seems the best remote invokation:
- powershell.exe –ExecutionPolicy Bypass "D:\\devel\\OpenSpace\\OpenSpace_ownDeploy\\bin\\Release\\launchOpSpViaPSTools.ps1"
- 
- 
- ssh ARENART2+arena@arenart2 "powershell.exe –ExecutionPolicy Bypass -File D:\\\\devel\\\\OpenSpace\\\\OpenSpace_ownDeploy\\\\bin\\\\Release\\\\launchOpSpViaPSTools.ps1"
-
 
 
 

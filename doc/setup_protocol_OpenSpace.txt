@@ -1,0 +1,10 @@
+
+#=================================================================================================
+# OpenSpace bug workaround: set primary display via comnand line
+
+https://stackoverflow.com/questions/32282531/how-can-i-swap-my-primary-monitor-in-a-batch-file
+
+Realized via the scripts "appLaunch/OpenSpaceWORKAROUND_changePrimDisplayTo*.sh"
+
+TODO think about a way to distribute an openspace .cfg file. location is important beause it determines the Lua ${BASE}-location!
+
