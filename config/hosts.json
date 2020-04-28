@@ -3,13 +3,14 @@
 
     "Windows": {
 
-      "master": {
-        "hostname": "arenamaster",
-        "username": "ARENAMASTER+arena"
-      },
+      "masters": [
+        {
+          "hostname": "arenamaster",
+          "username": "ARENAMASTER+arena"
+        }
+      ],
 
       "slaves": [
-     
         {
           "hostname": "arenart1",
           "username": "ARENART1+arena"
@@ -30,7 +31,6 @@
           "hostname": "arenart5",
           "username": "ARENART5+arena"
         }
-
       ]
     },
 
