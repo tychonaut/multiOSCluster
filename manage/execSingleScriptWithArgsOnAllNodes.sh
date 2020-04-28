@@ -195,11 +195,12 @@ for index in ${!sshStrings[@]}; do
 	
 	ssh "${sshStrings[${index}]}" <<-ENDSSH
 		set -- "${scriptArgs[@]}"
-		${scriptContents}
+		powershell ${scriptContents}
 	ENDSSH
 	
 done
 #--------------------------
 
+#./execSingleScriptWithArgsOnAllNodes.sh -s --scriptPath ../appLaunch/OpenSpace/startOpenSpaceOnThisMachine.ps1
 
 echo "done scp and ssh"
