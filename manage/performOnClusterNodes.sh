@@ -3,36 +3,73 @@
 
 REPO_DIR="/d/devel/scripts/multiOSCluster"
 hostsFilePath="${REPO_DIR}/config/hosts.json"
-
+credentialsFilePath="${REPO_DIR}/config/credentials.json"
 
 
 ###############################################################################
 #
 usage()
 {
-	echo "Usage syntax: $0 [ [-h|--help] | [-a|--all] | [-m|--master|--masters] | [-s|--slaves] ]"
+	echo "Usage syntax: $0 [-h|--help] [ [-a|--all] | [-m|--master|--masters]  [-s|--slaves] ] [--need-shared-folder-access] "
 	echo "              [ --execute-script <scriptPath>  [ --args  <arg list to script>] ]"
-	echo "Usage example:  $0 --scriptPath ./testScript1.sh -- argtoTestScript1 argtoTestScript2"
-	echo "Description: This script executes the script *contents* of the 'payload script' <scriptPath> remotely on each machine specified in ${hostsFilePath} with the parameters following the '--'."
-	echo "             Note the implication that only scripts work that do not rely on their own filename or a specific working directory! Contents will be executed in the remote's 'home' directory," 
-	echo "             i.e. /home/<username>/ on Linux and  C:\\msys64\\home\\<username> on windows!"
-	echo "The default behaviour is to execute <scriptPath> on all cluster nodes specified in ${hostsFilePath}, including master(s) (option '-a')."
-	echo "Also note that in principal, there could be several master machines, though a single machine is most common."
+	echo "              [ --execute-command <command> ]"
+	echo "              [ --transfer-file <filePath>  [ --remote-dir  <remote directory>] ]"
+	echo
+	echo "Usage example: Script mode       : $0 --execute-script ./testScript1.sh --args argtoTestScript1 argtoTestScript2"
+	echo "Usage example: Command mode      : $0 --execute-command \"ls -la\""
+	echo "Usage example: File transfer mode: $0 --transfer-file config.cfg --remote-dir /d/apps/myApp/config/"
+	echo
+	echo "Description: Script mode:"
+	echo "    This script executes the script *contents* of the 'payload script' <scriptPath> remotely on each machine specified in ${hostsFilePath} with the parameters following the '--args'."
+	echo "    Note the implication that only scripts work that do not rely on their own filename or a specific working directory! Contents will be executed in the remote's 'home' directory," 
+	echo "    i.e. /home/<username>/ on Linux and  C:\\msys64\\home\\<username> on Windows!"
+	echo
+	echo "Description: Command mode:"
+	echo "     Similar to script mode, except a single command is directly passed and executed"
+	echo
+	echo "Description: File transfer mode:"
+	echo  "    Performs a recursive (i.e. whole folders can be copied) scp file transfer of given file path to the remote machines."
+	echo  "    If a remote directory is specified(--remote-dir), the file will be stored on the remote at that directory (which must exist)."
+	echo  "    Otherwise, it will be stored on the remote at the same directory as on the sending machine (which also must exists)"
+	echo
+	echo "The default behaviour is to perform actions on all cluster nodes specified in ${hostsFilePath}, including master(s) (option '-a')."
+	echo "Note 1: In principle, there could be several master machines, though a single machine is most common."
+	echo "Note 2: If a shared folder like a NAS must be accessed for successful completion of the action, provide the --need-shared-folder-access flag"
+	echo "        Reason: Windows has a policy to prohibit access to network shares in admin mode. The remote shells run in admin mode."
+	echo "        Hence the network shares must be explicitly mapped and authenticated via the credentials in ${credentialsFilePath} (\"NAS\" entry)"
 }
 
+echo
+echo "TODOS --------------------------------------------------"
+echo "TODO 1: convert relative to absolute path in scp mode"
+echo "TODO 2: develop network share enable mechanism for botch bash and powershell"
+echo "--------------------------------------------------------"
+echo
 
 ###############################################################################
 # parse args
 # https://stackoverflow.com/questions/192249/how-do-i-parse-command-line-arguments-in-bash
 
-
+# which node type to perform stuff on?
 useMasters=0
 useSlaves=0
 nodeTypeSelectionFound=0
 
+#"script", "command" or "scp"
+actionMode=""
+accessSharedFolders=0
+
+# variables for script execution mode
 scriptPath=""
 scriptArgs=""
 
+# variables for direct command execution mode
+command=""
+
+
+# variables for file transfer mode
+fileToTransfer=""
+remoteDirectory=""
 
 
 while [[ $# -gt 0 ]]
@@ -48,39 +85,92 @@ do
 		;;
 		
 		-a|--all)
-		useMasters=1
-		useSlaves=1
-		nodeTypeSelectionFound=1
-		shift # past argument
+			shift # past argument
+			useMasters=1
+			useSlaves=1
+			nodeTypeSelectionFound=1
 		;;
 		-m|--master|--masters)
-		useMasters=1
-		nodeTypeSelectionFound=1
-		shift # past argument
+			shift # past argument
+			useMasters=1
+			nodeTypeSelectionFound=1
 		;;
 		-s|--slaves)
-		useSlaves=1
-		nodeTypeSelectionFound=1
-		shift # past argument
+			shift # past argument
+			useSlaves=1
+			nodeTypeSelectionFound=1
 		;;
 		
+	
 		--execute-script)
-		shift # past argument
-		scriptPath="${1}"
-		shift # past value
+			shift # past argument
+			scriptPath="${1}"
+			shift # past value
+			if [[ ${actionMode} != "" ]]; then
+				echo "error: only one action mode is allowed per script execution"
+				exit 1
+			fi 
+			actionMode="script"
 		;;
 		
 		--args)
-		shift # past argument
-		scriptArgs="${@}"
-		break
+			shift # past argument
+			if [[ ${actionMode} != "script" ]]; then
+				echo "error: ${key} option only valid for script execution mode! "
+				exit 1
+			fi 
+			scriptArgs="${@}"
+			# no further parsing here, rest is for "payload script"
+			break
 		;;
 		
+	
+		--execute-command)
+			shift # past argument
+			command="${1}"
+			shift # past value
+			
+			if [[ ${actionMode} != "" ]]; then
+				echo "error: only one action mode is allowed per script execution"
+				exit 1
+			fi 
+			actionMode="command"
+		;;
+		
+		--transfer-file)
+			shift # past argument
+			fileToTransfer="${1}"
+			shift # past value
+			
+			if [[ ${actionMode} != "" ]]; then
+				echo "error: only one action mode is allowed per script execution"
+				exit 1
+			fi 
+			actionMode="scp"
+		;;
+		
+		--remote-dir)
+			shift # past argument
+			remoteDirectory="${1}"
+			shift # past value
+			
+			if [[ ${actionMode} != "scp" ]]; then
+				echo "error: ${key} option only valid for file transfer mode! "
+				exit 1
+			fi 
+
+		;;
+		
+		--need-shared-folder-access)
+			shift # past argument
+			accessSharedFolders=1
+		;;
+	
 		*)    # unknown param,  implies incorrect use here
-		usage
-		exit 0
-		#POSITIONAL+=("$1") # save it in an array for later
-		#shift # past argument
+			usage
+			exit 0
+			#POSITIONAL+=("$1") # save it in an array for later
+			#shift # past argument
 		;;
 	esac
 done
@@ -91,6 +181,8 @@ if [[ ${nodeTypeSelectionFound} == 0 ]]; then
 	useMasters=1
 	useSlaves=1
 fi
+
+
 if [[ ${scriptPath} == "" ]]; then
 	echo "error: no script path provided"
 	exit 1
