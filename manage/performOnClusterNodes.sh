@@ -10,7 +10,8 @@ hostsFilePath="${REPO_DIR}/config/hosts.json"
 #
 usage()
 {
-	echo "Usage syntax: $0 [ [-h|--help] | [-a|--all] | [-m|--master|--masters] | [-s|--slaves] ] --scriptPath <scriptPath>  [ --  <arg list to script>]"
+	echo "Usage syntax: $0 [ [-h|--help] | [-a|--all] | [-m|--master|--masters] | [-s|--slaves] ]"
+	echo "              [ --execute-script <scriptPath>  [ --args  <arg list to script>] ]"
 	echo "Usage example:  $0 --scriptPath ./testScript1.sh -- argtoTestScript1 argtoTestScript2"
 	echo "Description: This script executes the script *contents* of the 'payload script' <scriptPath> remotely on each machine specified in ${hostsFilePath} with the parameters following the '--'."
 	echo "             Note the implication that only scripts work that do not rely on their own filename or a specific working directory! Contents will be executed in the remote's 'home' directory," 
@@ -63,13 +64,13 @@ do
 		shift # past argument
 		;;
 		
-		--scriptPath)
+		--execute-script)
 		shift # past argument
 		scriptPath="${1}"
 		shift # past value
 		;;
 		
-		--)
+		--args)
 		shift # past argument
 		scriptArgs="${@}"
 		break
@@ -122,23 +123,14 @@ fi
 # approach 2: execute script in-place (at least for bash )
 
 
-sshStrings=( $(  ${REPO_DIR}/helpers/createSSHstringsFromJSON.sh "${hostsFilePath}" "${useMasters}" "${useSlaves}" ) )
-
-
-scriptContents=$(cat ${scriptPath})
-
 scriptFileName="${scriptPath##*/}"
 scriptFileExtension="${scriptFileName##*.}"
 #scriptFileNameWoExtension="${scriptFileName%.*}"
 
-#echo "scriptPath : ${scriptPath}"
-#echo "scriptFileName : ${scriptFileName}"
-#echo "scriptFileExtension : ${scriptFileExtension}"
-#echo "scriptFileNameWoExtension : ${scriptFileNameWoExtension}"
 
-#echo "scriptArgs: ${scriptArgs}"
+scriptContents=$(cat ${scriptPath})
 
-
+sshStrings=( $(  ${REPO_DIR}/helpers/createSSHstringsFromJSON.sh "${hostsFilePath}" "${useMasters}" "${useSlaves}" ) )
 
 for index in ${!sshStrings[@]}; do
 
