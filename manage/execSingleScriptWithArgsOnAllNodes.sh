@@ -37,60 +37,87 @@ fi
 # parse args
 # https://stackoverflow.com/questions/192249/how-do-i-parse-command-line-arguments-in-bash
 
+
 useMasters=0
 useSlaves=0
-selectionOptionFound=0
+nodeTypeSelectionFound=0
 
-POSITIONAL=()
+scriptPath=""
+scriptArgs=""
+
+
+usage()
+{
+	#echo "usage: $0 [ [-h|--help] | [-a|--all] | [-m|--master|--masters] | [-s|--slaves] ] --scriptPath <scriptPath>  [--scriptDirLocal <scriptDir>] [ --  <arg list to script>]"
+	echo "usage: $0 [ [-h|--help] | [-a|--all] | [-m|--master|--masters] | [-s|--slaves] ] --scriptPath <scriptPath>  [ --  <arg list to script>]"
+	echo "default behaviour is to execute <scriptPath> on all cluster nodes specified in ${hostsFilePath}, including master(s) (option '-a')."
+	echo "Note that in principal, there could be several master machines, though a single machine is most common."
+	echo "usage example:  $0 --scriptPath ./testScript1.sh -- argtoTestScript1 argtoTestScript2"
+}
+
+#POSITIONAL=()
 while [[ $# -gt 0 ]]
 do
 	key="$1"
 
 	case $key in
 		-h|--help)
-		echo "usage: $0 [ [-h|--help] | [-a|--all] | [-m|--master|--masters] | [-s|--slaves] ] <scriptPath> <arg list to script>"
-		echo "default behaviour is to execute <scriptPath> on all cluster nodes specified in ../config/hosts.json, including master(s) (-a)."
-		echo "Note that in principal, there could be several master machines, though a single machine is most common."
-		echo "usage example:  ./execSingleScriptWithArgsOnAllNodes.sh ./testScript1.sh argtoTestScript1 argtoTestScript2"
+		usage
 		exit 0
 		shift # past argument
-
 		;;
+		
 		-a|--all)
 		useMasters=1
 		useSlaves=1
-		selectionOptionFound=1
+		nodeTypeSelectionFound=1
 		shift # past argument
 		;;
 		-m|--master|--masters)
 		useMasters=1
-		selectionOptionFound=1
+		nodeTypeSelectionFound=1
 		shift # past argument
 		;;
 		-s|--slaves)
 		useSlaves=1
-		selectionOptionFound=1
+		nodeTypeSelectionFound=1
 		shift # past argument
 		;;
 		
-		*)    # unknown option
-		POSITIONAL+=("$1") # save it in an array for later
+		--scriptPath)
 		shift # past argument
+		scriptPath="${1}"
+		shift # past value
+		;;
+		
+		--)
+		shift # past argument
+		scriptArgs="${@}"
+		break
+		;;
+		
+		*)    # unknown param, incorrect use
+		usage
+		exit 0
+		#POSITIONAL+=("$1") # save it in an array for later
+		#shift # past argument
 		;;
 	esac
 done
-set -- "${POSITIONAL[@]}" # restore positional parameters to this script, i.e. $@
+#set -- "${POSITIONAL[@]}" # restore positional parameters to this script, i.e. $@
 
-if [[ ${selectionOptionFound} == 0 ]]; then
+if [[ ${nodeTypeSelectionFound} == 0 ]]; then
 	#default
 	useMasters=1
 	useSlaves=1
 fi
+if [[ ${scriptPath} == "" ]]; then
+	echo "error: no script path provided"
+	exit 1
+fi
 
+echo "scriptArgs: ${scriptArgs}"
 
-scriptPath="${1}"
-shift
-scriptArgs="${@}"
 
 
 ###############################################################################
