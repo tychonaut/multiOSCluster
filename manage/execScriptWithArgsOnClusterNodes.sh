@@ -1,9 +1,9 @@
 #!/bin/sh
 
 
+REPO_DIR="/d/devel/scripts/multiOSCluster"
+hostsFilePath="${REPO_DIR}/config/hosts.json"
 
-
-hostsFilePath="/d/devel/scripts/multiOSCluster/config/hosts.json"
 
 
 ###############################################################################
@@ -18,24 +18,6 @@ usage()
 	echo "The default behaviour is to execute <scriptPath> on all cluster nodes specified in ${hostsFilePath}, including master(s) (option '-a')."
 	echo "Also note that in principal, there could be several master machines, though a single machine is most common."
 }
-
-
-###############################################################################
-# on which operating system are we?
-activeOS="Windows";
-
-if [[ "$OSTYPE" == "linux-gnu" ]]; then
-	activeOS="Linux";	
-elif [[ "$OSTYPE" == "cygwin" ]]; then
-    # POSIX compatibility layer and Linux environment emulation for Windows
-	activeOS="Windows";
-elif [[ "$OSTYPE" == "msys" ]]; then
-    # Lightweight shell and GNU utilities compiled for Windows (part of MinGW)
-	activeOS="Windows";
-else
-        echo "OS type not supported: $OSTYPE"
-		exit 1
-fi
 
 
 ###############################################################################
@@ -57,6 +39,7 @@ do
 	key="$1"
 
 	case $key in
+	
 		-h|--help)
 		usage
 		exit 0
@@ -118,57 +101,7 @@ fi
 
 
 ###############################################################################
-# parse host- and usernames, construct strings used in ssh and scp
-# 
-# https://linuxconfig.org/how-to-parse-a-json-file-from-linux-command-line-using-jq
-
-
-#--------------------
-sshStrings_ret=()
-
-createSSH_strings()
-{
-	sshStrings_ret=()
-	
-	#activeOS=
-}
-#--------------------
-
-
-sshStrings=()
-
-clusterCategories=()
-if [[ ${useMasters} == 1 ]]; then
-	clusterCategories+=("masters")
-fi 
-if [[ ${useSlaves} == 1 ]]; then
-	clusterCategories+=("slaves")
-fi 
-
-for categIndex in ${!clusterCategories[@]}; do
-
-	numNodes=$(jq ".hosts.${activeOS}.${clusterCategories[categIndex]} | length" ${hostsFilePath})
-	for (( i=0; i<${numNodes}; i++ )); do
-	
-		# parse JSON file using jq, strip leading and trailing double quotes with sed
-		hostname=$(jq ".hosts.${activeOS}.${clusterCategories[categIndex]}[${i}].hostname" ${hostsFilePath} | sed -e 's/^"//' -e 's/"$//' )
-		username=$(jq ".hosts.${activeOS}.${clusterCategories[categIndex]}[${i}].username" ${hostsFilePath} | sed -e 's/^"//' -e 's/"$//' )
-
-		sshStrings+=("${username}@${hostname}")
-	done
-	
-done
-
-#echo " SSH strings: ${sshStrings[@]}"
-
-
-
-
-
-
-###############################################################################
 # do the remote execution via SSH
-
 
 
 ##-----------------------------------
@@ -181,16 +114,18 @@ done
 #	echo "ssh-ing to "${sshStrings[${index}]}" ..."
 #	ssh "${sshStrings[${index}]}" "${scriptPath} ${scriptArgs}"
 #done
-##--------------------------
-
+##-----------------------------------
 
 
 
 #-----------------------------------
 # approach 2: execute script in-place (at least for bash )
 
-scriptContents=$(cat ${scriptPath})
 
+sshStrings=( $(  ${REPO_DIR}/helpers/createSSHstringsFromJSON.sh "${hostsFilePath}" "${useMasters}" "${useSlaves}" ) )
+
+
+scriptContents=$(cat ${scriptPath})
 
 scriptFileName="${scriptPath##*/}"
 scriptFileExtension="${scriptFileName##*.}"
@@ -201,8 +136,9 @@ scriptFileExtension="${scriptFileName##*.}"
 #echo "scriptFileExtension : ${scriptFileExtension}"
 #echo "scriptFileNameWoExtension : ${scriptFileNameWoExtension}"
 
+#echo "scriptArgs: ${scriptArgs}"
 
-echo "scriptArgs: ${scriptArgs}"
+
 
 for index in ${!sshStrings[@]}; do
 
@@ -239,5 +175,5 @@ for index in ${!sshStrings[@]}; do
 done
 #--------------------------
 
-echo "done scp and ssh"
+echo "done scp and/or ssh"
 exit 0
