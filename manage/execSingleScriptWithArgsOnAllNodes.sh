@@ -195,7 +195,9 @@ for index in ${!sshStrings[@]}; do
 	
 	ssh "${sshStrings[${index}]}" <<-ENDSSH
 		set -- "${scriptArgs[@]}"
-		powershell ${scriptContents}
+		powershell 
+		${scriptContents}
+		exit
 	ENDSSH
 	
 done
