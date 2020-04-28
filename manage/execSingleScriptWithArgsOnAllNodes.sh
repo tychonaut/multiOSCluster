@@ -116,7 +116,7 @@ if [[ ${scriptPath} == "" ]]; then
 	exit 1
 fi
 
-echo "scriptArgs: ${scriptArgs}"
+
 
 
 
@@ -182,27 +182,62 @@ done
 ##--------------------------
 
 
+
+
+
+
+
 #-----------------------------------
 # approach 2: execute script in-place
 
 scriptContents=$(cat ${scriptPath})
-#echo "scriptContents: ${scriptContents}"
-#set -- "${scriptArgs[@]}" # make params to payload script to own params for in-place execution
+
+
+scriptFileName="${scriptPath##*/}"
+scriptFileExtension="${scriptFileName##*.}"
+#scriptFileNameWoExtension="${scriptFileName%.*}"
+
+#echo "scriptPath : ${scriptPath}"
+#echo "scriptFileName : ${scriptFileName}"
+#echo "scriptFileExtension : ${scriptFileExtension}"
+#echo "scriptFileNameWoExtension : ${scriptFileNameWoExtension}"
+
+
+echo "scriptArgs: ${scriptArgs}"
 
 for index in ${!sshStrings[@]}; do
 
 	echo "ssh-ing to "${sshStrings[${index}]}" with in-place-execution of script contents:"
 	
-	ssh "${sshStrings[${index}]}" <<-ENDSSH
-		set -- "${scriptArgs[@]}"
-		powershell 
-		${scriptContents}
-		exit
-	ENDSSH
+	if 	 [[ "${scriptFileExtension}" == "sh" ]]; then
+		# its a (ba)sh script
+		ssh "${sshStrings[${index}]}" <<-ENDSSH
+			set -- "${scriptArgs[@]}" 
+			${scriptContents}
+		ENDSSH
+		
+	elif [[ "${scriptFileExtension}" == "ps1" ]]; then
+		# its a powershell script; special treatment ...
+
+		scp "${scriptPath}" "${sshStrings[${index}]}":temporaryScript.ps1
+
+		ssh "${sshStrings[${index}]}" <<-ENDSSH
+			set -- "${scriptArgs[@]}"
+			powershell ./temporaryScript.ps1 $@
+			rm ./temporaryScript.ps1
+		ENDSSH
+
+	else
+        echo "script file extension type not yet supported: ${scriptFileExtension}"
+		exit 1
+	fi
+	
+
+	
+
 	
 done
 #--------------------------
 
-#./execSingleScriptWithArgsOnAllNodes.sh -s --scriptPath ../appLaunch/OpenSpace/startOpenSpaceOnThisMachine.ps1
-
 echo "done scp and ssh"
+exit 0

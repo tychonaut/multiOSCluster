@@ -1,5 +1,3 @@
-#param( $par1, $par2 )
-
 echo "this is the execution of POWERSHELL testScript 1 on $(whoami)!";
 
 echo "first param to this script:"
