@@ -21,9 +21,9 @@ usage()
     [-h|--help] 
     [ [-a|--all] | [-m|--master|--masters]  [-s|--slaves] ] 
     [--need-shared-folder-access] 
-    [ --execute-script <scriptPath>  [ --args  <arg list to script> ] ]
-    [ --execute-command <command> ]
-    [ --transfer-file <filePath>  [ --remote-dir  <remote directory> ] ]
+    [ --execute-script  <scriptPath>  [ --args  <arg list to script> ] ]
+    [ -c|--execute-command <command> ]
+    [ -scp|--transfer-file <filePath>  [ --remote-dir  <remote directory> ] ]
 
 Usage example: Script mode: 
     $0 --execute-script ./testScript1.sh --args argtoTestScript1 argtoTestScript2
@@ -97,8 +97,8 @@ do
     case $key in
     
         -h|--help)
-        usage
-        exit 0
+            usage
+            exit 0
         shift # past argument
         ;;
         
@@ -126,6 +126,7 @@ do
             shift # past value
             if [[ ${actionMode} != "" ]]; then
                 echo "error: only one action mode is allowed per script execution"
+                usage
                 exit 1
             fi 
             actionMode="script"
@@ -135,6 +136,7 @@ do
             shift # past argument
             if [[ ${actionMode} != "script" ]]; then
                 echo "error: ${key} option only valid for script execution mode! "
+                usage
                 exit 1
             fi 
             scriptArgs="${@}"
@@ -143,25 +145,28 @@ do
         ;;
         
     
-        --execute-command)
+        -c|--execute-command)
+        
             shift # past argument
             command="${1}"
             shift # past value
             
             if [[ ${actionMode} != "" ]]; then
                 echo "error: only one action mode is allowed per script execution"
+                usage
                 exit 1
             fi 
             actionMode="command"
         ;;
         
-        --transfer-file)
+        -scp|--transfer-file)
             shift # past argument
             fileToTransfer="${1}"
             shift # past value
             
             if [[ ${actionMode} != "" ]]; then
                 echo "error: only one action mode is allowed per script execution"
+                usage
                 exit 1
             fi 
             actionMode="scp"
@@ -174,6 +179,7 @@ do
             
             if [[ ${actionMode} != "scp" ]]; then
                 echo "error: ${key} option only valid for file transfer mode! "
+                usage
                 exit 1
             fi 
 
@@ -185,8 +191,9 @@ do
         ;;
     
         *)    # unknown param,  implies incorrect use here
+            echo "error: invalid param: ${key}"
             usage
-            exit 0
+            exit 1
             #POSITIONAL+=("$1") # save it in an array for later
             #shift # past argument
         ;;
@@ -201,13 +208,6 @@ if [[ ${nodeTypeSelectionFound} == 0 ]]; then
 fi
 
 
-if [[ ${scriptPath} == "" ]]; then
-    echo "error: no script path provided"
-    exit 1
-fi
-
-
-
 
 
 
@@ -215,36 +215,25 @@ fi
 # do the remote execution via SSH
 
 
-##-----------------------------------
-## approach 1: copy script, then execute; gets complicated if target directory does not exist, also pollutes remote machine
 
-#for index in ${!sshStrings[@]}; do
-#   echo "scp-ing ${scriptPath} to "${sshStrings[${index}]}" ..."
-#   scp "${scriptPath}" "${sshStrings[${index}]}":"${scriptPath}"   
-#       
-#   echo "ssh-ing to "${sshStrings[${index}]}" ..."
-#   ssh "${sshStrings[${index}]}" "${scriptPath} ${scriptArgs}"
-#done
-##-----------------------------------
-
-
-
-#-----------------------------------
-# approach 2: execute script in-place (at least for bash )
-
-
-scriptFileName="${scriptPath##*/}"
-scriptFileExtension="${scriptFileName##*.}"
-#scriptFileNameWoExtension="${scriptFileName%.*}"
-
-
-scriptContents=$(cat ${scriptPath})
 
 sshStrings=( $(  ${REPO_DIR}/helpers/createSSHstringsFromJSON.sh "${hostsFilePath}" "${useMasters}" "${useSlaves}" ) )
 
 for index in ${!sshStrings[@]}; do
 
+    #--------------------------------------------------------------------------
     if   [[ "${actionMode}" == "script" ]]; then
+    
+        if [[ ${scriptPath} == "" ]]; then
+            echo "error: no script path provided"
+            exit 1
+        fi
+
+        scriptFileName="${scriptPath##*/}"
+        scriptFileExtension="${scriptFileName##*.}"
+        #scriptFileNameWoExtension="${scrip tFileName%.*}"
+
+        scriptContents=$(cat ${scriptPath})
 
         echo "ssh-ing to "${sshStrings[${index}]}" with in-place-execution of script contents:"
         
@@ -252,10 +241,12 @@ for index in ${!sshStrings[@]}; do
         
             # It's a (ba)sh script; execute contents in-place after args are passed via "set -- "
             
+            #TODO find a way to enable NAS access
+            
             ssh "${sshStrings[${index}]}" <<-ENDSSH
                 set -- "${scriptArgs[@]}" 
                 ${scriptContents}
-            ENDSSH
+ENDSSH
             
         elif [[ "${scriptFileExtension}" == "ps1" ]]; then
         
@@ -269,15 +260,30 @@ for index in ${!sshStrings[@]}; do
                 set -- "${scriptArgs[@]}"
                 powershell –ExecutionPolicy Bypass ./temporaryScript.ps1 $@
                 rm ./temporaryScript.ps1
-            ENDSSH
+ENDSSH
 
         else
             echo "script file extension type not yet supported: ${scriptFileExtension}"
             exit 1
         fi
         
+    #--------------------------------------------------------------------------
+    elif [[ "${actionMode}" == "command" ]]; then
         
+        #TODO find a way to enable NAS access
+    
+        ssh "${sshStrings[${index}]}" "${command}"
+
+    #--------------------------------------------------------------------------
+    elif [[ "${actionMode}" == "scp" ]]; then
         
+        #TODO find a way to enable NAS access
+        
+        echo TODO
+        
+    else 
+        echo "fatal internal logical error"
+        exit 2
     fi
     
 done
