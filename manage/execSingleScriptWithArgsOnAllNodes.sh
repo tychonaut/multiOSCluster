@@ -166,15 +166,40 @@ done
 
 
 ###############################################################################
-# 
+# do the remote execution via SSH
 
+
+
+##-----------------------------------
+## approach 1: copy script, then execute
+#for index in ${!sshStrings[@]}; do
+#	echo "scp-ing ${scriptPath} to "${sshStrings[${index}]}" ..."
+#	scp "${scriptPath}" "${sshStrings[${index}]}":"${scriptPath}"	
+#		
+#	echo "ssh-ing to "${sshStrings[${index}]}" ..."
+#	ssh "${sshStrings[${index}]}" "${scriptPath} ${scriptArgs}"
+#done
+##--------------------------
+
+
+#-----------------------------------
+# approach 2: execute script in-place
+
+scriptContents=$(cat ${scriptPath})
+#echo "scriptContents: ${scriptContents}"
+#set -- "${scriptArgs[@]}" # make params to payload script to own params for in-place execution
 
 for index in ${!sshStrings[@]}; do
-	echo "scp-ing ${scriptPath} to "${sshStrings[${index}]}" ..."
-	scp "${scriptPath}" "${sshStrings[${index}]}":"${scriptPath}"	
-		
-	echo "ssh-ing to "${sshStrings[${index}]}" ..."
-	ssh "${sshStrings[${index}]}" "${scriptPath} ${scriptArgs}"
+
+	echo "ssh-ing to "${sshStrings[${index}]}" with in-place-execution of script contents:"
+	
+	ssh "${sshStrings[${index}]}" <<-ENDSSH
+		set -- "${scriptArgs[@]}"
+		${scriptContents}
+	ENDSSH
+	
 done
+#--------------------------
+
 
 echo "done scp and ssh"
