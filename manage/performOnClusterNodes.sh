@@ -31,6 +31,8 @@ Usage example: Command mode:
     $0 --execute-command \"ls -la\"
 Usage example: File transfer mode: 
     $0 --transfer-file config.cfg --remote-dir /d/apps/myApp/config/
+    To distribute your .bashrc:
+    $0 -scp ~/.bashrc --remote-dir "~"
 
 Description: Script mode:
     This script executes the script *contents* of the 'payload script' <scriptPath> 
@@ -48,6 +50,10 @@ Description: File transfer mode:
     (--remote-dir), the file will be stored on the remote at that directory 
     (which must exist). Otherwise, it will be stored on the remote 
     at the same directory as on the sending machine (which also must exists).
+    WARNING: Be careful with file transfers from or to  the home environment (~/):
+    This spripts expands relative paths to absolute path, in which the username is made explicit.
+    This may result in problems if local an remote user are different.
+    If in doubt, provide the remot dir explicitly (e.g. --remote-dir \"~\")
 
 The default behaviour is to perform actions on all cluster nodes 
 specified in ${hostsFilePath}, including master(s) (option '-a').
@@ -86,7 +92,7 @@ command=""
 
 
 # variables for file transfer mode
-fileToTransfer=""
+filePathToTransfer=""
 remoteDirectory=""
 
 
@@ -161,7 +167,7 @@ do
         
         -scp|--transfer-file)
             shift # past argument
-            fileToTransfer="${1}"
+            filePathToTransfer="${1}"
             shift # past value
             
             if [[ ${actionMode} != "" ]]; then
@@ -278,8 +284,17 @@ ENDSSH
     elif [[ "${actionMode}" == "scp" ]]; then
         
         #TODO find a way to enable NAS access
+
         
-        echo TODO
+        
+        fileNameToTransfer="${filePathToTransfer##*/}"
+        if [[ "${remoteDirectory}" != "" ]]; then
+            scp "${filePathToTransfer}" "${sshStrings[${index}]}":"${remoteDirectory}/${fileNameToTransfer}"
+        else
+            #scp "${filePathToTransfer}" "${sshStrings[${index}]}":"${fileNameToTransfer}"
+            fullFilePathToTransfer=$( readlink -f "${filePathToTransfer}" )
+            scp -r "${filePathToTransfer}" "${sshStrings[${index}]}":"${fullFilePathToTransfer}"
+        fi
         
     else 
         echo "fatal internal logical error"
