@@ -3,8 +3,21 @@
 
 
 
-hostsFilePath="../config/hosts.json"
+hostsFilePath="/d/devel/scripts/multiOSCluster/config/hosts.json"
 
+
+###############################################################################
+#
+usage()
+{
+	echo "Usage syntax: $0 [ [-h|--help] | [-a|--all] | [-m|--master|--masters] | [-s|--slaves] ] --scriptPath <scriptPath>  [ --  <arg list to script>]"
+	echo "Usage example:  $0 --scriptPath ./testScript1.sh -- argtoTestScript1 argtoTestScript2"
+	echo "Description: This script executes the script *contents* of the 'payload script' <scriptPath> remotely on each machine specified in ${hostsFilePath} with the parameters following the '--'."
+	echo "             Note the implication that only scripts work that do not rely on their own filename or a specific working directory! Contents will be executed in the remote's 'home' directory," 
+	echo "             i.e. /home/<username>/ on Linux and  C:\\msys64\\home\\<username> on windows!"
+	echo "The default behaviour is to execute <scriptPath> on all cluster nodes specified in ${hostsFilePath}, including master(s) (option '-a')."
+	echo "Also note that in principal, there could be several master machines, though a single machine is most common."
+}
 
 
 ###############################################################################
@@ -12,21 +25,13 @@ hostsFilePath="../config/hosts.json"
 activeOS="Windows";
 
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
-	activeOS="Linux";
-		
+	activeOS="Linux";	
 elif [[ "$OSTYPE" == "cygwin" ]]; then
-        # POSIX compatibility layer and Linux environment emulation for Windows
+    # POSIX compatibility layer and Linux environment emulation for Windows
 	activeOS="Windows";
 elif [[ "$OSTYPE" == "msys" ]]; then
-        # Lightweight shell and GNU utilities compiled for Windows (part of MinGW)
+    # Lightweight shell and GNU utilities compiled for Windows (part of MinGW)
 	activeOS="Windows";
-
-#elif [[ "$OSTYPE" == "darwin"* ]]; then
-#        # Mac OSX
-#elif [[ "$OSTYPE" == "win32" ]]; then
-#        # I'm not sure this can happen.
-#elif [[ "$OSTYPE" == "freebsd"* ]]; then
-#        # ...
 else
         echo "OS type not supported: $OSTYPE"
 		exit 1
@@ -46,16 +51,7 @@ scriptPath=""
 scriptArgs=""
 
 
-usage()
-{
-	#echo "usage: $0 [ [-h|--help] | [-a|--all] | [-m|--master|--masters] | [-s|--slaves] ] --scriptPath <scriptPath>  [--scriptDirLocal <scriptDir>] [ --  <arg list to script>]"
-	echo "usage: $0 [ [-h|--help] | [-a|--all] | [-m|--master|--masters] | [-s|--slaves] ] --scriptPath <scriptPath>  [ --  <arg list to script>]"
-	echo "default behaviour is to execute <scriptPath> on all cluster nodes specified in ${hostsFilePath}, including master(s) (option '-a')."
-	echo "Note that in principal, there could be several master machines, though a single machine is most common."
-	echo "usage example:  $0 --scriptPath ./testScript1.sh -- argtoTestScript1 argtoTestScript2"
-}
 
-#POSITIONAL=()
 while [[ $# -gt 0 ]]
 do
 	key="$1"
@@ -96,7 +92,7 @@ do
 		break
 		;;
 		
-		*)    # unknown param, incorrect use
+		*)    # unknown param,  implies incorrect use here
 		usage
 		exit 0
 		#POSITIONAL+=("$1") # save it in an array for later
@@ -107,7 +103,7 @@ done
 #set -- "${POSITIONAL[@]}" # restore positional parameters to this script, i.e. $@
 
 if [[ ${nodeTypeSelectionFound} == 0 ]]; then
-	#default
+	#default: use all node types
 	useMasters=1
 	useSlaves=1
 fi
@@ -120,8 +116,9 @@ fi
 
 
 
+
 ###############################################################################
-# parse host- and usernames
+# parse host- and usernames, construct strings used in ssh and scp
 # 
 # https://linuxconfig.org/how-to-parse-a-json-file-from-linux-command-line-using-jq
 
@@ -151,8 +148,9 @@ fi
 for categIndex in ${!clusterCategories[@]}; do
 
 	numNodes=$(jq ".hosts.${activeOS}.${clusterCategories[categIndex]} | length" ${hostsFilePath})
-	for (( i=0; i<${numNodes}; i++ ));do
+	for (( i=0; i<${numNodes}; i++ )); do
 	
+		# parse JSON file using jq, strip leading and trailing double quotes with sed
 		hostname=$(jq ".hosts.${activeOS}.${clusterCategories[categIndex]}[${i}].hostname" ${hostsFilePath} | sed -e 's/^"//' -e 's/"$//' )
 		username=$(jq ".hosts.${activeOS}.${clusterCategories[categIndex]}[${i}].username" ${hostsFilePath} | sed -e 's/^"//' -e 's/"$//' )
 
@@ -165,13 +163,17 @@ done
 
 
 
+
+
+
 ###############################################################################
 # do the remote execution via SSH
 
 
 
 ##-----------------------------------
-## approach 1: copy script, then execute
+## approach 1: copy script, then execute; gets complicated if target directory does not exist, also pollutes remote machine
+
 #for index in ${!sshStrings[@]}; do
 #	echo "scp-ing ${scriptPath} to "${sshStrings[${index}]}" ..."
 #	scp "${scriptPath}" "${sshStrings[${index}]}":"${scriptPath}"	
@@ -184,11 +186,8 @@ done
 
 
 
-
-
-
 #-----------------------------------
-# approach 2: execute script in-place
+# approach 2: execute script in-place (at least for bash )
 
 scriptContents=$(cat ${scriptPath})
 
@@ -210,20 +209,25 @@ for index in ${!sshStrings[@]}; do
 	echo "ssh-ing to "${sshStrings[${index}]}" with in-place-execution of script contents:"
 	
 	if 	 [[ "${scriptFileExtension}" == "sh" ]]; then
-		# its a (ba)sh script
+	
+		# It's a (ba)sh script; execute contents in-place after args are passed via "set -- "
+		
 		ssh "${sshStrings[${index}]}" <<-ENDSSH
 			set -- "${scriptArgs[@]}" 
 			${scriptContents}
 		ENDSSH
 		
 	elif [[ "${scriptFileExtension}" == "ps1" ]]; then
-		# its a powershell script; special treatment ...
+	
+		# It's a powershell script; special treatment in order to make param passing work:
+		# scp the payload script to a temporary remote script file.
 
 		scp "${scriptPath}" "${sshStrings[${index}]}":temporaryScript.ps1
 
+		# Then ssh into remote with the following 3-line inline code:
 		ssh "${sshStrings[${index}]}" <<-ENDSSH
 			set -- "${scriptArgs[@]}"
-			powershell ./temporaryScript.ps1 $@
+			powershell –ExecutionPolicy Bypass ./temporaryScript.ps1 $@
 			rm ./temporaryScript.ps1
 		ENDSSH
 
@@ -231,10 +235,6 @@ for index in ${!sshStrings[@]}; do
         echo "script file extension type not yet supported: ${scriptFileExtension}"
 		exit 1
 	fi
-	
-
-	
-
 	
 done
 #--------------------------
