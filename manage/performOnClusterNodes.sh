@@ -2,8 +2,7 @@
 
 echo
 echo "TODOS --------------------------------------------------"
-echo "TODO 1: convert relative to absolute path in scp mode"
-echo "TODO 2: develop network share enable mechanism for botch bash and powershell"
+echo "TODO 1: develop network share enable mechanism for both bash and powershell"
 echo "--------------------------------------------------------"
 echo
 
