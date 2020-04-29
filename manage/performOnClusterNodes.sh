@@ -31,9 +31,12 @@ usage()
 
 Usage example: Script mode: 
     $0 --execute-script ./testScript1.sh --args argtoTestScript1 argtoTestScript2
-Usage example: Command mode: 
-    $0 --execute-command \"ls -la\"
-Usage example: File transfer mode: 
+Usage examples: Command mode: 
+    List directory /d/devel/ on each machine:
+    $0 --execute-command \"ls -la /d/devel/\"
+    Install rsync on each machine:
+    $0 -s -c \"pacman -S --noconfirm rsync\"
+Usage examples: File transfer mode: 
     $0 --transfer-file config.cfg --remote-dir /d/apps/myApp/config/
     To distribute your .bashrc:
     $0 -scp ~/.bashrc --remote-dir "~"
