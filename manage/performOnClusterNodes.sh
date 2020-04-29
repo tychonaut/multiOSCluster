@@ -6,7 +6,12 @@ echo "TODO 1: develop network share enable mechanism for both bash and powershel
 echo "--------------------------------------------------------"
 echo
 
-REPO_DIR="/d/devel/scripts/multiOSCluster"
+
+REPO_DIR="$( readlink -f $( dirname $0 )/.. )"
+
+echo "REPO_DIR: ${REPO_DIR}"
+
+
 hostsFilePath="${REPO_DIR}/config/hosts.json"
 credentialsFilePath="${REPO_DIR}/config/credentials.json"
 
