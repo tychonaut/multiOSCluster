@@ -1,10 +1,5 @@
 #!/bin/sh
 
-echo
-echo "TODOS --------------------------------------------------"
-echo "TODO 1: develop network share enable mechanism for both bash and powershell"
-echo "--------------------------------------------------------"
-echo
 
 # repository directory is one folder above this script's location
 REPO_DIRECTORY="$( readlink -f $( dirname $0 )/.. )"
@@ -257,6 +252,7 @@ for index in ${!sshStrings[@]}; do
 
         scriptContents=$(cat ${scriptPath})
 
+        echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
         echo "ssh-ing to "${sshStrings[${index}]}" with in-place-execution of script contents:"
         
         if   [[ "${scriptFileExtension}" == "sh" ]]; then
@@ -275,8 +271,6 @@ ENDSSH
             # It's a powershell script; special treatment in order to make param passing work:
             # scp the payload script to a temporary remote script file.
 
-            echo "TODO implement optional NAS access for powershell scripts"
-
             scp "${scriptPath}" "${sshStrings[${index}]}":temporaryScript.ps1
 
             # Then ssh into remote with the following 3-line inline code:
@@ -292,11 +286,12 @@ ENDSSH
             exit 1
         fi
         
+        echo "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
+        echo
+        
     #--------------------------------------------------------------------------
     elif [[ "${actionMode}" == "command" ]]; then
         
-        #TODO find a way to enable NAS access
-    
         if [[ ${accessSharedFolders} == 1 ]]; then
             ssh "${sshStrings[${index}]}" "${accessSharedFoldersCommand};  ${command}"
         else
@@ -314,8 +309,8 @@ ENDSSH
         
         fileNameToTransfer="${filePathToTransfer##*/}"
         
-        echo "fileNameToTransfer: $fileNameToTransfer"
-        echo "${remoteDirectory}/${fileNameToTransfer}"
+        #echo "fileNameToTransfer: $fileNameToTransfer"
+        #echo "${remoteDirectory}/${fileNameToTransfer}"
         
         if [[ "${remoteDirectory}" != "" ]]; then
             scp "${filePathToTransfer}" "${sshStrings[${index}]}":"${remoteDirectory}/${fileNameToTransfer}"

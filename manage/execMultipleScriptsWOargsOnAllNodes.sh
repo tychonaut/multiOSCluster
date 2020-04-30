@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#nodelist=["arenart1","arenart2","arenart3","arenart4","arenart5"]
+# quick n dirty, have to do it right when there is time and if there comes nececcity for this script
 
 #https://stackoverflow.com/questions/8880603/loop-through-an-array-of-strings-in-bash
 
