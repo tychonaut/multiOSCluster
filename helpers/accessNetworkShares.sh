@@ -5,6 +5,13 @@
 # I just googled and tried command permutations until it worked :(.
 # WARNING: Always log out of a remote bash session using  "logout" (NOT "exit")! 
 #          Otherwise, upon a new logon a new access to network shares may not work for several minutes!
+#
+# HINT:    If there is an error like:
+#          "System error 1312 has occurred. A specified logon session does not exist. It may already have been terminated.",
+#          then either wait for several minutes or try fixing it via something like:
+#          ssh <corrupted machine>  "powershell \"net use * /delete /y\""
+
+
 
 accessNetworkShares()
 {    
@@ -14,6 +21,12 @@ accessNetworkShares()
     # I suspect bash's handling of single quotes, that is different from handling of double quotes.
     # So, omit the single quotes. As a result, we have to escape every backslash twice!
     #   net use /user:"xxx" \\\\10.0.10.6\\Shared xxx
+
+
+
+    powershell "net use * /delete /y"
+    # wait a while for the NAS to get ready
+    sleep 1
     
     username="xxx"
     password="xxx"
@@ -26,9 +39,14 @@ accessNetworkShares()
     ##execute this command
     #${commandString}
 
+
     #so intead, execute directly; This works:
     net use /user:"${username}" ${sharedFolderAddress} ${password}
+    
+    # wait a while for the NAS to get ready
+    sleep 1
         
 }
 
 accessNetworkShares
+

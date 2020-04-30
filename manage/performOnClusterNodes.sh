@@ -275,6 +275,7 @@ ENDSSH
             # Then ssh into remote with the following 3-line inline code:
             ssh "${sshStrings[${index}]}" <<-ENDSSH
                 set -- "${scriptArgs[@]}"
+                ${accessSharedFoldersCommand}
                 powershell –ExecutionPolicy Bypass ./temporaryScript.ps1 $@
                 rm ./temporaryScript.ps1
 ENDSSH
