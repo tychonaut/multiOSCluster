@@ -6,14 +6,13 @@ echo "TODO 1: develop network share enable mechanism for both bash and powershel
 echo "--------------------------------------------------------"
 echo
 
-
-REPO_DIR="$( readlink -f $( dirname $0 )/.. )"
-
-echo "REPO_DIR: ${REPO_DIR}"
+# repository directory is one folder above this script's location
+REPO_DIRECTORY="$( readlink -f $( dirname $0 )/.. )"
 
 
-hostsFilePath="${REPO_DIR}/config/hosts.json"
-credentialsFilePath="${REPO_DIR}/config/credentials.json"
+
+hostsFilePath="${REPO_DIRECTORY}/config/hosts.json"
+credentialsFilePath="${REPO_DIRECTORY}/config/credentials.json"
 
 
 ###############################################################################
@@ -24,7 +23,7 @@ usage()
 "Usage syntax: $0 
     [-h|--help] 
     [ [-a|--all] | [-m|--master|--masters]  [-s|--slaves] ] 
-    [--need-shared-folder-access] 
+    [-NAS|--need-shared-folder-access] 
     [ --execute-script  <scriptPath>  [ --args  <arg list to script> ] ]
     [ -c|--execute-command <command> ]
     [ -scp|--transfer-file <filePath>  [ --remote-dir  <remote directory> ] ]
@@ -198,7 +197,7 @@ do
 
         ;;
         
-        --need-shared-folder-access)
+        -NAS|--need-shared-folder-access)
             shift # past argument
             accessSharedFolders=1
         ;;
@@ -220,7 +219,10 @@ if [[ ${nodeTypeSelectionFound} == 0 ]]; then
     useSlaves=1
 fi
 
-
+accessSharedFoldersCommand=""
+if [[ ${accessSharedFolders} == 1 ]]; then
+    accessSharedFoldersCommand="${REPO_DIRECTORY}/helpers/accessNetworkShares.sh"
+fi
 
 
 
@@ -230,7 +232,7 @@ fi
 
 
 
-sshStrings=( $(  ${REPO_DIR}/helpers/createSSHstringsFromJSON.sh "${hostsFilePath}" "${useMasters}" "${useSlaves}" ) )
+sshStrings=( $(  ${REPO_DIRECTORY}/helpers/createSSHstringsFromJSON.sh "${hostsFilePath}" "${useMasters}" "${useSlaves}" ) )
 
 for index in ${!sshStrings[@]}; do
 
@@ -254,10 +256,10 @@ for index in ${!sshStrings[@]}; do
         
             # It's a (ba)sh script; execute contents in-place after args are passed via "set -- "
             
-            #TODO find a way to enable NAS access
-            
+
             ssh "${sshStrings[${index}]}" <<-ENDSSH
                 set -- "${scriptArgs[@]}" 
+                ${accessSharedFoldersCommand}
                 ${scriptContents}
 ENDSSH
             
@@ -265,6 +267,8 @@ ENDSSH
         
             # It's a powershell script; special treatment in order to make param passing work:
             # scp the payload script to a temporary remote script file.
+
+            echo "TODO implement optional NAS access for powershell scripts"
 
             scp "${scriptPath}" "${sshStrings[${index}]}":temporaryScript.ps1
 
@@ -285,14 +289,20 @@ ENDSSH
         
         #TODO find a way to enable NAS access
     
-        ssh "${sshStrings[${index}]}" "${command}"
+        if [[ ${accessSharedFolders} == 1 ]]; then
+            ssh "${sshStrings[${index}]}" "${accessSharedFoldersCommand};  ${command}"
+        else
+            ssh "${sshStrings[${index}]}" "${command}"
+        fi
+    
 
     #--------------------------------------------------------------------------
     elif [[ "${actionMode}" == "scp" ]]; then
         
-        #TODO find a way to enable NAS access
+        #TODO find a way to enable NAS access if definitely neeeded:
+        # complicated but should work: scp source files to temp. local directory on target machine,
+        # then ssh into target machine, exec. NAS access script, copy local files to final NAS directory, finally delet local copy.
 
-        
         
         fileNameToTransfer="${filePathToTransfer##*/}"
         if [[ "${remoteDirectory}" != "" ]]; then
