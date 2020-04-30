@@ -1,0 +1,12 @@
+
+
+#Install jq on each machine:
+#    /d/devel/scripts/multiOSCluster/manage/performOnClusterNodes.sh -a -c "pacman -S --noconfirm mingw-w64-x86_64-jq"
+#Bug in jq  package pthreads dependency not specified, although nececcary; son, install by hand on each machine:
+#   /d/devel/scripts/multiOSCluster/manage/performOnClusterNodes.sh -a -c "pacman -S --noconfirm mingw-w64-x86_64-winpthreads-git"
+#Resp. combined:
+/d/devel/scripts/multiOSCluster/manage/performOnClusterNodes.sh -a -c "pacman -S --noconfirm mingw-w64-x86_64-jq mingw-w64-x86_64-winpthreads-git"
+
+add to ~/.bashrc:
+PATH="/d/apps/PSTools:/mingw64/bin/:$PATH"
+PATH="/d/devel/scripts/multiOSCluster/manage:$PATH"

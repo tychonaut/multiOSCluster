@@ -6,45 +6,51 @@
 # WARNING: Always log out of a remote bash session using  "logout" (NOT "exit")! 
 #          Otherwise, upon a new logon a new access to network shares may not work for several minutes!
 #
-# HINT:    If there is an error like:
-#          "System error 1312 has occurred. A specified logon session does not exist. It may already have been terminated.",
-#          then either wait for several minutes or try fixing it via something like:
-#          ssh <corrupted machine>  "powershell \"net use * /delete /y\""
+# WARNING: Provide a domain to the NAS username, i.e. "GEOMAR\myUser" instead of "myUser"! 
+# Otherwise, some REALLY inconsistent and volatile errors can occur sometimes
+# (System error 1312 has occurred. A specified logon session does not exist. It may already have been terminated.)
 
+
+# repository directory is one folder above this script's location
+REPO_DIRECTORY="$( readlink -f $( dirname $0 )/.. )"
+
+
+# workaround for problem that jq package in msys is only for mingw shell; 
+# have to add mingw to PATH for non-interactive sessions (that don't laod a startup file)
+PATH="/mingw64/bin/:$PATH"
 
 
 accessNetworkShares()
 {    
-    # original command that works in msys2 remote ssh bash sessions:
-    #   net use /user:"xxx" '\\10.0.10.6\Shared' xxx
-    # The above doesn't work when put into a command string; 
-    # I suspect bash's handling of single quotes, that is different from handling of double quotes.
-    # So, omit the single quotes. As a result, we have to escape every backslash twice!
-    #   net use /user:"xxx" \\\\10.0.10.6\\Shared xxx
-
-
-
-    powershell "net use * /delete /y"
-    # wait a while for the NAS to get ready
-    sleep 1
+    ## not sure if this is neccessary:
+    #powershell "net use * /delete /y"
+    ## wait a while for the NAS to get ready
+    #sleep 1
     
-    username="xxx"
-    password="xxx"
-    #sharedFolderName="S:" # unused, somewhere already  implicitly stored
-    #sharedFolderAddress="\\\\\\\\10.0.10.6\\\\Shared"
-    sharedFolderAddress="\\\\10.0.10.6\\Shared" 
-
-    ##somehow, this does not work :(   
-    #commandString="net use /user:\"${username}\" ${sharedFolderAddress} ${password}"    
-    ##execute this command
-    #${commandString}
-
-
-    #so intead, execute directly; This works:
-    net use /user:"${username}" ${sharedFolderAddress} ${password}
+   
+    local credentialsFilePath="${REPO_DIRECTORY}/config/credentials.json"
     
-    # wait a while for the NAS to get ready
-    sleep 1
+    local numShares=$(jq ".credentials.NAS | length" ${credentialsFilePath})
+		
+    for (( i=0; i<${numShares}; i++ )); do
+    
+        local driveletter=$( jq ".credentials.NAS[${i}].driveletter" ${credentialsFilePath} | sed -e 's/^"//' -e 's/"$//' )
+        local address=$(     jq ".credentials.NAS[${i}].address"     ${credentialsFilePath} | sed -e 's/^"//' -e 's/"$//' )
+        local foldername=$(  jq ".credentials.NAS[${i}].foldername"     ${credentialsFilePath} | sed -e 's/^"//' -e 's/"$//' )
+        local domain=$(  jq ".credentials.NAS[${i}].domain"     ${credentialsFilePath} | sed -e 's/^"//' -e 's/"$//' )
+        local username=$(    jq ".credentials.NAS[${i}].username"    ${credentialsFilePath} | sed -e 's/^"//' -e 's/"$//' )
+        local password=$(    jq ".credentials.NAS[${i}].password"    ${credentialsFilePath} | sed -e 's/^"//' -e 's/"$//' )
+        
+
+        echo "Binding network share \\\\${address}\\${foldername}; username: ${domain}\\${username}"
+
+        net use /user:"${domain}\\${username}" "\\\\${address}\\${foldername}" ${password}
+        
+        # wait a while for the NAS to get ready
+        sleep 1
+        
+    done
+    
         
 }
 

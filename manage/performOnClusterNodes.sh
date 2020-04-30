@@ -30,11 +30,18 @@ usage()
 
 Usage example: Script mode: 
     $0 --execute-script ./testScript1.sh --args argtoTestScript1 argtoTestScript2
+    Test NAS access with both bash and powershell scripts:
+    $0 -a -NAS --execute-script /d/devel/scripts/multiOSCluster/helpers/testScript1.ps1 --args leal lol
+    $0 -a -NAS --execute-script /d/devel/scripts/multiOSCluster/helpers/testScript1.sh   --args leal lol
 Usage examples: Command mode: 
     List directory /d/devel/ on each machine:
     $0 --execute-command \"ls -la /d/devel/\"
     Install rsync on each machine:
-    $0 -s -c \"pacman -S --noconfirm rsync\"
+    $0 -a -c \"pacman -S --noconfirm rsync\"
+    Install jq on each machine:
+    $0 -a -c \"pacman -S --noconfirm mingw-w64-x86_64-jq\"
+    $0 -a -c \"pacman -S --noconfirm mingw-w64-x86_64-winpthreads-git\"
+
 Usage examples: File transfer mode: 
     $0 --transfer-file config.cfg --remote-dir /d/apps/myApp/config/
     To distribute your .bashrc:
@@ -306,6 +313,10 @@ ENDSSH
 
         
         fileNameToTransfer="${filePathToTransfer##*/}"
+        
+        echo "fileNameToTransfer: $fileNameToTransfer"
+        echo "${remoteDirectory}/${fileNameToTransfer}"
+        
         if [[ "${remoteDirectory}" != "" ]]; then
             scp "${filePathToTransfer}" "${sshStrings[${index}]}":"${remoteDirectory}/${fileNameToTransfer}"
         else
