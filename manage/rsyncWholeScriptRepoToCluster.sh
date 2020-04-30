@@ -1,25 +1,20 @@
 #!/bin/bash
 
-#WIP, EXPERIMENTAL
+# usage: $0 [ [-a|--all] | [-m|--master|--masters]  [-s|--slaves] ] 
+# 
 
-# repository directory is on folder above this script
-REPO_DIR="$( readlink -f $( dirname $0 )/.. )"
+
+# repository directory is one folder above this script
+REPO_DIRECTORY="$( readlink -f $( dirname $0 )/.. )"
 
 # recursive, compress during transfer, human readable, verbose, show progress, -e: specify rmote shell (ssh)
 
-# target dir must omit the last folder name
-targetDir="$( readlink -f ${REPO_DIR}/.. )"
-
 # don't sync files with names read from the following file
-rsyncignoreFileName="${REPO_DIR}/manage/.rsyncignore"
+rsyncignoreFileName="${REPO_DIRECTORY}/manage/.rsyncignore"
 
-rsync --dry-run  -r -z  -h -v --progress --exclude-from="${rsyncignoreFileName}" -e "ssh -i ~/.ssh/id_rsa" "${REPO_DIR}"  ARENART1+arena@arenart1:"${targetDir}"
+if [[ $# > 0 ]]; then
+    clusterNodeTypeFlags=$1
+fi
 
 
-
-    # --exclude=PATTERN       exclude files matching PATTERN
-    # --exclude-from=FILE     read exclude patterns from FILE
-    # --include=PATTERN       don't exclude files matching PATTERN
-    # --include-from=FILE     read include patterns from FILE
-    # --files-from=FILE       read list of source-file names from FILE
-
+${REPO_DIRECTORY}/helpers/rsyncToCluster.sh ${clusterNodeTypeFlags} --ignorefile "${rsyncignoreFileName}" --source-path "${REPO_DIRECTORY}"
