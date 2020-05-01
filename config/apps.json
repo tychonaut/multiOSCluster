@@ -1,55 +1,29 @@
 {
-  "_comments": [
-    "This file is not used yet, just a brain storming, if complexity increases.",
-    ""
-  ],
   "apps": {
     "Windows": {
       "OpenSpace": {
-        "activeProfile": "debug",
-        "clusterLauncher": "appControl\\OpenSpace\\startOpenSpaceEverywhere.sh",
-        "instanceLauncher": "appControl\\OpenSpace\\startOpenSpaceOnThisMachine.ps1",
-        "profiles": {
-          "default": {
-            "installDir": "D:\\apps\\OpenSpace\\v0.15.1_arena_git",
-            "executable": "bin\\OpenSpace.exe",
-            "argsToExecutable": "-c D:\\apps\\OpenSpace\\v0.15.1_arena_git\\openspace_arena.cfg"
-          },
-          "debug": {
-
+        "_comments": [
+          "available profiles:",
+          "default: cluster launch controlled by master, in-app warp&blend via MPCDI",
+          "desktopWarpBlend: like default, but with desktop warping, i.e. MPCDI provies only frusta",
+          "debug: cluster launch, but no snyc; just for testing startup scripts and quick local tests",
+          "originalCalib: like default, but unaltered MPCDI content from incorrect export",
+          {
+            "installDir": "/d/apps/OpenSpace/v0.15.1_git_arena/",
+            "executable": "bin/OpenSpace.exe"
           }
-
-        },
-        "fileSync": [
-          {
-            "source": "appControl\\OpenSpace\\openspace_arena.cfg",
-            "destination": "D:\\apps\\OpenSpace\\v0.15.1_arena_git\\openspace_arena.cfg"
-          },
-          {
-            "source": "D:\\devel\\scripts\\multiOSCluster\\appControl\\OpenSpace\\openspace_arena_sgct.xml",
-            "destination": "D:\\apps\\OpenSpace\\v0.15.1_arena_git\\config\\openspace_arena_sgct.xml"
-          },
-          {
-            "source": "D:\\devel\\scripts\\multiOSCluster\\appControl\\OpenSpace\\calibration",
-            "destination": "D:\\apps\\OpenSpace\\v0.15.1_arena_git\\config\\calibration"
-          }
-        ]
-
+        ],
+        "profile": "debug",
+        "installDir": "/d/devel/OpenSpace/OpenSpace_ownDeploy/",
+        "executable": "bin/Release/OpenSpace.exe"
       },
-
       "Google Earth": {
-        "localLauncher": {
-          "Windows": {
-            "path": "D:\\devel\\scripts\\startGoogleEarthOnThisMachine.ps1",
-            "path2": "C:\\Program Files\\Google\\Google Earth Pro\\client\\googleearth.exe"
-
-          },
-          "Linux": null
-        },
-        "args": ""
+        
       }
     },
-    "Linux": {}
+    "Linux": {
+
+    }
 
   }
 }

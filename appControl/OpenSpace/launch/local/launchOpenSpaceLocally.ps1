@@ -1,5 +1,17 @@
+param (
+    [string]$installDir = "D:/apps/OpenSpace/v0.15.1_git_arena/",
+	[string]$exeToLaunch = "bin/OpenSpace.exe"
+ )
+
+
 # PSTools help with the issue of logging into a command line shell from a remote computer
 # and then wanting to launch a Program with a window; Somehow, PSTools "escape" the remote shell.
+
+
+echo "installDir: $installDir"
+echo "exeToLaunch: $exeToLaunch"
+
+
 
 # Workaround for network shares with admin elevations, that avio somehow starts openspace with:
 # https://superuser.com/questions/199387/elevated-command-line-prompt-cant-access-shared-drives
@@ -10,5 +22,6 @@ echo "enabling access to network share S:"
 D:\apps\PSTools\PsExec64.exe -i \\$(hostname) -d -s powershell.exe $PSScriptRoot\..\..\..\..\helpers\accessNetworkShares.ps1
 
 echo "launching OpenSpace on $(hostname)..."
-D:\apps\PSTools\PsExec64.exe -i \\$(hostname) -d -s D:\devel\OpenSpace\OpenSpace_ownDeploy\bin\Release\OpenSpace.exe
+#D:\apps\PSTools\PsExec64.exe -i \\$(hostname) -d -s D:\devel\OpenSpace\OpenSpace_ownDeploy\bin\Release\OpenSpace.exe
+D:\apps\PSTools\PsExec64.exe -i \\$(hostname) -d -s $installDir/$exeToLaunch
 
