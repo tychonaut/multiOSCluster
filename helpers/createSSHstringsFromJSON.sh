@@ -6,8 +6,8 @@
 # https://linuxconfig.org/how-to-parse-a-json-file-from-linux-command-line-using-jq
 
 
-
-REPO_DIR="/d/devel/scripts/multiOSCluster"
+# repository directory is one folder above this script
+REPO_DIRECTORY="$( readlink -f $( dirname $0 )/.. )"
 
 
 #------------------------------------
@@ -20,7 +20,7 @@ createSSH_strings()
 
 	local sshStrings_ret=()
 	
-	local activeOS=$( ${REPO_DIR}/helpers/getActiveOS.sh )
+	local activeOS=$( ${REPO_DIRECTORY}/helpers/getActiveOS.sh )
 	
 	local clusterCategories=()
 
@@ -38,8 +38,8 @@ createSSH_strings()
 		for (( i=0; i<${numNodes}; i++ )); do
 		
 			# parse JSON file using jq, strip leading and trailing double quotes with sed
-			local hostname=$(jq ".hosts.${activeOS}.${clusterCategories[categIndex]}[${i}].hostname" ${hostsFilePath} | sed -e 's/^"//' -e 's/"$//' )
-			local username=$(jq ".hosts.${activeOS}.${clusterCategories[categIndex]}[${i}].username" ${hostsFilePath} | sed -e 's/^"//' -e 's/"$//' )
+			local hostname=$(jq ".hosts.${activeOS}.${clusterCategories[categIndex]}[${i}].hostname" ${hostsFilePath} | ${REPO_DIRECTORY}/helpers/stripLeadingAndTrailingQuotes.sh )
+			local username=$(jq ".hosts.${activeOS}.${clusterCategories[categIndex]}[${i}].username" ${hostsFilePath} | ${REPO_DIRECTORY}/helpers/stripLeadingAndTrailingQuotes.sh )
 			sshStrings_ret+=("${username}@${hostname}")
 		done
 		
