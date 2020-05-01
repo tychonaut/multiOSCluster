@@ -293,9 +293,9 @@ ENDSSH
     elif [[ "${actionMode}" == "command" ]]; then
         
         if [[ ${accessSharedFolders} == 1 ]]; then
-            ssh "${sshStrings[${index}]}" "${accessSharedFoldersCommand};  ${command}"
+            ssh "${sshStrings[${index}]}" "${accessSharedFoldersCommand};  ${command}" &
         else
-            ssh "${sshStrings[${index}]}" "${command}"
+            ssh "${sshStrings[${index}]}" "${command}" &
         fi
     
 

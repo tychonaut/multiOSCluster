@@ -12,6 +12,7 @@ REPO_DIRECTORY="$( readlink -f $( dirname $0 )/.. )"
 # don't sync files with names read from the following file
 rsyncignoreFileName="${REPO_DIRECTORY}/manage/.rsyncignore"
 
+clusterNodeTypeFlags=""
 if [[ $# > 0 ]]; then
     clusterNodeTypeFlags=$1
 fi

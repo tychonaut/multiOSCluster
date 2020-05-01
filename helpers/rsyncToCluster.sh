@@ -1,8 +1,5 @@
 #!/bin/bash
 
-#WIP, EXPERIMENTAL
-
-
 # repository directory is one folder above this script's location
 REPO_DIRECTORY="$( readlink -f $( dirname $0 )/.. )"
 
