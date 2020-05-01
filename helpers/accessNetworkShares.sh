@@ -30,16 +30,17 @@ accessNetworkShares()
    
     local credentialsFilePath="${REPO_DIRECTORY}/config/credentials.json"
     
-    local numShares=$(jq ".credentials.NAS | length" ${credentialsFilePath})
-		
+    stripper="${REPO_DIRECTORY}/helpers/stripLeadingAndTrailingQuotes.sh"
+    
+    local numShares=$(jq ".credentials.NAS | length" ${credentialsFilePath})	
     for (( i=0; i<${numShares}; i++ )); do
     
-        local driveletter=$( jq ".credentials.NAS[${i}].driveletter" ${credentialsFilePath} | sed -e 's/^"//' -e 's/"$//' )
-        local address=$(     jq ".credentials.NAS[${i}].address"     ${credentialsFilePath} | sed -e 's/^"//' -e 's/"$//' )
-        local foldername=$(  jq ".credentials.NAS[${i}].foldername"     ${credentialsFilePath} | sed -e 's/^"//' -e 's/"$//' )
-        local domain=$(  jq ".credentials.NAS[${i}].domain"     ${credentialsFilePath} | sed -e 's/^"//' -e 's/"$//' )
-        local username=$(    jq ".credentials.NAS[${i}].username"    ${credentialsFilePath} | sed -e 's/^"//' -e 's/"$//' )
-        local password=$(    jq ".credentials.NAS[${i}].password"    ${credentialsFilePath} | sed -e 's/^"//' -e 's/"$//' )
+        local driveletter=$( jq ".credentials.NAS[${i}].driveletter" ${credentialsFilePath} | "${stripper}" )
+        local address=$(     jq ".credentials.NAS[${i}].address"     ${credentialsFilePath} | "${stripper}" )
+        local foldername=$(  jq ".credentials.NAS[${i}].foldername"     ${credentialsFilePath} | "${stripper}" )
+        local domain=$(  jq ".credentials.NAS[${i}].domain"     ${credentialsFilePath} | "${stripper}" )
+        local username=$(    jq ".credentials.NAS[${i}].username"    ${credentialsFilePath} | "${stripper}" )
+        local password=$(    jq ".credentials.NAS[${i}].password"    ${credentialsFilePath} | "${stripper}" )
         
 
         echo "Binding network share \\\\${address}\\${foldername}; username: ${domain}\\${username}"
