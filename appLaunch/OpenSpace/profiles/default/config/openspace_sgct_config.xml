@@ -1,0 +1,165 @@
+<?xml version="1.0" ?>
+
+<!--
+	-- WARNING: THIS FILE WILL BE CONTINUOUSLY OVERWRITTEN BY rsync!!111 
+	-- Only edit it on a master machine, and check it into git. It will automatically distributed
+	-- to the relevant cluster machines each launch of the script 
+	-- <multiOSCluster dir>/appControl/OpenSpace/startOpenSpaceEverywhere.sh
+-->
+
+	<!--
+	firmSync="true"
+	-->
+<Cluster 
+	masterAddress="10.0.0.5" 
+>
+
+    <Settings>
+        <Display swapInterval="0" />
+    </Settings>
+	
+	
+    <Scene>
+	
+		<!-- TODO maybe rotate sth. by 21 degrees?-->
+	
+        <Orientation yaw="0.0" pitch="0.0" roll="0.0" />
+        <Offset x="0.0" y="0.0" z="0.0" />
+        <Scale value="1.0" />
+		
+    </Scene>
+    
+
+	<!-- Master node, no MPCDI stuff required here -->
+	<!--
+    -->
+	
+	<Node 
+		address="10.0.0.5" 
+		port="20401"
+	>
+
+        <Window fullScreen="false" border="true"		>
+            <Stereo type="none" />
+            <Pos x="100" y="100" />
+            <Size x="640" y="480" />
+
+            <Viewport>
+                <Pos x="0.0" y="0.0" />
+                <Size x="1.0" y="1.0" />
+
+				<!--
+                <PlanarProjection>
+                    <FOV down="25.267007923362" left="40.0" right="40.0" up="25.267007923362" />
+                    <Orientation heading="0.0" pitch="0.0" roll="0.0" />
+                </PlanarProjection>
+				-->
+			
+                <FisheyeProjection fov="180" quality="1k"  tilt="21.0">
+                    <Background r="1.0" g="0.1" b="0.1" a="1.0" />
+                </FisheyeProjection>
+            
+
+            </Viewport>
+
+        </Window>
+
+    </Node>
+	
+	
+	<!-- RealTime node 1 ------------------------------------------------------------------------ -->
+	<!--
+	swapLock="false"
+	-->
+	<Node 
+		address="10.0.0.21" 
+		port="20402" 
+	>
+        <Window fullScreen="false"
+			border="false"		
+			fxaa="false" 
+			msaa="1" 
+			mpcdi="calibration/display/rt1.mpcdi"
+		>
+			<Stereo type="none" />
+        </Window>
+		
+    </Node> 
+	
+    
+	<!-- RealTime node 2 ----------------------------------------------------- -->
+	<Node 
+		address="10.0.0.22" 
+		port="20403" 
+	>
+        <Window fullScreen="false"
+			border="false"		
+			fxaa="false" 
+			msaa="1" 
+			mpcdi="calibration/display/rt2.mpcdi"
+		>
+			<Stereo type="none" />
+        </Window>
+		
+    </Node> 
+	
+	
+	<!-- RealTime node 3 ----------------------------------------------------- -->
+	<Node 
+		address="10.0.0.23" 
+		port="20404" 
+	>
+        <Window fullScreen="false"
+			border="false"		
+			fxaa="false" 
+			msaa="1" 
+			mpcdi="calibration/display/rt3.mpcdi"
+		>
+			<Stereo type="none" />
+        </Window>
+		
+    </Node> 
+	
+	
+	
+	<!-- RealTime node 4 ---------------------------------------------  -->
+	<Node 
+		address="10.0.0.24" 
+		port="20405" 
+	>
+        <Window fullScreen="false"
+			border="false"		
+			fxaa="false" 
+			msaa="1" 
+			mpcdi="calibration/display/rt4.mpcdi"
+		>
+			<Stereo type="none" />
+        </Window>
+		
+    </Node> 
+	
+	<!-- RealTime node 5 ---------------------------------------------  -->
+	<Node 
+		address="10.0.0.25" 
+		port="20406" 
+	>
+        <Window fullScreen="false"
+			border="false"		
+			fxaa="false" 
+			msaa="1" 
+			mpcdi="calibration/display/rt5.mpcdi"
+		>
+			<Stereo type="none" />
+        </Window>
+		
+    </Node> 
+
+	
+	
+	
+	<User eyeSeparation="0.06">
+        <Pos x="0.0" y="0.0" z="0.0" />
+    </User>
+	
+	
+</Cluster>

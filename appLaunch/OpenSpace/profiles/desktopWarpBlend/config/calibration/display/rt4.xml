@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MPCDI profile="3d" geometry="2" color="4" date="2020-04-22 18:07:34" version="2.0" >
+  <display>
+    <buffer id="__0013_10.0.10.24" >
+      <region id="Display0" x="0" y="0" xSize="1" ySize="1" xResolution ="2560" yResolution="1600" >
+        <frustum>
+			<yaw>-125.0000000</yaw>
+			<pitch>53.0000000</pitch>
+			<roll>-20.0000000</roll>
+			<rightAngle>60.0000000</rightAngle>
+			<leftAngle>60.0000000</leftAngle>
+			<upAngle>40.0000000</upAngle>
+			<downAngle>40.0000000</downAngle>
+        </frustum>
+        <color>
+          <decode type="gamma" gamma="1.0" />
+          <encode type="gamma" gamma="1.0" />
+        </color>
+      </region>
+    </buffer>
+  </display>
+</MPCDI>

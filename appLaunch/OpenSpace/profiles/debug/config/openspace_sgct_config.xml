@@ -1,0 +1,82 @@
+<?xml version="1.0" ?>
+
+<!--
+	-- WARNING: THIS FILE WILL BE CONTINUOUSLY OVERWRITTEN BY rsync!!111 
+	-- Only edit it on a master machine, and check it into git. It will automatically distributed
+	-- to the relevant cluster machines each launch of the script 
+	-- <multiOSCluster dir>/appControl/OpenSpace/startOpenSpaceEverywhere.sh
+-->
+
+
+	<!--
+	firmSync="true"
+	-->
+<Cluster 
+	masterAddress="localhost" 
+>
+
+    <Settings>
+        <Display swapInterval="0" />
+    </Settings>
+	
+	
+    <Scene>
+	
+		<!-- TODO maybe rotate sth. by 21 degrees?-->
+	
+        <Orientation yaw="0.0" pitch="0.0" roll="0.0" />
+        <Offset x="0.0" y="0.0" z="0.0" />
+        <Scale value="1.0" />
+		
+    </Scene>
+    
+
+	<Node 
+		address="localhost" 
+		port="20401"
+	>
+
+ 
+		<!-- 
+        <Window fullScreen="false" numberOfSamples="4" name="OpenSpace">
+            <Stereo type="none" />
+            <Size x="1920" y="1080" />
+            <Pos x="0" y="0" />
+            <Viewport tracked="true">
+                <Pos x="0.0" y="0.0" />
+                <Size x="1.0" y="1.0" />
+                <PlanarProjection>
+                    <FOV down="25.267007923362" left="40.0" right="40.0" up="25.267007923362" />
+                    <Orientation heading="0.0" pitch="0.0" roll="0.0" />
+                </PlanarProjection>
+            </Viewport>
+        </Window>
+		-->
+
+		<!--
+			mpcdi="calibration/display/rt1.mpcdi"
+		-->
+        <Window fullScreen="false"
+			border="false"		
+			fxaa="false" 
+			msaa="1" 
+			mpcdi="calibration/display/rt1.mpcdi"
+		>
+			<Stereo type="none" />
+        </Window>
+
+
+
+    </Node>
+	
+	
+	
+	
+	
+	
+	<User eyeSeparation="0.06">
+        <Pos x="0.0" y="0.0" z="0.0" />
+    </User>
+	
+	
+</Cluster>
