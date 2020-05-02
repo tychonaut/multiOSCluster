@@ -138,6 +138,7 @@ for index in ${!sshStrings[@]}; do
     
         echo "rsync-ing path ${sourcePath} to "${sshStrings[${index}]}" at remote  directory ${targetDir} :"
     
+        # recursive, compress during transfer, human readable, verbose, show progress, -e: specify remote shell (ssh)
         #--dry-run
     
         rsync -r -z  -h -v --progress "${ignoreString}" -e "ssh -i ~/.ssh/id_rsa" "${sourcePath}"  "${sshStrings[${index}]}":"${targetDir}"

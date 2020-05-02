@@ -10,7 +10,6 @@
 # repository directory is one folder above this script
 REPO_DIRECTORY="$( readlink -f $( dirname $0 )/.. )"
 
-# recursive, compress during transfer, human readable, verbose, show progress, -e: specify remote shell (ssh)
 
 # don't sync files with names read from the following file
 rsyncignoreFileName="${REPO_DIRECTORY}/manage/.rsyncignore"

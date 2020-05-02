@@ -24,12 +24,26 @@ echo "executable: ${installDir_windowsStyle}"
 
 #trailing / might be necessyry this time...?
 sourcePath="${REPO_DIRECTORY}/appControl/OpenSpace/profiles/${activeProfile}/"
+rsyncignoreFilePath="${SCRIPT_DIRECTORY}/.rsyncignore"
+
+
+
+
+echo "copying locally from ${sourcePath}/* to ${installDir_unixStyle} , via rsync, as cp -r behaves differently..."
+## argh those trailing slashes...
+#cp -r "${sourcePath}"  "${installDir_unixStyle}/"
+##cp -r /d/devel/scripts/multiOSCluster/appControl/OpenSpace/profiles/debug/* /d/apps/OpenSpace/v0.15.1_git_arena/
+rsync -r -z  -h -v --progress --exclude-from="${rsyncignoreFilePath}"  "${sourcePath}"  "${installDir_unixStyle}"
+
+
 
 echo "rsyncing  config and calib files to cluster: source directory : ${sourcePath} ; target directory : ${installDir_unixStyle}"
 
-rsyncignoreFileName="${SCRIPT_DIRECTORY}/.rsyncignore"
 
-${REPO_DIRECTORY}/helpers/rsyncToCluster.sh --ignorefile "${rsyncignoreFileName}" --source-path "${sourcePath}" --target-dir "${installDir_unixStyle}"
+${REPO_DIRECTORY}/helpers/rsyncToCluster.sh --ignorefile "${rsyncignoreFilePath}" --source-path "${sourcePath}" --target-dir "${installDir_unixStyle}"
+
+
+
 
 
 echo "launching Openspace on cluster ..."
