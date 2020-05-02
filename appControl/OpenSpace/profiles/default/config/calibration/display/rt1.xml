@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<MPCDI profile="3d" geometry="2" color="4" date="2020-04-22 18:07:52" version="2.0" >
+<!-- 
+OpenSpace does not support level 2 (as of March 19th, 2020)
+geometry="2"  
+-->
+<MPCDI profile="3d" geometry="1" color="4" date="2020-04-22 18:07:52" version="2.0" >
   <display>
     <buffer id="__0010_local" >
       <region id="Display0" x="0" y="0" xSize="1" ySize="1" xResolution ="2560" yResolution="1600" >

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<MPCDI profile="3d" geometry="2" color="4" date="2020-04-22 18:07:34" version="2.0" >
+<MPCDI profile="3d" geometry="1" color="4" date="2020-04-22 18:07:34" version="2.0" >
   <display>
     <buffer id="__0013_10.0.10.24" >
       <region id="Display0" x="0" y="0" xSize="1" ySize="1" xResolution ="2560" yResolution="1600" >
