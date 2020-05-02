@@ -92,7 +92,7 @@
 						right="53.0"  
 					/>
                     <Orientation 
-						heading="-38.0" 
+						heading="38.0" 
 						pitch="15.0" 
 						roll="-16.5" 
 					/>
@@ -146,7 +146,7 @@
 						right="53.0"  
 					/>
                     <Orientation 
-						heading="31.0" 
+						heading="-31.0" 
 						pitch="15.0" 
 						roll="15.0" 
 					/>
@@ -189,7 +189,7 @@
 						right="55.0"  
 					/>
                     <Orientation 
-						heading="110.0" 
+						heading="-110.0" 
 						pitch="45.0" 
 						roll="30.0" 
 					/>
@@ -233,7 +233,7 @@
 						right="60.0"  
 					/>
                     <Orientation 
-						heading="-125.0" 
+						heading="125.0" 
 						pitch="53.0" 
 						roll="-20.0" 
 					/>
@@ -275,7 +275,7 @@
 						right="53.0"  
 					/>
                     <Orientation 
-						heading="9.0" 
+						heading="-9.0" 
 						pitch="68.0" 
 						roll="0.0" 
 					/>
