@@ -14,7 +14,7 @@
             "executable": "bin/Release/OpenSpace.exe"
           }
         ],
-        "profile": "debug",
+        "profile": "desktopWarpBlend",
 
         "installDir": "/d/apps/OpenSpace/v0.15.1_git_arena",
         "executable": "bin/OpenSpace.exe"

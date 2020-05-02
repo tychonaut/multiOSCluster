@@ -1,6 +1,13 @@
 {
   "hosts": {
 
+    "_comments": {
+      
+        "hostname": "arenart1",
+        "username": "ARENART1+arena"
+      
+    },
+
     "Windows": {
 
       "masters": [
@@ -11,10 +18,7 @@
       ],
 
       "slaves": [
-        {
-          "hostname": "arenart1",
-          "username": "ARENART1+arena"
-        },
+
         {
           "hostname": "arenart2",
           "username": "ARENART2+arena"
