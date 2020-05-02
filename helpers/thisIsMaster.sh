@@ -20,7 +20,7 @@ REPO_DIRECTORY="$( readlink -f $( dirname $0 )/.. )"
 
 
 #------------------------------------
-# usage example : thisIsMaster.sh  /d/devel/scripts/multiOSCluster/config/hosts.json
+# usage example : /d/devel/scripts/multiOSCluster/helpers/thisIsMaster.sh /d/devel/scripts/multiOSCluster/config/hosts.json
 thisIsMaster()
 {
 	local hostsFilePath=$1
@@ -35,7 +35,7 @@ thisIsMaster()
     
 	for (( i=0; i<${numNodes}; i++ )); do
 		
-			# parse JSON file using jq, strip leading and trailing double quotes with sed
+		# parse JSON file using jq, strip leading and trailing double quotes with sed
 		local currenthostname=$(jq ".hosts.${activeOS}.masters[${i}].hostname" ${hostsFilePath} | ${REPO_DIRECTORY}/helpers/stripLeadingAndTrailingQuotes.sh )
         if [[ "${currenthostname}" == $(hostname) ]]; then
 			isMaster_ret="true"

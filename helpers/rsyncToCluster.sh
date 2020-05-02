@@ -119,8 +119,19 @@ sshStrings=( $(  ${REPO_DIRECTORY}/helpers/createSSHstringsFromJSON.sh "${hostsF
 
 for index in ${!sshStrings[@]}; do
 
-    #--dry-run
-
-    rsync -r -z  -h -v --progress "${ignoreString}" -e "ssh -i ~/.ssh/id_rsa" "${sourcePath}"  "${sshStrings[${index}]}":"${targetDir}"
+    currentSSHString="${sshStrings[${index}]}"
+    currentHostname="${currentSSHString##*@}"
+    #scriptFileExtension="${scriptFileName##*.}"
+    
+    if [[ $(hostname) != "${currentHostname}" ]]; then
+    
+        #--dry-run
+    
+        rsync -r -z  -h -v --progress "${ignoreString}" -e "ssh -i ~/.ssh/id_rsa" "${sourcePath}"  "${sshStrings[${index}]}":"${targetDir}"
+        
+    else
+        echo "Rsyncing: skipping host $(hostname) to omit self-targeting"
+        sleep 3
+    fi
 
 done
