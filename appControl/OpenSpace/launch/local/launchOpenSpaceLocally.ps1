@@ -1,8 +1,10 @@
 param (
-    [string]$installDir = "D:/devel/OpenSpace/OpenSpace_ownDeploy",
-	[string]$exeToLaunch = "bin/Release/OpenSpace.exe"
+    [string]$installDir = "D:/apps/OpenSpace/v0.15.1_git_arena",
+	[string]$exeToLaunch = "bin/OpenSpace.exe"
  )
 
+
+#THISE FILE IS PROBABLY OBSOLETE NOW
 
 # PSTools help with the issue of logging into a command line shell from a remote computer
 # and then wanting to launch a Program with a window; Somehow, PSTools "escape" the remote shell.
@@ -32,12 +34,27 @@ echo " desperation"
 ls S:
 
 #D:\apps\PSTools\PsExec64.exe -i \\$(hostname) -u $(hostname)\arena -p xxx powershell.exe $PSScriptRoot\..\..\..\..\helpers\accessNetworkShares.ps1
-D:\apps\PSTools\PsExec64.exe -i -d \\$(hostname) -u arena -p xxx powershell.exe $PSScriptRoot\..\..\..\..\helpers\accessNetworkShares.ps1
+#D:\apps\PSTools\PsExec64.exe -i -d \\$(hostname) -u arena -p xxx powershell.exe $PSScriptRoot\..\..\..\..\helpers\accessNetworkShares.ps1
 #D:\apps\PSTools\PsExec64.exe -i -d \\$(hostname) -s powershell.exe $PSScriptRoot\..\..\..\..\helpers\accessNetworkShares.ps1
+
+#D:\apps\PSTools\PsExec64.exe -i -d  \\$(hostname) -u arena -p XxXxX powershell.exe $PSScriptRoot\..\..\..\..\helpers\accessNetworkShares.ps1
+#D:\apps\PSTools\PsExec64.exe -i -d \\$(hostname) -s powershell.exe $PSScriptRoot\..\..\..\..\helpers\accessNetworkShares.ps1
+#D:\apps\PSTools\PsExec64.exe -i -d  \\$(hostname) -s powershell.exe $PSScriptRoot\..\..\..\..\helpers\accessNetworkShares.ps1
+
+
 echo "launching OpenSpace on $(hostname) WITH NON-SYSTEM-USER!!1111 ..."
 # desperation
-#D:\apps\PSTools\PsExec64.exe -i \\$(hostname) -u $(hostname)\arena -p xxx $installDir/$exeToLaunch
-#D:\apps\PSTools\PsExec64.exe -i \\$(hostname) -u arena -p xxx $installDir/$exeToLaunch
+#D:\apps\PSTools\PsExec64.exe -i -d \\$(hostname) -u arena -p XxXxX powershell.exe $installDir/$exeToLaunch
+D:\apps\PSTools\PsExec64.exe -i -d \\$(hostname) -s powershell.exe $installDir/$exeToLaunch
+
+
+
+
+#D:\apps\PSTools\PsExec64.exe -i -d \\$(hostname) -u $(hostname)\arena -p xxx $installDir/$exeToLaunch
 #D:\apps\PSTools\PsExec64.exe -i  \\$(hostname) -s $installDir/$exeToLaunch
-D:\apps\PSTools\PsExec64.exe -i -d \\$(hostname) -s $installDir/$exeToLaunch
+#D:\apps\PSTools\PsExec64.exe -i -d \\$(hostname) -s $installDir/$exeToLaunch
+
+#powershell.exe $installDir/$exeToLaunch
+#D:\apps\PSTools\PsExec64.exe -i -d \\$(hostname) -s powershell.exe $installDir/$exeToLaunch
+#D:\apps\PSTools\PsExec64.exe -i -d \\$(hostname) -s powershell.exe $installDir/$exeToLaunch
 echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"

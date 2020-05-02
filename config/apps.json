@@ -19,10 +19,10 @@
             "executable": "bin/OpenSpace.exe"
           }
         ],
-        "profile": "oldWorkingDeploy",
+        "profile": "desktopWarpBlend",
 
-        "installDir": "/d/devel/OpenSpace/OpenSpace_ownDeploy",
-        "executable": "bin/Release/OpenSpace.exe"
+        "installDir": "/d/apps/OpenSpace/v0.15.1_git_arena",
+        "executable": "bin/OpenSpace.exe"
       },
       "Google Earth": {
         

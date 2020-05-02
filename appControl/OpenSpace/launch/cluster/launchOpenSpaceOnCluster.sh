@@ -47,8 +47,17 @@ ${REPO_DIRECTORY}/helpers/rsyncToCluster.sh --ignorefile "${rsyncignoreFilePath}
 
 
 echo "launching Openspace on cluster ..."
-${REPO_DIRECTORY}/manage/performOnClusterNodes.sh --all --execute-script  ${SCRIPT_DIRECTORY}/../local/launchOpenSpaceLocally.ps1 --args "${installDir_windowsStyle}" "${exe_windowsStyle}"
+#${REPO_DIRECTORY}/manage/performOnClusterNodes.sh --all -NAS --execute-script  ${SCRIPT_DIRECTORY}/../local/launchOpenSpaceLocally.ps1 --args "${installDir_windowsStyle}" "${exe_windowsStyle}"
+#${REPO_DIRECTORY}/manage/performOnClusterNodes.sh --all -NAS --execute-command  "powershell.exe ${SCRIPT_DIRECTORY}/../local/launchOpenSpaceLocally.ps1 ${installDir_windowsStyle} ${exe_windowsStyle}"
 
+#${REPO_DIRECTORY}/manage/performOnClusterNodes.sh --all -NAS --execute-command "/D/apps/PSTools/PsExec64.exe -i -d \\\\\\\\\$(hostname) -s ${installDir_windowsStyle}/${exe_windowsStyle}"
+#${REPO_DIRECTORY}/manage/performOnClusterNodes.sh --all -NAS --execute-command "powershell /D/apps/PSTools/PsExec64.exe -i -d \\\\\\\\\$(hostname) -s powershell ${installDir_windowsStyle}/${exe_windowsStyle}"
+
+echo "${REPO_DIRECTORY}/manage/performOnClusterNodes.sh --all -NAS --execute-command \"powershell /D/apps/PSTools/PsExec64.exe -i -d \\\\\\\\\$(hostname) -s powershell ${installDir_windowsStyle}/${exe_windowsStyle}\""
+
+#NOW THIS ONE ShALL WORKKKK===`???!?!?!?!
+#/D/apps/PSTools/PsExec64.exe -i -d \\\\$(hostname) -h -u arena -p xXxXx D:/apps/OpenSpace/v0.15.1_git_arena/bin/OpenSpace.exe
+${REPO_DIRECTORY}/manage/performOnClusterNodes.sh --all -NAS --execute-command "/D/apps/PSTools/PsExec64.exe -i -d \\\\\\\\\$(hostname) -h -u arena -p xXxXx  ${installDir_windowsStyle}/${exe_windowsStyle}"
 
 
 

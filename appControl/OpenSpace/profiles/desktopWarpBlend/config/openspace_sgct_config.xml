@@ -9,9 +9,10 @@
 
 	<!--
 	firmSync="true"
+	masterAddress="10.0.0.5" 
 	-->
 <Cluster 
-	masterAddress="10.0.0.5" 
+	masterAddress="10.0.0.22" 
 >
 
     <Settings>
@@ -32,8 +33,6 @@
 
 	<!-- Master node, no MPCDI stuff required here -->
 	<!--
-    -->
-	
 	<Node 
 		address="10.0.0.5" 
 		port="20401"
@@ -48,12 +47,6 @@
                 <Pos x="0.0" y="0.0" />
                 <Size x="1.0" y="1.0" />
 
-				<!--
-                <PlanarProjection>
-                    <FOV down="25.267007923362" left="40.0" right="40.0" up="25.267007923362" />
-                    <Orientation heading="0.0" pitch="0.0" roll="0.0" />
-                </PlanarProjection>
-				-->
 			
                 <FisheyeProjection fov="180" quality="1k"  tilt="21.0">
                     <Background r="1.0" g="0.1" b="0.1" a="1.0" />
@@ -65,28 +58,25 @@
         </Window>
 
     </Node>
+    -->
+				<!--
+                <PlanarProjection>
+                    <FOV down="25.267007923362" left="40.0" right="40.0" up="25.267007923362" />
+                    <Orientation heading="0.0" pitch="0.0" roll="0.0" />
+                </PlanarProjection>
+				-->
 	
 	
 	<!-- RealTime node 1 ------------------------------------------------------------------------ -->
 	<!--
 	swapLock="false"
 	-->
+	<!-- as MPCDI has some issues, let's try the Openspace "native" window + frustum definition -->
+	<!--
 	<Node 
 		address="10.0.0.21" 
 		port="20402" 
 	>
-		<!--
-        <Window fullScreen="false"
-			border="false"		
-			fxaa="false" 
-			msaa="1" 
-			mpcdi="calibration/display/rt1.mpcdi"
-		>
-			<Stereo type="none" />
-        </Window>
-		-->
-		
-		<!-- as MPCDI has some issues, let's try the Openspace "native" window + frustum definition -->
 		<Window fullScreen="false" border="false"		>
             <Stereo type="none" />
             <Pos x="0" y="0" />
@@ -111,6 +101,17 @@
         </Window>
 		
     </Node> 
+		-->
+		<!--
+        <Window fullScreen="false"
+			border="false"		
+			fxaa="false" 
+			msaa="1" 
+			mpcdi="calibration/display/rt1.mpcdi"
+		>
+			<Stereo type="none" />
+        </Window>
+		-->
 	
     
 	<!-- RealTime node 2 ----------------------------------------------------- -->
