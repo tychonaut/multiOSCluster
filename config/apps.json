@@ -8,16 +8,21 @@
           "  desktopWarpBlend: like default, but with desktop warping, i.e. MPCDI provies only frusta",
           "  debug: cluster launch, but no snyc; just for testing startup scripts and quick local tests",
           "  originalCalib: like default, but unaltered MPCDI content from incorrect export",
+          "  oldWorkingDeploy: stuff on install dir /d/devel/OpenSpace/OpenSpace_ownDeploy that once worked",
           "WARNING: installDir may NOT end with a / (slash)!!!11 Otherwise, rsync will dump the files one folder too high up in the hierarchy!",
           {
             "installDir": "/d/devel/OpenSpace/OpenSpace_ownDeploy",
             "executable": "bin/Release/OpenSpace.exe"
+          },
+          {
+            "installDir": "/d/apps/OpenSpace/v0.15.1_git_arena",
+            "executable": "bin/OpenSpace.exe"
           }
         ],
-        "profile": "desktopWarpBlend",
+        "profile": "oldWorkingDeploy",
 
-        "installDir": "/d/apps/OpenSpace/v0.15.1_git_arena",
-        "executable": "bin/OpenSpace.exe"
+        "installDir": "/d/devel/OpenSpace/OpenSpace_ownDeploy",
+        "executable": "bin/Release/OpenSpace.exe"
       },
       "Google Earth": {
         

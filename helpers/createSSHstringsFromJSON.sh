@@ -33,14 +33,16 @@ createSSH_strings()
 	
 	for categIndex in ${!clusterCategories[@]}; do
 
-		local numNodes=$(jq ".hosts.${activeOS}.${clusterCategories[categIndex]} | length" ${hostsFilePath})
-		
-		for (( i=0; i<${numNodes}; i++ )); do
+		local numNodes="$(jq ".hosts.${activeOS}.${clusterCategories[categIndex]} | length" ${hostsFilePath})"
+		#echo "numNodes${numNodes}"
+        
+		for (( i=0; i < "${numNodes}"; i++ )); do
 		
 			# parse JSON file using jq, strip leading and trailing double quotes with sed
 			local hostname=$(jq ".hosts.${activeOS}.${clusterCategories[categIndex]}[${i}].hostname" ${hostsFilePath} | ${REPO_DIRECTORY}/helpers/stripLeadingAndTrailingQuotes.sh )
 			local username=$(jq ".hosts.${activeOS}.${clusterCategories[categIndex]}[${i}].username" ${hostsFilePath} | ${REPO_DIRECTORY}/helpers/stripLeadingAndTrailingQuotes.sh )
 			sshStrings_ret+=("${username}@${hostname}")
+            
 		done
 		
 	done

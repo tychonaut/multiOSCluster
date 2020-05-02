@@ -1,6 +1,6 @@
 param (
-    [string]$installDir = "D:/apps/OpenSpace/v0.15.1_git_arena/",
-	[string]$exeToLaunch = "bin/OpenSpace.exe"
+    [string]$installDir = "D:/devel/OpenSpace/OpenSpace_ownDeploy",
+	[string]$exeToLaunch = "bin/Release/OpenSpace.exe"
  )
 
 
@@ -17,16 +17,27 @@ echo "exeToLaunch: $exeToLaunch"
 # https://superuser.com/questions/199387/elevated-command-line-prompt-cant-access-shared-drives
 # the next command seems needed after a reboot:
 
-#echo "enabling access to network share S:"
-#D:\apps\PSTools\PsExec64.exe -i \\$(hostname) -d -s powershell.exe net use S: \\10.0.10.6\Shared /user:nasuser rackstation1 /Y
-D:\apps\PSTools\PsExec64.exe -i \\$(hostname) -s powershell.exe $PSScriptRoot\..\..\..\..\helpers\accessNetworkShares.ps1
+echo "enabling access to network share S:"
 
-echo "launching OpenSpace on $(hostname)..."
-#D:\apps\PSTools\PsExec64.exe -i \\$(hostname) -d -s D:\devel\OpenSpace\OpenSpace_ownDeploy\bin\Release\OpenSpace.exe
+##this one seems to work on old deploy on all but rt4, which i had restarted... tso well possible that nothing of this works
+#D:\apps\PSTools\PsExec64.exe -i \\$(hostname) -d -s powershell.exe $PSScriptRoot\..\..\..\..\helpers\accessNetworkShares.ps1
+#echo "launching OpenSpace on $(hostname)..."
+##this one seems to work on old deploy on all but rt4, which i had restarted... tso well possible that nothing of this works
 #D:\apps\PSTools\PsExec64.exe -i \\$(hostname) -d -s $installDir/$exeToLaunch
 
-D:\apps\PSTools\PsExec64.exe -i \\$(hostname) -d -s $installDir/$exeToLaunch
 
-#D:\apps\PSTools\PsExec64.exe -i \\$(hostname) -d -s D:/apps/OpenSpace/v0.15.1_git_arena/bin/OpenSpace.exeD:\apps\PSTools\PsExec64.exe -i \\$(hostname) -d  D:/apps/OpenSpace/v0.15.1_git_arena/bin/OpenSpace.exe
+echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+echo " desperation"
 
-#D:\apps\PSTools\PsExec64.exe -i \\$(hostname) -d  D:/apps/OpenSpace/v0.15.1_git_arena/bin/OpenSpace.exe
+ls S:
+
+#D:\apps\PSTools\PsExec64.exe -i \\$(hostname) -u $(hostname)\arena -p xxx powershell.exe $PSScriptRoot\..\..\..\..\helpers\accessNetworkShares.ps1
+D:\apps\PSTools\PsExec64.exe -i -d \\$(hostname) -u arena -p xxx powershell.exe $PSScriptRoot\..\..\..\..\helpers\accessNetworkShares.ps1
+#D:\apps\PSTools\PsExec64.exe -i -d \\$(hostname) -s powershell.exe $PSScriptRoot\..\..\..\..\helpers\accessNetworkShares.ps1
+echo "launching OpenSpace on $(hostname) WITH NON-SYSTEM-USER!!1111 ..."
+# desperation
+#D:\apps\PSTools\PsExec64.exe -i \\$(hostname) -u $(hostname)\arena -p xxx $installDir/$exeToLaunch
+#D:\apps\PSTools\PsExec64.exe -i \\$(hostname) -u arena -p xxx $installDir/$exeToLaunch
+#D:\apps\PSTools\PsExec64.exe -i  \\$(hostname) -s $installDir/$exeToLaunch
+D:\apps\PSTools\PsExec64.exe -i -d \\$(hostname) -s $installDir/$exeToLaunch
+echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
