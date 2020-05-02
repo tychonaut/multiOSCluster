@@ -13,7 +13,8 @@ usage()
     [-h|--help] 
     [ [-a|--all] | [-m|--master|--masters]  [-s|--slaves] ] 
     [--ignorefile <ignore file path>]
-    --source-path <source file path>
+    --source-path <source file path on local machine>
+    --target-dir <target directory on remote machine>
 
 Copies files/folder contents given in <source file path> to all cluster nodes indicated via the flags (-a|-m|-s).
 Rsync is used, which inturn uses ssh. Target path is the same as the source path.
@@ -37,6 +38,7 @@ rsyncignoreFilePath=""
 
 ignoreString=""
 sourcePath=""
+targetDir=""
 
 while [[ $# -gt 0 ]]
 do
@@ -79,8 +81,13 @@ do
         --source-path)
             shift # past argument
             sourcePath="${1}"
-            shift # past value
-            
+            shift # past value    
+        ;;
+        
+        --target-dir)
+            shift # past argument
+            targetDir="${1}"
+            shift # past value    
         ;;
         
         *)    # unknown param,  implies incorrect use here
@@ -107,9 +114,11 @@ if [[ ${sourcePath} == "" ]]; then
     exit 1
 fi
 
-
-# target dir must omit the last folder name
-targetDir="$( readlink -f ${REPO_DIRECTORY}/.. )"
+if [[ ${targetDir} == "" ]]; then
+    echo "error: no target directory given"
+    usage
+    exit 1
+fi
 
 
 
@@ -123,7 +132,11 @@ for index in ${!sshStrings[@]}; do
     currentHostname="${currentSSHString##*@}"
     #scriptFileExtension="${scriptFileName##*.}"
     
+    echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+
     if [[ $(hostname) != "${currentHostname}" ]]; then
+    
+        echo "rsync-ing path ${sourcePath} to "${sshStrings[${index}]}" at remote  directory ${targetDir} :"
     
         #--dry-run
     
@@ -134,4 +147,6 @@ for index in ${!sshStrings[@]}; do
         sleep 3
     fi
 
+    echo "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
+    echo
 done

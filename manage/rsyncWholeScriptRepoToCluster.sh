@@ -16,5 +16,9 @@ REPO_DIRECTORY="$( readlink -f $( dirname $0 )/.. )"
 rsyncignoreFileName="${REPO_DIRECTORY}/manage/.rsyncignore"
 
 
+## target dir must omit the last folder name
+targetDir="$( readlink -f ${REPO_DIRECTORY}/.. )"
+
+
 #${REPO_DIRECTORY}/helpers/rsyncToCluster.sh ${clusterNodeTypeFlags} --ignorefile "${rsyncignoreFileName}" --source-path "${REPO_DIRECTORY}"
-${REPO_DIRECTORY}/helpers/rsyncToCluster.sh --ignorefile "${rsyncignoreFileName}" --source-path "${REPO_DIRECTORY}"
+${REPO_DIRECTORY}/helpers/rsyncToCluster.sh --ignorefile "${rsyncignoreFileName}" --source-path "${REPO_DIRECTORY}" --target-dir "${targetDir}"

@@ -19,9 +19,11 @@ rsyncignoreFileName="${SCRIPT_DIRECTORY}/.rsyncignore"
 
 openSpaceInstallDirectory=$( jq '.apps.Windows.OpenSpace.installDir' ${REPO_DIRECTORY}/config/apps.json | ${REPO_DIRECTORY}/helpers/stripLeadingAndTrailingQuotes.sh )
 
+## target dir must omit the last folder name
+targetDir="$( readlink -f ${openSpaceInstallDirectory}/.. )"
 
-echo "OpenSpace Install Directory to rsync to cluster: ${openSpaceInstallDirectory}"
-sleep 3
+#echo "OpenSpace Install Directory to rsync to cluster: ${openSpaceInstallDirectory}"
+#sleep 3
 
 #${REPO_DIRECTORY}/helpers/rsyncToCluster.sh ${clusterNodeTypeFlags} --ignorefile "${rsyncignoreFileName}" --source-path "${REPO_DIRECTORY}"
-${REPO_DIRECTORY}/helpers/rsyncToCluster.sh --ignorefile "${rsyncignoreFileName}" --source-path "${openSpaceInstallDirectory}"
+${REPO_DIRECTORY}/helpers/rsyncToCluster.sh --ignorefile "${rsyncignoreFileName}" --source-path "${openSpaceInstallDirectory}" --target-dir "${targetDir}"

@@ -2,19 +2,21 @@
   "apps": {
     "Windows": {
       "OpenSpace": {
-        "_comments": [
+        "_COMMENTS": [
           "available profiles:",
-          "default: cluster launch controlled by master, in-app warp&blend via MPCDI",
-          "desktopWarpBlend: like default, but with desktop warping, i.e. MPCDI provies only frusta",
-          "debug: cluster launch, but no snyc; just for testing startup scripts and quick local tests",
-          "originalCalib: like default, but unaltered MPCDI content from incorrect export",
+          "  default: cluster launch controlled by master, in-app warp&blend via MPCDI",
+          "  desktopWarpBlend: like default, but with desktop warping, i.e. MPCDI provies only frusta",
+          "  debug: cluster launch, but no snyc; just for testing startup scripts and quick local tests",
+          "  originalCalib: like default, but unaltered MPCDI content from incorrect export",
+          "WARNING: installDir may NOT end with a / (slash)!!!11 Otherwise, rsync will dump the files one folder too high up in the hierarchy!",
           {
-            "installDir": "/d/devel/OpenSpace/OpenSpace_ownDeploy/",
+            "installDir": "/d/devel/OpenSpace/OpenSpace_ownDeploy",
             "executable": "bin/Release/OpenSpace.exe"
           }
         ],
         "profile": "debug",
-        "installDir": "/d/apps/OpenSpace/v0.15.1_git_arena/",
+
+        "installDir": "/d/apps/OpenSpace/v0.15.1_git_arena",
         "executable": "bin/OpenSpace.exe"
       },
       "Google Earth": {
