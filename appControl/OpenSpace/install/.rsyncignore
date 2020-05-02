@@ -1,2 +1,10 @@
 .git
 .gitignore
+cache
+cache_gdal
+documentation
+logs
+recordings
+screenshots
+sync
+temp

@@ -9,13 +9,13 @@
           "debug: cluster launch, but no snyc; just for testing startup scripts and quick local tests",
           "originalCalib: like default, but unaltered MPCDI content from incorrect export",
           {
-            "installDir": "/d/apps/OpenSpace/v0.15.1_git_arena/",
-            "executable": "bin/OpenSpace.exe"
+            "installDir": "/d/devel/OpenSpace/OpenSpace_ownDeploy/",
+            "executable": "bin/Release/OpenSpace.exe"
           }
         ],
         "profile": "debug",
-        "installDir": "/d/devel/OpenSpace/OpenSpace_ownDeploy/",
-        "executable": "bin/Release/OpenSpace.exe"
+        "installDir": "/d/apps/OpenSpace/v0.15.1_git_arena/",
+        "executable": "bin/OpenSpace.exe"
       },
       "Google Earth": {
         
