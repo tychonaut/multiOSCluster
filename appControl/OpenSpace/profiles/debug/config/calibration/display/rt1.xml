@@ -5,16 +5,16 @@ geometry="2"
 -->
 <MPCDI profile="3d" geometry="1" color="4" date="2020-04-22 18:07:52" version="2.0" >
   <display>
-    <buffer id="__0010_local" >
-      <region id="Display0" x="0" y="0" xSize="1" ySize="1" xResolution ="2560" yResolution="1600" >
+    <buffer id="__0010_local" xResolution="2560" yResolution="1600" >
+      <region id="Display0" x="0" y="0" xSize="1" ySize="1" xResolution="2560" yResolution="1600" >
         <frustum>
 			<yaw>-38.0000000</yaw>
 			<pitch>15.0000000</pitch>
 			<roll>-16.5000000</roll>
-			<rightAngle>53.0000000</rightAngle>
+			<rightAngle>-53.0000000</rightAngle>
 			<leftAngle>53.0000000</leftAngle>
 			<upAngle>40.0000000</upAngle>
-			<downAngle>40.0000000</downAngle>
+			<downAngle>-40.0000000</downAngle>
         </frustum>
         <color>
           <decode type="gamma" gamma="1.0" />
@@ -23,11 +23,13 @@ geometry="2"
       </region>
     </buffer>
   </display>
+  <!--
   <files>
     <fileset region="Display0">
       <geometryWarpFile>
         <path>Display0.pfm</path>
         <interpolation>smooth</interpolation>
+		<interpretation>direct</interpretation>
       </geometryWarpFile>
       <alphaMap>
         <path>Display0.png</path>
@@ -37,4 +39,5 @@ geometry="2"
       </alphaMap>
     </fileset>
   </files>
+  -->
 </MPCDI>

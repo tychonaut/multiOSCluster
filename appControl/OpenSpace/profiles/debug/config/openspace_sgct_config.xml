@@ -38,6 +38,7 @@
 
  
 		<!-- 
+		-->
         <Window fullScreen="false" numberOfSamples="4" name="OpenSpace">
             <Stereo type="none" />
             <Size x="1920" y="1080" />
@@ -51,11 +52,8 @@
                 </PlanarProjection>
             </Viewport>
         </Window>
-		-->
 
 		<!--
-			mpcdi="calibration/display/rt1.mpcdi"
-		-->
         <Window fullScreen="false"
 			border="false"		
 			fxaa="false" 
@@ -64,6 +62,8 @@
 		>
 			<Stereo type="none" />
         </Window>
+			
+		-->
 
 
 
