@@ -6,14 +6,16 @@
 # https://linuxconfig.org/how-to-parse-a-json-file-from-linux-command-line-using-jq
 
 
-# repository directory is one folder above this script
-REPO_DIRECTORY="$( readlink -f $( dirname $0 )/.. )"
+
 
 
 #------------------------------------
 # usage example : createSSH_strings "${hostsFilePath}" "${useMasters}" "${useSlaves}"
 createSSH_strings()
 {
+    # repository directory is one folder above this script
+    local REPO_DIRECTORY="$( readlink -f $( dirname $0 )/.. )"
+
 	local hostsFilePath=$1
 	local useMasters=$2
 	local useSlaves=$3

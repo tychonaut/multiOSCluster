@@ -7,7 +7,7 @@
 getActiveOS()
 {
 	local activeOS_ret="Windows";
-	activeOS_ret="Windows";
+	#activeOS_ret="Windows";
 
 	if [[ "$OSTYPE" == "linux-gnu" ]]; then
 		activeOS="Linux";	

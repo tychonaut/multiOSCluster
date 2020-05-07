@@ -1,11 +1,14 @@
 {
   "hosts": {
 
-      "_comments": [
+    "_comments": [
 
+      {
+        "hostname": "MUHS-DT007WX",
+        "username": "dontcare"
+      }
 
-
-      ],
+    ],
       "Windows"
       :
       {
