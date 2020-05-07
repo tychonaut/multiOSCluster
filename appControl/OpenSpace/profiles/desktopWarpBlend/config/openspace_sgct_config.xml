@@ -9,10 +9,14 @@
 
 	<!--
 	firmSync="true"
-	masterAddress="10.0.0.5" 
+	masterAddress="10.0.0.22" 
+	masterAddress="10.0.0.25" 
+	markus' devel machine from complexity hell:
+	masterAddress="134.245.213.179"
+	masterAddress="172.21.213.208"
 	-->
 <Cluster 
-	masterAddress="10.0.0.22" 
+	masterAddress="10.0.0.5" 
 >
 
     <Settings>
@@ -33,9 +37,11 @@
 
 	<!-- Master node, no MPCDI stuff required here -->
 	<!--
+		address="172.21.213.208"
+    -->
 	<Node 
-		address="10.0.0.5" 
 		port="20401"
+		address="10.0.0.5" 
 	>
 
         <Window fullScreen="false" border="true"		>
@@ -48,23 +54,22 @@
                 <Size x="1.0" y="1.0" />
 
 			
+                <PlanarProjection>
+                    <FOV down="25.267007923362" left="40.0" right="40.0" up="25.267007923362" />
+                    <Orientation heading="0.0" pitch="0.0" roll="0.0" />
+                </PlanarProjection>
+            				<!--
                 <FisheyeProjection fov="180" quality="1k"  tilt="21.0">
                     <Background r="1.0" g="0.1" b="0.1" a="1.0" />
                 </FisheyeProjection>
-            
+				-->
 
             </Viewport>
 
         </Window>
 
     </Node>
-    -->
-				<!--
-                <PlanarProjection>
-                    <FOV down="25.267007923362" left="40.0" right="40.0" up="25.267007923362" />
-                    <Orientation heading="0.0" pitch="0.0" roll="0.0" />
-                </PlanarProjection>
-				-->
+
 	
 	
 	<!-- RealTime node 1 ------------------------------------------------------------------------ -->
@@ -73,6 +78,8 @@
 	-->
 	<!-- as MPCDI has some issues, let's try the Openspace "native" window + frustum definition -->
 	<!--
+		address="134.245.213.176" 
+		-->
 	<Node 
 		address="10.0.0.21" 
 		port="20402" 
@@ -101,7 +108,6 @@
         </Window>
 		
     </Node> 
-		-->
 		<!--
         <Window fullScreen="false"
 			border="false"		
@@ -115,20 +121,13 @@
 	
     
 	<!-- RealTime node 2 ----------------------------------------------------- -->
+		<!--
+		address="134.245.213.177"
+		-->	
 	<Node 
 		address="10.0.0.22" 
 		port="20403" 
 	>
-		<!--
-        <Window fullScreen="false"
-			border="false"		
-			fxaa="false" 
-			msaa="1" 
-			mpcdi="calibration/display/rt2.mpcdi"
-		>
-			<Stereo type="none" />
-        </Window>
-		-->
 		
 		<!-- as MPCDI has some issues, let's try the Openspace "native" window + frustum definition -->
 		<Window fullScreen="false" border="false"		>
@@ -155,9 +154,22 @@
         </Window>
 		
     </Node> 
+		<!--
+        <Window fullScreen="false"
+			border="false"		
+			fxaa="false" 
+			msaa="1" 
+			mpcdi="calibration/display/rt2.mpcdi"
+		>
+			<Stereo type="none" />
+        </Window>
+		-->
 	
 	
 	<!-- RealTime node 3 ----------------------------------------------------- -->
+		<!--
+		address="134.245.213.178"
+		-->	
 	<Node 
 		address="10.0.0.23" 
 		port="20404" 
@@ -202,6 +214,10 @@
 	
 	
 	<!-- RealTime node 4 ---------------------------------------------  -->
+	
+		<!--
+		address="134.245.213.179"
+		-->	
 	<Node 
 		address="10.0.0.24" 
 		port="20405" 
@@ -244,20 +260,13 @@
     </Node> 
 	
 	<!-- RealTime node 5 ---------------------------------------------  -->
+	<!--
+		address="134.245.213.180"
+	-->
 	<Node 
-		address="10.0.0.25" 
+		address="10.0.0.25"
 		port="20406" 
 	>
-		<!--
-        <Window fullScreen="false"
-			border="false"		
-			fxaa="false" 
-			msaa="1" 
-			mpcdi="calibration/display/rt5.mpcdi"
-		>
-			<Stereo type="none" />
-        </Window>
-		-->
 		
 		<!-- as MPCDI has some issues, let's try the Openspace "native" window + frustum definition -->
 		<Window fullScreen="false" border="false"		>
@@ -285,6 +294,16 @@
 		
     </Node> 
 
+		<!--
+        <Window fullScreen="false"
+			border="false"		
+			fxaa="false" 
+			msaa="1" 
+			mpcdi="calibration/display/rt5.mpcdi"
+		>
+			<Stereo type="none" />
+        </Window>
+		-->
 	
 	
 	

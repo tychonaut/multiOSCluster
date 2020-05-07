@@ -11,7 +11,7 @@
 
  echo "THIS SCRIPT $0 IS SO HACKY, FIX ASAP"
  
-#ssh ARENART1+arena@arenart1 "/D/apps/PSTools/PsExec64.exe -i \\\\\\\\arenart1 -d -s  D:\\\\apps\\\\multimonitortool-x64\\\\MultiMonitorTool.exe //SetPrimary 3"
+ssh ARENART1+arena@arenart1 "/D/apps/PSTools/PsExec64.exe -i \\\\\\\\arenart1 -d -s  D:\\\\apps\\\\multimonitortool-x64\\\\MultiMonitorTool.exe //SetPrimary 3"
 ssh ARENART2+arena@arenart2 "/D/apps/PSTools/PsExec64.exe -i \\\\\\\\arenart2 -d -s  D:\\\\apps\\\\multimonitortool-x64\\\\MultiMonitorTool.exe //SetPrimary 3"
 ssh ARENART3+arena@arenart3 "/D/apps/PSTools/PsExec64.exe -i \\\\\\\\arenart3 -d -s  D:\\\\apps\\\\multimonitortool-x64\\\\MultiMonitorTool.exe //SetPrimary 2"
 ssh ARENART4+arena@arenart4 "/D/apps/PSTools/PsExec64.exe -i \\\\\\\\arenart4 -d -s  D:\\\\apps\\\\multimonitortool-x64\\\\MultiMonitorTool.exe //SetPrimary 2"

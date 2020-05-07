@@ -1,5 +1,9 @@
 #!/bin/bash 
 
+#jq-on-mys-workaround
+PATH="/d/apps/PSTools:/mingw64/bin/:$PATH"
+
+
 SCRIPT_DIRECTORY="$( readlink -f $( dirname $0 ))"
  # repository directory is four folders above this script's location
 REPO_DIRECTORY="$( readlink -f ${SCRIPT_DIRECTORY}/../../../.. )"
