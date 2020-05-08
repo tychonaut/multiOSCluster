@@ -6,6 +6,10 @@
       {
         "hostname": "MUHS-DT007WX",
         "username": "dontcare"
+      },
+	  {
+		"hostname": "arenamaster",
+        "username": "ARENAMASTER+arena"
       }
 
     ],
@@ -14,10 +18,7 @@
       {
 
         "masters": [
-          {
-            "hostname": "arenamaster",
-            "username": "ARENAMASTER+arena"
-          }
+
         ],
 
         "slaves": [

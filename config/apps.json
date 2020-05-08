@@ -5,7 +5,7 @@
 
       "OpenSpace": {
 	  
-        "profile": "desktopWarpBlend",
+        "profile": "desktopWarpBlend_woMaster",
 
         "installDir": "/d/apps/OpenSpace/v0.15.1_git_arena",
         "executable": "bin/OpenSpace.exe",

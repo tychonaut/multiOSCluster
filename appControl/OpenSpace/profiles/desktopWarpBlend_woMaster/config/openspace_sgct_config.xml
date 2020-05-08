@@ -1,0 +1,316 @@
+<?xml version="1.0" ?>
+
+<!--
+	-- WARNING: THIS FILE WILL BE CONTINUOUSLY OVERWRITTEN BY rsync!!111 
+	-- Only edit it on a master machine, and check it into git. It will automatically distributed
+	-- to the relevant cluster machines each launch of the script 
+	-- <multiOSCluster dir>/appControl/OpenSpace/startOpenSpaceEverywhere.sh
+-->
+
+	<!--
+	firmSync="true"
+	masterAddress="10.0.0.22" 
+	markus' devel machine from complexity hell:
+	masterAddress="134.245.213.179"
+	masterAddress="172.21.213.208"
+	masterAddress="10.0.0.5" 
+	-->
+<Cluster 
+	masterAddress="10.0.0.25" 
+>
+
+    <Settings>
+        <Display swapInterval="0" />
+    </Settings>
+	
+	
+    <Scene>
+	
+		<!-- TODO maybe rotate sth. by 21 degrees?-->
+	
+        <Orientation yaw="0.0" pitch="0.0" roll="0.0" />
+        <Offset x="0.0" y="0.0" z="0.0" />
+        <Scale value="1.0" />
+		
+    </Scene>
+    
+
+	<!-- Master node, no MPCDI stuff required here -->
+	<!--
+		address="172.21.213.208"
+    -->
+	<!--
+	<Node 
+		port="20401"
+		address="10.0.0.5" 
+	>
+
+        <Window fullScreen="false" border="false"		>
+            <Stereo type="none" />
+            <Pos x="100" y="100" />
+            <Size x="1920" y="1200" />
+
+            <Viewport>
+                <Pos x="0.0" y="0.0" />
+                <Size x="1.0" y="1.0" />
+
+			
+                <PlanarProjection>
+                    <FOV down="25.267007923362" left="40.0" right="40.0" up="25.267007923362" />
+                    <Orientation heading="0.0" pitch="0.0" roll="0.0" />
+                </PlanarProjection>
+
+            </Viewport>
+
+        </Window>
+
+    </Node>
+	-->
+            	<!--
+                <FisheyeProjection fov="180" quality="1k"  tilt="21.0">
+                    <Background r="1.0" g="0.1" b="0.1" a="1.0" />
+                </FisheyeProjection>
+				-->
+	
+	
+	<!-- RealTime node 1 ------------------------------------------------------------------------ -->
+	<!--
+	swapLock="false"
+	-->
+	<!-- as MPCDI has some issues, let's try the Openspace "native" window + frustum definition -->
+	<!--
+		address="134.245.213.176" 
+		-->
+	<Node 
+		address="10.0.0.21" 
+		port="20402" 
+	>
+		<Window fullScreen="false" border="false"		>
+            <Stereo type="none" />
+            <Pos x="0" y="0" />
+            <Size x="2560" y="1600" />
+            <Viewport>
+                <Pos x="0.0" y="0.0" />
+                <Size x="1.0" y="1.0" />
+                <PlanarProjection>
+                    <FOV 
+						up="40.0" 
+						down="40.0" 
+						left="53.0" 
+						right="53.0"  
+					/>
+                    <Orientation 
+						heading="38.0" 
+						pitch="15.0" 
+						roll="-16.5" 
+					/>
+                </PlanarProjection>
+            </Viewport>
+        </Window>
+		
+    </Node> 
+		<!--
+        <Window fullScreen="false"
+			border="false"		
+			fxaa="false" 
+			msaa="1" 
+			mpcdi="calibration/display/rt1.mpcdi"
+		>
+			<Stereo type="none" />
+        </Window>
+		-->
+	
+    
+	<!-- RealTime node 2 ----------------------------------------------------- -->
+		<!--
+		address="134.245.213.177"
+		-->	
+	<Node 
+		address="10.0.0.22" 
+		port="20403" 
+	>
+		
+		<!-- as MPCDI has some issues, let's try the Openspace "native" window + frustum definition -->
+		<Window fullScreen="false" border="false"		>
+            <Stereo type="none" />
+            <Pos x="0" y="0" />
+            <Size x="2560" y="1600" />
+            <Viewport>
+                <Pos x="0.0" y="0.0" />
+                <Size x="1.0" y="1.0" />
+                <PlanarProjection>
+                    <FOV 
+						up="40.0" 
+						down="40.0" 
+						left="53.0" 
+						right="53.0"  
+					/>
+                    <Orientation 
+						heading="-31.0" 
+						pitch="15.0" 
+						roll="15.0" 
+					/>
+                </PlanarProjection>
+            </Viewport>
+        </Window>
+		
+    </Node> 
+		<!--
+        <Window fullScreen="false"
+			border="false"		
+			fxaa="false" 
+			msaa="1" 
+			mpcdi="calibration/display/rt2.mpcdi"
+		>
+			<Stereo type="none" />
+        </Window>
+		-->
+	
+	
+	<!-- RealTime node 3 ----------------------------------------------------- -->
+		<!--
+		address="134.245.213.178"
+		-->	
+	<Node 
+		address="10.0.0.23" 
+		port="20404" 
+	>
+		<!--
+        <Window fullScreen="false"
+			border="false"		
+			fxaa="false" 
+			msaa="1" 
+			mpcdi="calibration/display/rt3.mpcdi"
+		>
+			<Stereo type="none" />
+        </Window>
+		-->
+		
+		<!-- as MPCDI has some issues, let's try the Openspace "native" window + frustum definition -->
+		<Window fullScreen="false" border="false"		>
+            <Stereo type="none" />
+            <Pos x="0" y="0" />
+            <Size x="2560" y="1600" />
+            <Viewport>
+                <Pos x="0.0" y="0.0" />
+                <Size x="1.0" y="1.0" />
+                <PlanarProjection>
+                    <FOV 
+						up="40.0" 
+						down="40.0" 
+						left="55.0" 
+						right="55.0"  
+					/>
+                    <Orientation 
+						heading="-110.0" 
+						pitch="45.0" 
+						roll="30.0" 
+					/>
+                </PlanarProjection>
+            </Viewport>
+        </Window>
+		
+    </Node> 
+	
+	
+	
+	<!-- RealTime node 4 ---------------------------------------------  -->
+	
+		<!--
+		address="134.245.213.179"
+		-->	
+	<Node 
+		address="10.0.0.24" 
+		port="20405" 
+	>
+		<!--
+        <Window fullScreen="false"
+			border="false"		
+			fxaa="false" 
+			msaa="1" 
+			mpcdi="calibration/display/rt4.mpcdi"
+		>
+			<Stereo type="none" />
+        </Window>
+		-->
+		
+		<!-- as MPCDI has some issues, let's try the Openspace "native" window + frustum definition -->
+		<Window fullScreen="false" border="false"		>
+            <Stereo type="none" />
+            <Pos x="0" y="0" />
+            <Size x="2560" y="1600" />
+            <Viewport>
+                <Pos x="0.0" y="0.0" />
+                <Size x="1.0" y="1.0" />
+                <PlanarProjection>
+                    <FOV 
+						up="40.0" 
+						down="40.0" 
+						left="60.0" 
+						right="60.0"  
+					/>
+                    <Orientation 
+						heading="125.0" 
+						pitch="53.0" 
+						roll="-20.0" 
+					/>
+                </PlanarProjection>
+            </Viewport>
+        </Window>
+		
+    </Node> 
+	
+	<!-- RealTime node 5 ---------------------------------------------  -->
+	<!--
+		address="134.245.213.180"
+	-->
+	<Node 
+		address="10.0.0.25"
+		port="20406" 
+	>
+		
+		<!-- as MPCDI has some issues, let's try the Openspace "native" window + frustum definition -->
+		<Window fullScreen="false" border="false"		>
+            <Stereo type="none" />
+            <Pos x="0" y="0" />
+            <Size x="2560" y="1600" />
+            <Viewport>
+                <Pos x="0.0" y="0.0" />
+                <Size x="1.0" y="1.0" />
+                <PlanarProjection>
+                    <FOV 
+						up="40.0" 
+						down="40.0" 
+						left="53.0" 
+						right="53.0"  
+					/>
+                    <Orientation 
+						heading="-9.0" 
+						pitch="68.0" 
+						roll="0.0" 
+					/>
+                </PlanarProjection>
+            </Viewport>
+        </Window>
+		
+    </Node> 
+
+		<!--
+        <Window fullScreen="false"
+			border="false"		
+			fxaa="false" 
+			msaa="1" 
+			mpcdi="calibration/display/rt5.mpcdi"
+		>
+			<Stereo type="none" />
+        </Window>
+		-->
+	
+	
+	
+	<User eyeSeparation="0.06">
+        <Pos x="0.0" y="0.0" z="0.0" />
+    </User>
+	
+	
+</Cluster>
