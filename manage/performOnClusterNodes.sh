@@ -328,5 +328,5 @@ ENDSSH
 done
 #--------------------------
 
-echo "done scp and/or ssh"
+echo "done performing action \"${actionMode}\" on selected cluster machines"
 exit 0

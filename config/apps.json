@@ -1,8 +1,17 @@
 {
   "apps": {
+  
     "Windows": {
+
       "OpenSpace": {
-        "_COMMENTS": [
+	  
+        "profile": "desktopWarpBlend",
+
+        "installDir": "/d/apps/OpenSpace/v0.15.1_git_arena",
+        "executable": "bin/OpenSpace.exe",
+		
+		
+		"_COMMENTS": [
           "available profiles:",
           "  default: cluster launch controlled by master, in-app warp&blend via MPCDI",
           "  desktopWarpBlend: like default, but with desktop warping, i.e. MPCDI provies only frusta",
@@ -18,14 +27,8 @@
             "installDir": "/d/apps/OpenSpace/v0.15.1_git_arena",
             "executable": "bin/OpenSpace.exe"
           }
-        ],
-
-
-
-        "profile": "desktopWarpBlend",
-
-        "installDir": "/d/apps/OpenSpace/v0.15.1_git_arena",
-        "executable": "bin/OpenSpace.exe"
+        ]
+		
       },
       "Google Earth": {
         

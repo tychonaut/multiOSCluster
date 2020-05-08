@@ -2,7 +2,7 @@
 
 
 #jq-on-mys-workaround
-PATH="/d/apps/PSTools:/mingw64/bin/:$PATH"
+PATH="/d/apps/PSTools/:/mingw64/bin/:$PATH"
 
 #usage: rsyncConfigForSelectedProfileToCluster.sh [--dry-run] 
 rsyncConfigForSelectedProfileToCluster()
@@ -30,7 +30,8 @@ rsyncConfigForSelectedProfileToCluster()
         echo "The launching machine is not part of the cluster config. Inferring that this is a remote development machine:"
         echo "Hence rsyncing OpenSpace config locally from ${sourcePath} to ${installDir_unixStyle}:"
         
-        local optionFlags="-r -z -h -v --progress -I"
+		# -I
+        local optionFlags="-r -z -h -v --progress"
         if [[ $1 == "--dry-run" ]]; then
             optionFlags+=" --dry-run"
         fi
@@ -47,3 +48,6 @@ rsyncConfigForSelectedProfileToCluster()
 
 rsyncConfigForSelectedProfileToCluster $@
 
+
+echo "sleeping 3 secs so you can see some output:"
+sleep 3

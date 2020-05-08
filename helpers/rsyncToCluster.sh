@@ -161,15 +161,16 @@ rsyncToCluster()
             if [[ "${parentOfSourceDirExpanded}" -ef  "${targetDirExpanded}"  ]]; then
         
                 echo "Rsyncing: skipping host $(hostname) to omit self-targeting, as both source and target machines and paths are equal"
-                sleep 3
+                sleep 1
                 
             else
                 
                  echo "Rsyncing: host $(hostname) is both source and target, performing rsync locally instead of via SSH:"
-                 sleep 3
+				 echo "sourcePath: ${sourcePath}"
+                 sleep 1
                 
                 #--include=*
-                rsync "${optionFlags}"  "${sourcePath}" "${targetDir}"
+                rsync $optionFlags "${sourcePath}" "${targetDir}"
                 
             fi
             

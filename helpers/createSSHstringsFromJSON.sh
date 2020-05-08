@@ -6,6 +6,7 @@
 # https://linuxconfig.org/how-to-parse-a-json-file-from-linux-command-line-using-jq
 
 
+PATH="/d/apps/PSTools:/mingw64/bin/:$PATH"
 
 
 

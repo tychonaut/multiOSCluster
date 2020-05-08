@@ -44,10 +44,10 @@
 		address="10.0.0.5" 
 	>
 
-        <Window fullScreen="false" border="true"		>
+        <Window fullScreen="false" border="false"		>
             <Stereo type="none" />
             <Pos x="100" y="100" />
-            <Size x="640" y="480" />
+            <Size x="1920" y="1200" />
 
             <Viewport>
                 <Pos x="0.0" y="0.0" />
