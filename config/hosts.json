@@ -10,15 +10,21 @@
 	  {
 		"hostname": "arenamaster",
         "username": "ARENAMASTER+arena"
-      }
-
+      },
+	  {
+		"hostname": "10.0.0.5",
+		"username": "ARENAMASTER+arena"
+	  }
     ],
       "Windows"
       :
       {
 
         "masters": [
-
+		  {
+			"hostname": "arenamaster",
+			"username": "ARENAMASTER+arena"
+		  }
         ],
 
         "slaves": [
