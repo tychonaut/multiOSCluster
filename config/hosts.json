@@ -3,18 +3,32 @@
 
     "_comments": [
 
-      {
-        "hostname": "MUHS-DT007WX",
-        "username": "dontcare"
-      },
-	  {
-		"hostname": "arenamaster",
-        "username": "ARENAMASTER+arena"
-      },
-	  {
-		"hostname": "10.0.0.5",
-		"username": "ARENAMASTER+arena"
-	  }
+		  {
+			"hostname": "MUHS-DT007WX",
+			"username": "dontcare"
+		  },
+		  {
+			"hostname": "arenamaster",
+			"username": "ARENAMASTER+arena"
+		  },
+		  {
+			"hostname": "10.0.0.5",
+			"username": "ARENAMASTER+arena"
+		  }
+	  ,
+	      {
+            "hostname": "arenart3",
+            "username": "ARENART3+arena"
+          },
+          {
+            "hostname": "arenart4",
+            "username": "ARENART4+arena"
+          },
+          {
+            "hostname": "arenart5",
+            "username": "ARENART5+arena"
+          }
+	  
     ],
       "Windows"
       :
@@ -35,18 +49,6 @@
           {
             "hostname": "arenart2",
             "username": "ARENART2+arena"
-          },
-          {
-            "hostname": "arenart3",
-            "username": "ARENART3+arena"
-          },
-          {
-            "hostname": "arenart4",
-            "username": "ARENART4+arena"
-          },
-          {
-            "hostname": "arenart5",
-            "username": "ARENART5+arena"
           }
         ]
       },
