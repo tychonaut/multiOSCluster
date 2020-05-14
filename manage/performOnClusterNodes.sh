@@ -27,7 +27,7 @@ Usage example: Script mode:
     $0 --execute-script ./testScript1.sh --args argtoTestScript1 argtoTestScript2
     Test NAS access with both bash and powershell scripts:
     $0 -a -NAS --execute-script /d/devel/scripts/multiOSCluster/helpers/testScript1.ps1 --args leal lol
-    $0 -a -NAS --execute-script /d/devel/scripts/multiOSCluster/helpers/testScript1.sh   --args leal lol
+    $0 -a -NAS --execute-script /d/devel/scripts/multiOSCluster/helpers/testScript1.sh  --args leal lol
 Usage examples: Command mode: 
     List directory /d/devel/ on each machine:
     $0 --execute-command \"ls -la /d/devel/\"

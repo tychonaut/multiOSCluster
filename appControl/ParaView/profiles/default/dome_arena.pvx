@@ -10,12 +10,10 @@
       The only supported Type values are "server", "dataserver" or "renderserver".
       This controls which executable this configuration is applicable to.
       There can be multiple <Process /> elements in the same pvx file.
-      ------------------------------------------------------
       |  Executable     | Applicable Process Type          |
       |  pvserver       | server, dataserver, renderserver |
       |  pvrenderserver | server, renderserver             |
       |  pvdataserver   | server, dataserver               |
-      ------------------------------------------------------
      -->
 	 
 	<!-- Should be specified in the configuration file <- no idea what this is supposed to mean, sounds tautological -->
@@ -53,8 +51,9 @@
 	<!-- CAVE: 5 screens for testing  in dome in preparation of desktop warping -->
 	
 	<!-- "Front" -->
+	<!-- <Machine Name="arenart1"        -->
 	<Machine Name="arenart1"       
-		   Environment=""	   
+		   Environment=""  
 		   Geometry="2560x1600+0+0"
            FullScreen="0"
            ShowBorders="0"	   
@@ -62,8 +61,11 @@
            LowerRight=" 1 -1 -1"
            UpperRight=" 1  1 -1" 
 	/>
+	
 		   
 	<!-- "Left" -->
+	<!-- 
+	 -->
 	<Machine Name="arenart2"        
 		   Environment=""		   
 		   Geometry="2560x1600+0+0"

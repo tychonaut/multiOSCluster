@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<Servers>
+
+
+   <Server name="arenaCluster" resource="cs://arenart1">
+    <CommandStartup>
+      	  
+
+	  <!-- <Options> -->
+        <!-- <Option name="PV_SERVER_PORT" label="Server Port: "> -->
+          <!-- <Range type="int" min="1" max="65535" step="1" default="11111" /> -->
+        <!-- </Option> -->
+      <!-- </Options> -->
+	  
+	  <!-- TODO: put this into a script that fills in the now-hardcoded installation directory -->
+      <Command 
+		exec="powershell.exe .\launchClusterServers.ps1"
+        delay="5"
+	  >
+	  
+	  
+        <!-- <Arguments> -->
+		  <!-- <Argument  -->
+			<!-- value="-np 2 -machinefile D:\apps\ParaView\v5.8.0_git_official_CAVE\bin\machines.txt  D:\apps\ParaView\v5.8.0_git_official_CAVE\bin\pvserver.exe D:\apps\ParaView\v5.8.0_git_official_CAVE\bin\dome_arena.pvx" -->
+		  <!-- />   -->
+        <!-- </Arguments> -->
+      </Command>
+    </CommandStartup>
+  </Server>
+  
+  
+</Servers>
