@@ -1,53 +1,65 @@
 # multiOSCluster
 
-	This is a collection of scripts to manage and use a cluster of computers that are supposed to run multiple applications on both Windows and Linux.
-	This both increases productivity during development and improves user experience for the end user (e.g. a scientist using a visualization application in a dome).
+This is a collection of scripts to manage and use a cluster of computers that are supposed 
+to run multiple applications on both Windows and Linux.
+	
+This both increases productivity during development and improves user experience for the end user
+(e.g. a scientist using a visualization application in a dome).
 
-	The technological backbone is comprised of SSH, bash and rsync. Where needed and not easily implemented via bash on Windows, powershell is used instead.
-	To enable this workflow on Windows, msys2's sshd is used.
+The technological backbone is comprised of SSH, bash and rsync. 
+Where needed and not easily implemented via bash on Windows, powershell is used instead.
+To enable this workflow on Windows, msys2's sshd is used.
 
-	Main features:
-	1. Copy and efficiently sync files from a development or master computer to the cluster.
-	2. Fast deployment, configuration and launch of applications:
-		- Streamlined deployment for fast iteration cycles: programming -> compiling -> local installing -> rsync updates to cluster -> launching on cluster
-		- Centralized app configuration via named profiles, distributed via rsync if needed
-		- Easy launch of applications: One call to a launch script from command line or double click on a shortcut
-	3. Rebooting the cluster to Windows and Linux, i.e. change the operating system the cluster is running.
-		(WIP: scripts are written and tested on a single machine, yet not on a cluster, as we haven't even installed Linux on the cluster machines yet.)
+### Main features:
+1. Efficiently sync files from a development or master computer to the cluster.
+2. Fast deployment, configuration and launch of applications:
+	* Streamlined deployment for fast iteration cycles: 
+	  programming -> compiling -> local installing -> rsync updates to cluster -> launching on cluster
+	* Centralized app configuration via named profiles, distributed via rsync if needed
+	* Easy launch of applications: One call to a launch script from command line or double click on a shortcut
+3. Rebooting the cluster to Windows and Linux, i.e. change the operating system the cluster is running.
+   (WIP: scripts are written and tested on a single machine, yet not on a cluster, 
+   as we haven't even installed Linux on the cluster machines yet.)
 
 
 
 
-### Warnings: 
+### Consider upon evaluation: 
 
 This collection of scripts is written with general and cross-plattform-applicability in mind, in order to be helpful for those facing similar problems.
 But please be aware of the following facts upon evaluation:
-	* Despite the above goals, so far, it is only used in a specific visualization dome, 
-	  the [ARENA2 at GEOMAR, Kiel](https://www.geomar.de/en/research/fb4/fb4-muhs/infrastructure/arena/).
-	  Hence it  contains a lot of code and especially config files specific to ARENA2.	  
-	* This repository is just a by-product of application software development, hence don't expect too much polish.
-	* This repo is heavy work in progress, hence incomplete and  partially untested
-	  (Especially the the cross-plattform-applicability and the reboot/multiboot part, as we don't even have installed Linux on our cluster yet!).
+
+* Despite the above goals, so far, it is only used in a specific visualization dome, 
+  the [ARENA2 at GEOMAR, Kiel](https://www.geomar.de/en/research/fb4/fb4-muhs/infrastructure/arena/).
+  Hence it  contains a lot of code and especially config files specific to ARENA2.	  
+* This repository is just a by-product of application software development, hence don't expect too much polish.
+* This repo is heavy work in progress, hence incomplete and  partially untested
+  (Especially the the cross-plattform-applicability and the reboot/multiboot part,
+  as we don't even have installed Linux on our cluster yet!).
 	
 
 
 ## Applications maintained:
-	* [OpenSpace](https://www.openspaceproject.com)
-	* [ParaView](https://www.paraview.org/Wiki/ParaView/VRPN_with_MS-MPI) (WIP)
-	* [Google Earth / Liquid Galaxy](https://liquidgalaxy.org) (WIP)
-		This closed-source application has two minor, 
-		but very annoying issues, that could easily fixed by Google, but haven't for about 10 years now.
-		This makes it basically impossible to use Googel Earth in a dome *not* as continuously running installation, but as one app among many:
-		1. It cannot go completely fullscreen; Furthermore It can only be killed by force, 
-		2. often causing a prompt for launching a repair tool upon restart, prohibiting automated restart.
-	* [CosmoScout](https://github.com/cosmoscout/cosmoscout-vr) (planned)
-	* [KeckCaves](http://keckcaves.org/about/start) (considered)
-	* [Unreal Engine 4 via nDisplay](https://docs.unrealengine.com/en-US/Engine/Rendering/nDisplay/index.html) (considered)
+
+* [OpenSpace](https://www.openspaceproject.com)
+* [ParaView](https://www.paraview.org/Wiki/ParaView/VRPN_with_MS-MPI) (WIP)
+* [Google Earth / Liquid Galaxy](https://liquidgalaxy.org) (WIP)
+  This closed-source application has two minor, 
+  but very annoying issues, that could easily fixed by Google, but haven't for about 10 years now.
+  This makes it basically impossible to use Google Earth in a dome *not* as continuously running installation, 
+  but as one app among many:
+	1. It cannot go completely fullscreen; Ther is always a horizontal bar at the top of each window.
+	   This is particularly annoying as it messes up the aspect ratio
+	2. Furthermore It can only be killed by force, 
+	   often causing a prompt for launching a repair tool upon restart, prohibiting automated restart.
+* [CosmoScout](https://github.com/cosmoscout/cosmoscout-vr) (planned)
+* [KeckCaves](http://keckcaves.org/about/start) (considered)
+* [Unreal Engine 4 via nDisplay](https://docs.unrealengine.com/en-US/Engine/Rendering/nDisplay/index.html) (considered)
 		
 	
 
 
-## dependencies:
+## Dependencies:
 
 On each involved computer, the following software must be installed:
 
