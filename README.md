@@ -24,7 +24,7 @@ To enable this workflow on Windows, msys2's sshd is used.
 
 
 
-### Consider upon evaluation: 
+### Consider before usage: 
 
 This collection of scripts is written with general and cross-plattform-applicability in mind, in order to be helpful for those facing similar problems.
 But please be aware of the following facts upon evaluation:
@@ -37,7 +37,7 @@ But please be aware of the following facts upon evaluation:
   (Especially the the cross-plattform-applicability and the reboot/multiboot part,
   as we don't even have installed Linux on our cluster yet!).
 	
-
+Feel free to contact me if you are interested in using this repo.
 
 ## Applications maintained:
 
@@ -74,70 +74,70 @@ On each involved computer, the following software must be installed:
 	
 
 
+## Setup, config & deploy the scripts
 
+TODO transform setup protocol to more readable instructions. 
+Until then, you must crawl through the [dumpy setup protocol](https://github.com/tychonaut/multiOSCluster/blob/master/doc/setup_protocol_msys_sshd.txt)
 
-## setup, config & deploy the scripts
-
-	TODO transform setup protocol to useable instructions
-	
-	* install the dependencies above on all involved computers
-		(TODO refine: setup sshd, trusted hosts etc)
+* Install the dependencies above on all involved computers
+  (TODO refine: setup sshd, trusted hosts etc)
 		
-	* Enter all hosts that are part of the cluster into
-		<multiOsCluster directory>/config/hosts.json
+* Enter all hosts that are part of the cluster into
+  <multiOsCluster directory>/config/hosts.json
 	
-	* To make sure the scripting logic operates correctly, it must reside on each cluster node.
-	  (This is in fact not required for most of the logic, but sometimes, there are remote calls to local scripts that are expected to exist and be up-to-date.)
-	  It can distribute itself to all nodes in <multiOsCluster directory>/config/hosts.json by running
-	  `<multiOsCluster directory>/manage/rsyncWholeScriptRepoToCluster.sh`
-	  Perform this step after each change to the scripts themselves.
-	   
+* To make sure the scripting logic operates correctly, the repo content must reside on each cluster node
+  an in the same root directory.
+  (Albeit in fact not required for most of the logic, sometimes there may be remote calls to local scripts 
+  that are expected to exist and be up-to-date.)
 
-	
-	
-	TODO some stuff about Windows, PsExec.exe and NAS access via `net use`
+* The repo can distribute itself to all nodes in <multiOsCluster directory>/config/hosts.json by running
+  `<multiOsCluster directory>/manage/rsyncWholeScriptRepoToCluster.sh`.
+  Perform this step after each change to the scripts themselves.
+	   
 
 ## file copy & snyc
 
-	There is an scp-wrapper 
+There is an scp-wrapper:
 	
-	`<multiOsCluster directory>/manage/performOnClusterNodes.sh --transfer-file /my/local/asset/directory/ --remote-dir /remote/dierectory/`
+E.g run `<multiOsCluster directory>/manage/performOnClusterNodes.sh 
+	--transfer-file /my/local/asset/directory/ --remote-dir /remote/asset/directory/`
 
-	TODO write doc
+TODO check functionality and elaborate
 	
 	
+
 
 ## application deploy, config & launch
 
 ### app deploy
 
-	If your application development profits from minimizing time between 
-	doing a source code change an seeing the change reflected in the cluster running the modified app, 
-	consider the following workflow:
+If your application development profits from minimizing time between 
+doing a source code change an seeing the change reflected in the cluster running the modified app, 
+consider the following workflow:
 
-	1. On your developer machine, create a local installation in a directory <app install dir> of a cluster-enabled app that can run by just being copied, 
-	   i.e. no convoluted installer involved and all dependencies met on all target machines
-	2. For the application <app name>, create an entry in <multiOsCluster directory>/config/apps.json:
-	   ".apps.<operating system>.<app name>"
-	   with the following contents: 
-	   * "installDir": Local installation directory on all cluster nodes, has to be the same directory as on the developer machine.
-	   * "executable": Path of executable, relative to "installDir"
-	3. After a programming change you want to test on the cluster:
-		1. Compile the app.
-		2. Local-install the app to the development machine at <app install dir>.
-		3. Files that shall *not* be synced to the cluster can be specified in 
-		    <multiOsCluster directory>/appControl/<app name>/sync/rsyncignore_install
-		4. Rsync the files by calling ` <multiOsCluster directory>/appControl/rsyncAppInstallDirToCluster.sh <app name>`
+1. On your developer machine, create a local installation in a directory 
+   <app install dir> of a cluster-enabled app that can run by just being copied, 
+   i.e. no convoluted installer involved and all dependencies met on all target machines
+2. For the application <app name>, create an entry in <multiOsCluster directory>/config/apps.json:
+   ".apps.<operating system>.<app name>"
+   with the following contents: 
+    * "installDir": Local installation directory on all cluster nodes, has to be the same directory as on the developer machine.
+    * "executable": Path of executable, relative to "installDir"
+3. After a programming change you want to test on the cluster:
+    1. Compile the app.
+    2. Local-install the app to the development machine at <app install dir>.
+3. Files that shall *not* be synced to the cluster can be specified in 
+   <multiOsCluster directory>/appControl/<app name>/sync/rsyncignore_install
+4. Rsync the files by calling ` <multiOsCluster directory>/appControl/rsyncAppInstallDirToCluster.sh <app name>`
 	   
 
 ### app config 
 
-	In order to be able to easily update and switch dome configurations, 
-	you can send relevant config files to each dome node as follows.
-	
-		   
+In order to be able to easily update and switch dome configurations, 
+you can send relevant config files to each dome node as follows.
+	   
 This entry contains a "profile" entry that is considered to be active for sync'ing config files and launching the app.
-Furthermore, an installation directory entry () and the realtive path to the main executable.
+
 
 	
 
