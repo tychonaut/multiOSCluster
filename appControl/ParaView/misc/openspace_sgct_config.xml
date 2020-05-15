@@ -1,10 +1,10 @@
 <?xml version="1.0" ?>
 
 <!--
-	-- WARNING: THIS FILE WILL BE CONTINUOUSLY OVERWRITTEN BY rsync!!111 
-	-- Only edit it on a master machine, and check it into git. It will automatically distributed
-	-- to the relevant cluster machines each launch of the script 
-	-- <multiOSCluster dir>/appControl/OpenSpace/startOpenSpaceEverywhere.sh
+	WARNING: THIS FILE WILL BE CONTINUOUSLY OVERWRITTEN BY rsync!!111 
+	Only edit it on a master machine, and check it into git. It will automatically distributed
+	to the relevant cluster machines each launch of the script 
+	<multiOSCluster dir>/appControl/OpenSpace/startOpenSpaceEverywhere.sh
 -->
 
 	<!--
@@ -72,7 +72,7 @@
 
 	
 	
-	<!-- RealTime node 1 ------------------------------------------------------------------------ -->
+	<!-- RealTime node 1 ++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 	<!--
 	swapLock="false"
 	-->
@@ -120,7 +120,7 @@
 		-->
 	
     
-	<!-- RealTime node 2 ----------------------------------------------------- -->
+	<!-- RealTime node 2 ++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 		<!--
 		address="134.245.213.177"
 		-->	
@@ -166,7 +166,7 @@
 		-->
 	
 	
-	<!-- RealTime node 3 ----------------------------------------------------- -->
+	<!-- RealTime node 3 ++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 		<!--
 		address="134.245.213.178"
 		-->	
@@ -213,7 +213,7 @@
 	
 	
 	
-	<!-- RealTime node 4 ---------------------------------------------  -->
+	<!-- RealTime node 4 ++++++++++++++++++++++++++++++++++++++++++++++++++++++  -->
 	
 		<!--
 		address="134.245.213.179"
@@ -259,7 +259,7 @@
 		
     </Node> 
 	
-	<!-- RealTime node 5 ---------------------------------------------  -->
+	<!-- RealTime node 5 ++++++++++++++++++++++++++++++++++++++++++++++++++++++  -->
 	<!--
 		address="134.245.213.180"
 	-->
