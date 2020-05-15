@@ -14,7 +14,7 @@ launchClusterServers()
 
     echo " launching MPI paraview server on remote master, then cascading to cluster..."
 
-    local exe_unixStyle="/D/apps/ParaView/v5.8.0_git_official_CAVE/bin/launchClusterServers.ps1"
+    local exe_unixStyle="/D/apps/ParaView/v5.8.0_CAVE/bin/launchClusterServers.ps1"
     local exe_windowsStyle=$( cygpath.exe -w -m "${exe_unixStyle}" )
 
     #parse OS credentials:
@@ -23,7 +23,7 @@ launchClusterServers()
 
 
     #this one works 0o:
-    ${REPO_DIRECTORY}/manage/performOnClusterNodes.sh --masters -NAS --execute-command "/D/apps/PSTools/PsExec64.exe -i -d \\\\\\\\\$(hostname) -h -u \$(${hostCredPath} username) -p \$(${hostCredPath} pw) mpiexec.exe -np 2 -machinefile D:\\\\apps\\\\ParaView\\\\v5.8.0_git_official_CAVE\\\\bin\\\\machines.txt  D:\\\\apps\\\\ParaView\\\\v5.8.0_git_official_CAVE\\\\bin\\\\pvserver.exe D:\\\\apps\\\\ParaView\\\\v5.8.0_git_official_CAVE\\\\bin\\\\dome_arena.pvx"
+    ${REPO_DIRECTORY}/manage/performOnClusterNodes.sh --masters -NAS --execute-command "/D/apps/PSTools/PsExec64.exe -i -d \\\\\\\\\$(hostname) -h -u \$(${hostCredPath} username) -p \$(${hostCredPath} pw) mpiexec.exe -np 2 -machinefile D:\\\\apps\\\\ParaView\\\\v5.8.0_CAVE\\\\bin\\\\machines.txt  D:\\\\apps\\\\ParaView\\\\v5.8.0_CAVE\\\\bin\\\\pvserver.exe D:\\\\apps\\\\ParaView\\\\v5.8.0_CAVE\\\\bin\\\\dome_arena.pvx"
 
 
     echo "done launching MPI paravie server on remote master, then cascading to cluster..."

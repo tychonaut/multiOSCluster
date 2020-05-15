@@ -3,10 +3,39 @@
 
 
    <Server name="arenaCluster" resource="cs://arenart1">
+   
     <CommandStartup>
       	  
       <Command 
 		exec="powershell.exe .\launchClusterServers.ps1"
+        delay="2"
+	  >
+      </Command>
+	 
+    </CommandStartup>
+	
+  </Server>
+  
+  <Server name="arenaClusterReverseConnect" resource="csrc://arenart1">
+   
+    <CommandStartup>
+      	  
+      <Command 
+		exec="powershell.exe .\launchClusterServersarenaClusterReverseConnect.ps1"
+        delay="2"
+	  >
+      </Command>
+	 
+    </CommandStartup>
+	
+  </Server>
+  
+  <Server name="arenaClusterFromDevMachine" resource="cs://arenart1">
+  
+    <CommandStartup>
+      	  
+      <Command 
+		exec="powershell.exe .\launchClusterServers_link.lnk"
         delay="5"
 	  >
       </Command>
@@ -14,14 +43,37 @@
     </CommandStartup>
   </Server>
   
-  <Server name="arenaClusterFromDevMachine" resource="cs://arenart1">
-	
-	 <!-- <ManualStartup /> -->
   
+  
+  <!-- Just debugging stuff to follow -->
+  
+  <Server name="arenamaster_debug" resource="cs://arenamaster">
+	
     <CommandStartup>
       	  
       <Command 
-		exec="powershell.exe .\launchClusterServers_link.lnk"
+		exec="powershell.exe .\launchClusterServers_debug_masterOnly.ps1"
+        delay="5"
+	  >
+      </Command>
+	 
+    </CommandStartup>
+  
+  </Server>
+  
+  
+  <Server name="arenaClusterManualStartup" resource="cs://arenart1">
+	
+	 <ManualStartup />
+  
+  </Server>
+  
+  
+  <Server name="arenaCluster_debug_1_MPI_instance" resource="cs://arenart1">
+    <CommandStartup>
+      	  
+      <Command 
+		exec="powershell.exe .\launchClusterServers_debug_1_MPI_instance.ps1"
         delay="5"
 	  >
       </Command>
