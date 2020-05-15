@@ -64,9 +64,9 @@ Feel free to contact me if you are interested in using this repo.
 On each involved computer, the following software must be installed:
 
 * Windows:
-	* msys2
+	* [msys2](https://www.msys2.org/)
 		Enables Linux-like environment including bash and SSH
-	* PStools (https://docs.microsoft.com/en-us/sysinternals/downloads/pstools)
+	* [PStools](https://docs.microsoft.com/en-us/sysinternals/downloads/pstools)
 		Allows launching GUI apps and network accesson remote machines
 
 * On all platforms:
@@ -150,27 +150,39 @@ you can send relevant config/calibration/asset/whatever files to each dome node 
 In order to easily configure ParaView to run in a CAVE-like setup, we have the following four files in our 
 "default" profile (`<multiOsCluster directory>/appControl/ParaView/profiles/default`):
 
-1. dome_arena.pvx : Specifies for each cluster node the display parameters and the virtual frustum
-2. default_servers.pvsc: Specifies connection parameters for a ParaViewClient to a ParaView server (pvserver).
+1. `dome_arena.pvx` : Specifies for each cluster node the display parameters and the virtual frustum
+2. `default_servers.pvsc`: Specifies connection parameters for a ParaViewClient to a ParaView server (pvserver).
    Our name for the server is "arenaCluster".
-3. launchClusterServers.ps1: pvserver is an [MPI](https://en.wikipedia.org/wiki/Message_Passing_Interface) program.
+3. `launchClusterServers.ps1`: pvserver is an [MPI](https://en.wikipedia.org/wiki/Message_Passing_Interface) program.
    On each render computer, one instance needs to be launched. Albeit just a single command, it is a long one,
    and for future generalization, we have outsourced it to launch `launchClusterServers.ps1` powershell script. 
-4. machines.txt: Contains the host names to launch pvserver instances in. Read by `mpiexec.exe`
+4. `machines.txt`: Contains the host names to launch pvserver instances in. Read by `mpiexec.exe`
 
 Although technically, only `dome_arena.pvx` is needed on each cluster node, to keep things simple, we sync all of the files to each node. Rsync is pretty efficient in finding out which files don't need updating, so the overhead is neglegible.
 
 ### app launch
 
-Launchinng and shutting down apps has most diversity among distributed apps, so there is no general rule.
+Launching and shutting down apps has most diversity among distributed apps, so there is no general rule.
 Here are some examples:
 
 #### Example: ParaView:
 While rather complicated to set up and configure for clustered operation, it is is pretty easy to launch afterwards:
 `paraview --server=arenaCluster`.
+If the launching shall depend on the "installDir" and "executable" entries of "apps.json", this could be put into a simple script:
 
+TODO write and test script, document here.
 
-TODO refine doc
+#### Example: OpenSpace:
+Unfortunately, there is no way to elegantly launch OpenSpace on each cluster node.
+On Linux, this is not a major problem, as you can launch a GUI app from a remote ssh session e.g. via the "DISPLAY=0" environment variable.
+On Windows, this is much more complicated: The remote SSH session prohibits showing the graphical part of a remotely launched app,
+*and* it prohibits network access for remotely launched apps!
+The issue can be workarounded via [PStools](https://docs.microsoft.com/en-us/sysinternals/downloads/pstools).
+It has some inconsitent usages and seems to interfere with Windows' NAS mappings upon reboot, hence this is not the most desirable solution.
+The admittedly pretty complicated result is found and executable in `<multiOSCluster dir>appControl/OpenSpace/launch/cluster/launchOpenSpaceOnCluster.sh`
+
+We are currently working on a small "launch app xy"-deamon for Windows to resolve these issues.
+
 
 		
 
