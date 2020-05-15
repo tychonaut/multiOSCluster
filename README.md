@@ -117,53 +117,62 @@ consider the following workflow:
 
 1. On your developer machine, create a local installation in a directory 
    <app install dir> of a cluster-enabled app that can run by just being copied, 
-   i.e. no convoluted installer involved and all dependencies met on all target machines
-2. For the application <app name>, create an entry in <multiOsCluster directory>/config/apps.json:
-   ".apps.<operating system>.<app name>"
+   i.e. no convoluted installer involved and all dependencies met on all target machines.
+2. For the application <app name>, create an entry in 
+   `<multiOsCluster directory>/config/apps.json : ".apps.<operating system>.<app name>"`,
    with the following contents: 
     * "installDir": Local installation directory on all cluster nodes, has to be the same directory as on the developer machine.
     * "executable": Path of executable, relative to "installDir"
 3. After a programming change you want to test on the cluster:
     1. Compile the app.
-    2. Local-install the app to the development machine at <app install dir>.
+    2. Local-install the app to the development machine at `<app install dir>`.
 3. Files that shall *not* be synced to the cluster can be specified in 
-   <multiOsCluster directory>/appControl/<app name>/sync/rsyncignore_install
-4. Rsync the files by calling ` <multiOsCluster directory>/appControl/rsyncAppInstallDirToCluster.sh <app name>`
+   `<multiOsCluster directory>/appControl/<app name>/sync/rsyncignore_install'
+4. Rsync the files by calling `<multiOsCluster directory>/appControl/rsyncAppInstallDirToCluster.sh <app name>`
 	   
 
 ### app config 
 
-In order to be able to easily update and switch dome configurations, 
-you can send relevant config files to each dome node as follows.
-	   
-This entry contains a "profile" entry that is considered to be active for sync'ing config files and launching the app.
+There are a lot of distributed apps that need certain files avaiable locally on each node before launch.
+In order to be able to easily update and switch configurations with those applications,
+you can send relevant config/calibration/asset/whatever files to each dome node as follows:
 
+1. Specify a "profile" entry in `<multiOsCluster directory>/config/apps.json : ".apps.<operating system>.<app name>"`:
+   `"profile" : "<profile name>"`
+2. This entry rsync's the folder contents from
+   `<multiOsCluster directory>/appControl/<app name>/profiles/<profile name>`
+   to the installation directory  of `<app name>` ("installDir" entry in apps.json)
+   upon calling 
+   `<multiOsCluster directory>/appControl/rsyncAppConfigToCluster.sh <app name>`.
+   
+#### Example: ParaView:
 
-	
+In order to easily configure ParaView to run in a CAVE-like setup, we have the following four files in our 
+"default" profile (`<multiOsCluster directory>/appControl/ParaView/profiles/default`):
+
+1. dome_arena.pvx : Specifies for each cluster node the display parameters and the virtual frustum
+2. default_servers.pvsc: Specifies connection parameters for a ParaViewClient to a ParaView server (pvserver).
+   Our name for the server is "arenaCluster".
+3. launchClusterServers.ps1: pvserver is an [MPI](https://en.wikipedia.org/wiki/Message_Passing_Interface) program.
+   On each render computer, one instance needs to be launched. Albeit just a single command, it is a long one,
+   and for future generalization, we have outsourced it to launch `launchClusterServers.ps1` powershell script. 
+4. machines.txt: Contains the host names to launch pvserver instances in. Read by `mpiexec.exe`
+
+Although technically, only `dome_arena.pvx` is needed on each cluster node, to keep things simple, we sync all of the files to each node. Rsync is pretty efficient in finding out which files don't need updating, so the overhead is neglegible.
 
 ### app launch
+
+Launchinng and shutting down apps has most diversity among distributed apps, so there is no general rule.
+Here are some examples:
+
+#### Example: ParaView:
+While rather complicated to set up and configure for clustered operation, it is is pretty easy to launch afterwards:
+`paraview --server=arenaCluster`.
 
 
 TODO refine doc
 
 		
-	
-	
-
-
-
-
-
- rsync'ing the configuration files for <app name> to the dome
-
-The contents of *one* of the folders folders will be sent to each node of the executables-folder of the installation directory of the application.
-
-Depending on the profile selected in <multiOsCluster directory>/config/apps.json
-
- /appControl/<application name>/ 
-
-
-
 
 
 ## Cluster reboot / switching of OS
