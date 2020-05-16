@@ -44,17 +44,22 @@ launchOpenSpaceOnCluster()
 
 
 
-    echo "launching Openspace on cluster ..."
-
-    #wftz: on master, it needs another flag than on the rest...?" YES, for whatever f***ed-up reasons! THE FOLLOWING WORKS! (for now, untilk next reboot/rename, whatever ...)
-    # so differentiate:
-
-    ${REPO_DIRECTORY}/manage/performOnClusterNodes.sh --masters -NAS --execute-command "/D/apps/PSTools/PsExec64.exe -i -d \\\\\\\\\$(hostname) -h -s  ${installDir_windowsStyle}/${exe_windowsStyle}"
-
+    
     #parse OS credentials:
     # this construct requires the whole script repo to reside on each computer, and in the same directory!
     local hostCredPath="${REPO_DIRECTORY}/helpers/getHostCreds.sh"
-    ${REPO_DIRECTORY}/manage/performOnClusterNodes.sh --slaves -NAS --execute-command "/D/apps/PSTools/PsExec64.exe -i -d \\\\\\\\\$(hostname) -h -u \$(${hostCredPath} username) -p \$(${hostCredPath} pw) ${installDir_windowsStyle}/${exe_windowsStyle}"
+
+
+    ##wftz: on master, it needs another flag than on the rest...?" 
+    ## YES, for whatever f***ed-up reasons! THE FOLLOWING WORKS! (for now, untilk next reboot/rename, whatever ...)
+    ## so differentiate:
+    #${REPO_DIRECTORY}/manage/performOnClusterNodes.sh --masters -NAS --execute-command "/D/apps/PSTools/PsExec64.exe -i -d \\\\\\\\\$(hostname) -h -s  ${installDir_windowsStyle}/${exe_windowsStyle}"
+    #${REPO_DIRECTORY}/manage/performOnClusterNodes.sh --slaves -NAS --execute-command "/D/apps/PSTools/PsExec64.exe -i -d \\\\\\\\\$(hostname) -h -u \$(${hostCredPath} username) -p \$(${hostCredPath} pw) ${installDir_windowsStyle}/${exe_windowsStyle}"
+    
+    
+    # now it stoppped working on master without any noticable change from one run to another, i.e. within seconds! 
+    # no reboot, change of scripts, change in OS whatsoever!
+    ${REPO_DIRECTORY}/manage/performOnClusterNodes.sh --all -NAS --execute-command "/D/apps/PSTools/PsExec64.exe -i -d \\\\\\\\\$(hostname) -h -u \$(${hostCredPath} username) -p \$(${hostCredPath} pw) ${installDir_windowsStyle}/${exe_windowsStyle}"
 
 
     echo "done launching Openspace on cluster ..."
