@@ -18,7 +18,7 @@ usage()
 Copies files/folder contents given in <source file path> to all cluster nodes indicated via the flags (-a|-m|-s).
 Rsync is used, which inturn uses ssh. Target path is the same as the source path.
 Files in <source file path> that match the patterns in <ignore file path>] are ignored.
---dry-run will execute a dry run, i.e. not changing remote files.
+'--dry-run' will execute a dry run, i.e. not change remote files.
 
 Self-targeting (e.g. from and to a master node) is handled gracefully, either by omission or by local (non-ssh) rsyncing.
 "

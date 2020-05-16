@@ -28,6 +28,8 @@ script is run on, targets being all hosts listed in  ${REPO_DIRECTORY}/config/ho
 You will want this to quickly reflect programming changes to the cluster after having performed local compilation,
 tests and local install (e.g. via 'ninja install').
 
+'--dry-run' will execute a dry run, i.e. not change remote files.
+
 The installation directory of <app name> is parsed from the corresponding 
 'installDir' entry in ${REPO_DIRECTORY}/config/apps.json.
 Target directories on the cluster nodes will be equal to the source's app install directory.
@@ -43,6 +45,13 @@ rsyncAppInstallDirToCluster()
 {
     local appName=$1
     shift
+    if [[ ${appName} == "" ]]; then
+        echo 
+        echo "ERROR: app name argument required"
+        echo
+        usage
+        exit 1
+    fi
 
     local SCRIPT_DIRECTORY=$( readlink -f $( dirname $0 ))
     # repository directory is ONE folder above this script
@@ -52,11 +61,27 @@ rsyncAppInstallDirToCluster()
     # don't sync files with names read from the following file
     local rsyncignoreFilePath="${REPO_DIRECTORY}/appControl/${appName}/sync/rsyncignore_install"
 
+    
 
-    local appInstallDirectory=$( jq '.apps.Windows.${appName}.installDir' ${REPO_DIRECTORY}/config/apps.json | ${REPO_DIRECTORY}/helpers/stripLeadingAndTrailingQuotes.sh )
+    local appInstallDirectory=$( jq ".apps.Windows.${appName}.installDir" ${REPO_DIRECTORY}/config/apps.json | ${REPO_DIRECTORY}/helpers/stripLeadingAndTrailingQuotes.sh )
+    
+
+    
+    if [[ ${appInstallDirectory} == "" ]]; then
+        echo
+        echo "ERROR: app install dir not found"
+        echo
+        usage
+        exit 1
+    fi
+    
 
     ## target dir must omit the last folder name
     local targetDir="$( readlink -f ${appInstallDirectory}/.. )"
+    
+    #echo "${appInstallDirectory}"
+    #echo "${targetDir}"
+    #exit 1
 
     echo "${appName} installation directory: rsync SOURCE directory: ${appInstallDirectory}"
     echo "${appName} installation directory: rsync TARGET directory: ${targetDir}"
@@ -68,7 +93,7 @@ rsyncAppInstallDirToCluster()
 }
 
 
-
+POSITIONAL=()
 while [[ $# -gt 0 ]]
 do
     key="$1"
@@ -78,10 +103,11 @@ do
             exit 0
         ;;
         *)    # unknown param,  implies incorrect use here
+            POSITIONAL+=("$1") # save it in an array for later
             shift # ignore
         ;;
     esac
 done
+set -- "${POSITIONAL[@]}" # restore positional parameters to this script, i.e. $@
 
-
-rsyncAppInstallationToCluster $@
+rsyncAppInstallDirToCluster $@

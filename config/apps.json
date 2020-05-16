@@ -26,18 +26,18 @@
           },
           {
             "installDir": "/d/apps/OpenSpace/v0.15.1_git_arena",
-			"executable": "bin/OpenSpace.exe",
+			"executable": "bin/OpenSpace.exe"
           }
         ]
 		
       },
 	  
 	
-	  "ParaView":{
+	  "ParaView": {
 		"profile": "default",
 		"installDir": "/d/apps/ParaView/v5.8.0_CAVE",
         "executable": "bin/paraview.exe"	
-	  }
+	  },
 	
 	  
       "Google Earth": {
