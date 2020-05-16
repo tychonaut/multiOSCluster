@@ -179,7 +179,8 @@ On Windows, this is much more complicated: The remote SSH session prohibits show
 *and* it prohibits network access for remotely launched apps!
 The issue can be workarounded via [PStools](https://docs.microsoft.com/en-us/sysinternals/downloads/pstools).
 It has some inconsitent usages and seems to interfere with Windows' NAS mappings upon reboot, hence this is not the most desirable solution.
-The admittedly pretty complicated result is found and executable in `<multiOSCluster dir>appControl/OpenSpace/launch/cluster/launchOpenSpaceOnCluster.sh`
+The admittedly pretty complicated result is found and executable in 
+`<multiOSCluster dir>/appControl/OpenSpace/launch/cluster/launchOpenSpaceOnCluster.sh`
 
 We are currently working on a small "launch app xy"-deamon for Windows to resolve these issues.
 
