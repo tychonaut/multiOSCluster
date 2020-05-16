@@ -18,7 +18,7 @@ getActiveOS()
 		# Lightweight shell and GNU utilities compiled for Windows (part of MinGW)
 		activeOS="Windows";
 	else
-			echo "OS type not supported: $OSTYPE"
+			echo "OS type not supported yet: $OSTYPE"
 			exit 1
 	fi
 	

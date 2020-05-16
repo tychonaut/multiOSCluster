@@ -61,9 +61,9 @@ rsyncAppInstallDirToCluster()
     # don't sync files with names read from the following file
     local rsyncignoreFilePath="${REPO_DIRECTORY}/appControl/${appName}/sync/rsyncignore_install"
 
-    
+    activeOS=$( ${REPO_DIRECTORY}/helpers/getActiveOS.sh )
 
-    local appInstallDirectory=$( jq ".apps.Windows.${appName}.installDir" ${REPO_DIRECTORY}/config/apps.json | ${REPO_DIRECTORY}/helpers/stripLeadingAndTrailingQuotes.sh )
+    local appInstallDirectory=$( jq ".apps.${activeOS}.${appName}.installDir" ${REPO_DIRECTORY}/config/apps.json | ${REPO_DIRECTORY}/helpers/stripLeadingAndTrailingQuotes.sh )
     
 
     
