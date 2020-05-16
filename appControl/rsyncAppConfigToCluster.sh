@@ -110,8 +110,6 @@ rsyncAppConfigToCluster()
         rsync $optionFlags  "${sourcePath}"  "${installDir_unixStyle}"
     fi
 
-    exit 1 #debug
-
     #"${@}"
     echo "rsyncing  config and calib files to cluster: source directory : ${sourcePath} ; target directory : ${installDir_unixStyle}"
     ${REPO_DIRECTORY}/helpers/rsyncToCluster.sh  --ignorefile "${rsyncignoreFilePath}" --source-path "${sourcePath}" --target-dir "${installDir_unixStyle}" "${@}"
