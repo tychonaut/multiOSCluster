@@ -15,8 +15,9 @@
 			"hostname": "10.0.0.5",
 			"username": "ARENAMASTER+arena"
 		  }
-	  ,
-	      {
+		,
+	    
+		  {
             "hostname": "arenart3",
             "username": "ARENART3+arena"
           },
@@ -49,6 +50,18 @@
           {
             "hostname": "arenart2",
             "username": "ARENART2+arena"
+          },
+		  {
+            "hostname": "arenart3",
+            "username": "ARENART3+arena"
+          },
+		  {
+            "hostname": "arenart4",
+            "username": "ARENART4+arena"
+          },
+          {
+            "hostname": "arenart5",
+            "username": "ARENART5+arena"
           }
         ]
       },
