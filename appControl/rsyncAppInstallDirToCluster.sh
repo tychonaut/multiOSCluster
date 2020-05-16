@@ -5,7 +5,7 @@
 #jq-on-msys-workaround
 PATH="/d/apps/PSTools/:/mingw64/bin/:$PATH"
 
-
+#------------------------------------------------------------------------------
 usage()
 {
     # repository directory is ONE folder above this script
@@ -41,9 +41,9 @@ Usage examples:
     $0 ParaView
 "
 }
+#------------------------------------------------------------------------------
 
-
-
+#------------------------------------------------------------------------------
 rsyncAppInstallDirToCluster()
 {
     local appName=$1
@@ -94,8 +94,11 @@ rsyncAppInstallDirToCluster()
     ${REPO_DIRECTORY}/helpers/rsyncToCluster.sh --ignorefile "${rsyncignoreFilePath}" --source-path "${appInstallDirectory}" --target-dir "${targetDir}" $@
     
 }
+#------------------------------------------------------------------------------
 
 
+#------------------------------------------------------------------------------
+# parse some args
 POSITIONAL=()
 while [[ $# -gt 0 ]]
 do
@@ -112,5 +115,7 @@ do
     esac
 done
 set -- "${POSITIONAL[@]}" # restore positional parameters to this script, i.e. $@
+#------------------------------------------------------------------------------
+
 
 rsyncAppInstallDirToCluster $@
