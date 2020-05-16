@@ -1,12 +1,6 @@
 #!/bin/bash
 
-# This script synchronizes the contents of a given app installation directory 
-# to all the cluster machines specified in {REPO_DIRECTORY}/config/hosts.json .
-# Files to ignore during sync can be specified in  ${REPO_DIRECTORY}/appControl/<appname>/sync/rsyncignore_install .
-# If the running machine is itself part of the cluster (including being a master), self-sending is omitted.
-# Self-targeting of machines will be omitted.
-#
-# Usage example: $0 OpenSpace [--dry-run]
+# See usage() for documentation.
 
 #jq-on-msys-workaround
 PATH="/d/apps/PSTools/:/mingw64/bin/:$PATH"
@@ -22,10 +16,12 @@ usage()
     <app name>
     [--dry-run]
 
-Synchronize the installation directory of <app name> in the cluster, the source being the machine this
-script is run on, targets being all hosts listed in  ${REPO_DIRECTORY}/config/hosts.json.
+Synchronize the installation directory of <app name> to the cluster.
+The source is the machine this script is run on, 
+targets are all hosts listed in  ${REPO_DIRECTORY}/config/hosts.json.
 
-You will want this to quickly reflect programming changes to the cluster after having performed local compilation,
+You may want this functionality to quickly reflect programming changes 
+to the cluster after having performed local compilation,
 tests and local install (e.g. via 'ninja install').
 
 '--dry-run' will execute a dry run, i.e. not change remote files.
@@ -34,8 +30,15 @@ The installation directory of <app name> is parsed from the corresponding
 'installDir' entry in ${REPO_DIRECTORY}/config/apps.json.
 Target directories on the cluster nodes will be equal to the source's app install directory.
 
+Files to ignore during sync can be specified in  
+${REPO_DIRECTORY}/appControl/<appname>/sync/rsyncignore_install .
+
 This script builds on ${REPO_DIRECTORY}/helpers/rsyncToCluster.sh.
 Hence, self-targeting (e.g. from and to a master node) is handled gracefully, either by omission or by local (non-ssh) rsyncing.
+
+Usage examples: 
+    $0 OpenSpace --dry-run
+    $0 ParaView
 "
 }
 
