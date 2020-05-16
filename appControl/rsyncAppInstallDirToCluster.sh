@@ -6,10 +6,38 @@
 # If the running machine is itself part of the cluster (including being a master), self-sending is omitted.
 # Self-targeting of machines will be omitted.
 #
-# Usage example: $0 OpenSpace
+# Usage example: $0 OpenSpace [--dry-run]
 
 #jq-on-msys-workaround
 PATH="/d/apps/PSTools/:/mingw64/bin/:$PATH"
+
+
+usage()
+{
+    # repository directory is ONE folder above this script
+    local REPO_DIRECTORY="$( readlink -f $( dirname $0 )/../ )"
+    
+    echo \
+"Usage syntax: $0 
+    <app name>
+    [--dry-run]
+
+Synchronize the installation directory of <app name> in the cluster, the source being the machine this
+script is run on, targets being all hosts listed in  ${REPO_DIRECTORY}/config/hosts.json.
+
+You will want this to quickly reflect programming changes to the cluster after having performed local compilation,
+tests and local install (e.g. via 'ninja install').
+
+The installation directory of <app name> is parsed from the corresponding 
+'installDir' entry in ${REPO_DIRECTORY}/config/apps.json.
+Target directories on the cluster nodes will be equal to the source's app install directory.
+
+This script builds on ${REPO_DIRECTORY}/helpers/rsyncToCluster.sh.
+Hence, self-targeting (e.g. from and to a master node) is handled gracefully, either by omission or by local (non-ssh) rsyncing.
+"
+}
+
+
 
 rsyncAppInstallDirToCluster()
 {
@@ -18,7 +46,6 @@ rsyncAppInstallDirToCluster()
 
     local SCRIPT_DIRECTORY=$( readlink -f $( dirname $0 ))
     # repository directory is ONE folder above this script
-    echo "TODO adapt REPO_DIRECTORY after moving"
     local REPO_DIRECTORY="$( readlink -f $( dirname $0 )/../ )"
 
 
@@ -39,5 +66,22 @@ rsyncAppInstallDirToCluster()
     ${REPO_DIRECTORY}/helpers/rsyncToCluster.sh --ignorefile "${rsyncignoreFilePath}" --source-path "${appInstallDirectory}" --target-dir "${targetDir}" $@
     
 }
+
+
+
+while [[ $# -gt 0 ]]
+do
+    key="$1"
+    case $key in
+        -h|--help)
+            usage
+            exit 0
+        ;;
+        *)    # unknown param,  implies incorrect use here
+            shift # ignore
+        ;;
+    esac
+done
+
 
 rsyncAppInstallationToCluster $@
