@@ -83,7 +83,7 @@ Until then, you must crawl through the [dumpy setup protocol](https://github.com
   (TODO refine: setup sshd, trusted hosts etc)
 		
 * Enter all hosts that are part of the cluster into
-  <multiOsCluster directory>/config/hosts.json
+  `<multiOsCluster directory>/config/hosts.json`
 	
 * To make sure the scripting logic operates correctly, the repo content must reside on each cluster node
   an in the same root directory.
