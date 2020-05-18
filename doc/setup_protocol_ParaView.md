@@ -21,9 +21,12 @@ but mind the following corrections and supplements :
 * You can use the newest Qt (5.14 at time of writing), in constrast to many sites mentioning 5.9.
 
 * In ParaView v5.8.0, there is a hardcoded requirement for Qt in `VTK/GUISupport/Qt/CMakeLists.txt`:
+
 	> VERSION    5.9
+
 	Before compiling, change this to newest version (5.14 in my case) in the CMakeLists.txt 
 	(hacky, but haven't found time to explore non-hardcoded alternatives)
+
 	> VERSION    5.14
 
 
@@ -69,7 +72,7 @@ but mind the following corrections and supplements :
 
 * VRPN_INCLUDE_DIR: Do as stated in the tutorial, although it sounds fishy; Will Fail otherwise
 * VRPN_LIBRARY:  Enter  only `<path to build dir>/vrpn.lib`, 
-	NOT also the quat.lib, especially not a quatd.lib, as stated in the tutorial!
+	NOT also the quat.lib, especially not a quat*d*.lib, as stated in the tutorial!
 
 
 
@@ -105,6 +108,16 @@ ninja install
   Section "To run the exe on slave computers for rendering".
   
   TODO do and describe smpd -d stuff
+  ftp://ftp.mcs.anl.gov/pub/mpi/mpich2-doc-windev.pdf
+  autolaunch in awkward debug mode...
+
+
+## Configure ParaView installation to cluster
+-----------------------------------------------
+
+General information on this topic can be found in the main [README](../../README.md), inth the "app config" section.
+
+Some complements:
 
 * Specify an active configuration profile for Paraview:
   in `<multiOSCluster dir>/appControl/<app name>/profiles` you find, can change and create folders,
@@ -115,46 +128,49 @@ ninja install
   (warping and blending is accounted for externally, e.g. via 
   [VIOSO AnyBlend VR & Sim](https://vioso.com/software/vioso-anyblend-vrsim/); 
   But view frusta, window position, resolution etc. still need to be specified to ParaView).
+  We will go with the "dafault" profile in this example:
   
-  To better understand the config files involved, the general workflow to launch such a config is:
-	1. Launch controlling paraview instance on master (paraview client in ParaView terminology),
-	   tell it the name of the server configuration to connect to, e.g.:
-	   `<paraview build dir>/bin/paraview.exe --server=arenaCluster`
-	   This is all it is to launching from the user's perspective. Under the hood,
-	   the following happens:
-	2. 
-	 
-	   
+* Specify a server configuration file 
+  (`<multiOSCluster dir>/appControl/Paraview/profiles/default/bin/default_servers.pvsc):
+  Follow [this tutorial]( https://www.paraview.org/Wiki/ParaView:Server_Configuration ) , 
+  but note to surround everything with 
+  ```XML
+  <?xml version="1.0" ?>
+  <Servers>
+	...
+  </Servers>
+  ```
+ The server needs a name to be referenced to later, a host to be run on, and a command how to launch the server
+  ```XML
+  <Server name="arenaCluster" resource="cs://arenart3">
+    <CommandStartup>
+      <Command 
+		exec="powershell.exe .\launchClusterServers.ps1"
+        delay="2"
+	  >
+      </Command>
+    </CommandStartup>
+  </Server>
+  ```
+ ("arenart3" is chosen as the host to run on, as it is also the server to control the synchronization of the rendering
+ via Nvidia QuadroSync cards.)
+ 
+ In the `exec` attribute, you can specify arbitrary code. In order to allow for more flexibility and
+ complexity without cluttering the xml file, we have outsourced the launch command to `launchClusterServers.ps1`.
   
-  There are four critical aspects for launching such a configuration:
-	1. Specify a server configuration file (default_servers.pvsc):
-	   Follow [this tutorial](https://www.paraview.org/Wiki/ParaView:Server_Configuration)
-	   t
-	   
-		Notes: surround everything with 
-		<?xml version="1.0" ?>
-		<Servers>
-		...
-		</Servers>
-
+  Concerning the server launch command, there is one important piece of information missing in the [main  tutorial]( https://www.paraview.org/Wiki/ParaView:Server_Configuration ), and trying to get it from different sources can be misleading:
   
+  > Use `mpiexec <relevant args> pvserver.exe <relevant-pvx>.pvx` to main computer to run pvserver
   
-* Copy config files for selected profile to the local install directory on all cluster machines:
+  The `<relevant args>` here are
+  `<relevant args> := -np <number of cluster instances> -machinefile <textfile containing all cluster slave host names>`
+  
+  In our case, the machinefile is `machines.txt`. So note that *this* file is used for Paraview launching,
+  *not*  `<multiOsCluster directory>/config/hosts.json`. The latter is still used for the rsync stuff, though.
+  
+* Eventualle, copy the config files for selected profile to the local install directory on all cluster machines:
   Run in Msys2 bash:  
   `<multiOSCluster dir>/appControl/rsyncAppConfigToCluster.sh ParaView`
-
-
-
-
-
-
-
-There is one important piece of information missing in the main tutorial, and trying to get it from different sources can be misleading:
-
-> Use `mpiexec <relevant args> pvserver.exe <relevant-pvx>.pvx` to main computer to run pvserver
-
- `<relevant args> := 
-	-np <number of cluster instances> -machinefile <textfile containing all cluster slave host names>`
 
 
 ## Launch ParaView cluster

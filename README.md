@@ -139,11 +139,12 @@ you can send relevant config/calibration/asset/whatever files to each dome node 
 
 1. Specify a "profile" entry in `<multiOsCluster directory>/config/apps.json : ".apps.<operating system>.<app name>"`:
    `"profile" : "<profile name>"`
-2. This entry rsync's the folder contents from
+2. Upon calling 
+   `<multiOsCluster directory>/appControl/rsyncAppConfigToCluster.sh <app name>`,
+   this entry causes the folder contents from
    `<multiOsCluster directory>/appControl/<app name>/profiles/<profile name>`
-   to the installation directory  of `<app name>` ("installDir" entry in apps.json)
-   upon calling 
-   `<multiOsCluster directory>/appControl/rsyncAppConfigToCluster.sh <app name>`.
+   to be rsync'ed to the installation directory of `<app name>` ("installDir" entry in apps.json).
+   
    
 #### Example: ParaView:
 
@@ -156,7 +157,12 @@ In order to easily configure ParaView to run in a CAVE-like setup, we have the f
 3. `launchClusterServers.ps1`: pvserver is an [MPI](https://en.wikipedia.org/wiki/Message_Passing_Interface) program.
    On each render computer, one instance needs to be launched. Albeit just a single command, it is a long one,
    and for future generalization, we have outsourced it to launch `launchClusterServers.ps1` powershell script. 
-4. `machines.txt`: Contains the host names to launch pvserver instances in. Read by `mpiexec.exe`
+4. `machines.txt`: Contains the host names to launch pvserver instances. 
+   This is read by `mpiexec.exe`, which is called by `launchClusterServers.ps1`, 
+   which in turn is called by the ParaView client if it is asked to connect to the
+   corresponding server defined in `default_servers.pvsc`,
+   e.g. by calling
+   `<paraview build dir>/bin/paraview.exe --server=arenaCluster`.
 
 Although technically, only `dome_arena.pvx` is needed on each cluster node, to keep things simple, we sync all of the files to each node. Rsync is pretty efficient in finding out which files don't need updating, so the overhead is neglegible.
 

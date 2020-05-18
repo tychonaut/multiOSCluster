@@ -3,17 +3,13 @@
 
 
    <Server name="arenaCluster" resource="cs://arenart1">
-   
     <CommandStartup>
-      	  
       <Command 
 		exec="powershell.exe .\launchClusterServers.ps1"
         delay="2"
 	  >
       </Command>
-	 
     </CommandStartup>
-	
   </Server>
   
   <Server name="arenaClusterReverseConnect" resource="csrc://arenart1">
