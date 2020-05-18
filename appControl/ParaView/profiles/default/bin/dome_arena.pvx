@@ -49,6 +49,32 @@
  
 
 	<!-- CAVE: 5 screens for testing  in dome in preparation of desktop warping -->
+
+
+
+
+	
+	<!-- "Back" 
+		IMPORTANT: 
+			The association between a real server computer (a.k.a. arenartX) 
+			and a "Machine" element seems to have nothing to do with their host names!!111
+			It is instead done in the same order as the machines are specified in machines.txt fir mpiexec!
+			If we want the "main" server to be arenart3 (because it is the QuadroSync master!),
+			we have to put it on top of both machines.txt and this file!
+			 
+	-->
+	<Machine Name="arenart3"
+           Environment=""
+		   Geometry="2560x1600+0+0"
+           FullScreen="0"
+           ShowBorders="0"
+           LowerLeft="  1 -1  1"
+           LowerRight="-1 -1  1"
+           UpperRight="-1  1  1"
+	/>
+  
+
+
 	
 	<!-- "Front" -->
 	<!-- <Machine Name="arenart1"        -->
@@ -76,22 +102,14 @@
            UpperRight="-1  1 -1"
 	/>
   
+
+
+
 	<!-- 	The following is unused during "bootstrapping-experiments" 
 			with only master machine and two render nodes -->
   
   
-	<!-- "Back" 
-	<Machine Name="arenart3"
-           Environment=""
-		   Geometry="2560x1600+0+0"
-           FullScreen="0"
-           ShowBorders="0"
-           LowerLeft="  1 -1  1"
-           LowerRight="-1 -1  1"
-           UpperRight="-1  1  1"
-	/>
-	-->
-  
+
 	<!-- "Right" 
 	<Machine Name="arenart4"
            Environment=""

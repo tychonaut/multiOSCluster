@@ -2,7 +2,7 @@
 <Servers>
 
 
-   <Server name="arenaCluster" resource="cs://arenart1">
+   <Server name="arenaCluster" resource="cs://arenart3">
     <CommandStartup>
       <Command 
 		exec="powershell.exe .\launchClusterServers.ps1"
