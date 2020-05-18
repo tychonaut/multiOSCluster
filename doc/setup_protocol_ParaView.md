@@ -66,7 +66,9 @@ but mind the following corrections and supplements :
 	
 * 	PARAVIEW_USE_VRPN  -> PARAVIEW_PLUGIN_VRPlugin_USE_VRPN
 	
-* VTK_MPI_NUMPROCS=2 looks fishy. Leave it alone tohugh, seems tetsing stuff, 
+* VTK_MPI_NUMPROCS=2 looks fishy. 
+  IMPORTANT MAYBE: WTF cannot launch more than two instances ..!
+ Leave it alone tohugh, seems tetsing stuff, 
 	not total process count for mpi apps
   https://gitlab.kitware.com/lugia-kun/vtk/commit/023f07ea1524f8ca1da2e3a6f1fe147f9b58a752
 
@@ -107,9 +109,16 @@ ninja install
   [ParaView/VRPN with MS-MPI]( https://www.paraview.org/Wiki/ParaView/VRPN_with_MS-MPI ), 
   Section "To run the exe on slave computers for rendering".
   
-  TODO do and describe smpd -d stuff
+* TODO do and describe smpd -d stuff
   ftp://ftp.mcs.anl.gov/pub/mpi/mpich2-doc-windev.pdf
-  autolaunch in awkward debug mode...
+  Autostart in awkward debug mode...
+  Create shortcut to `C:\Program Files\Microsoft MPI\Bin\smpd.exe`,
+  put it into
+  `C:\Users\<user>\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup`.
+  Right click -> Properties -> behind the exe, append " -d" (without quotes),
+  meaning a debug mode. Otherwise, the app immediately ends itself. Launching it as a windows
+  service will prohibit to launch MPI programs with GUI, that's why the awkawrd exe must 
+  be launched. A windows command window will stay up all the time from now on.
 
 
 ## Configure ParaView installation to cluster
