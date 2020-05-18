@@ -63,20 +63,20 @@
 			we have to put it on top of both machines.txt and this file!
 			 
 	-->
-	<Machine Environment="" FullScreen="0" Geometry="2560x1600+0+0" LowerLeft="1.1799      0.8126     -1.3004" LowerRight="1.2828     -1.3195     0.59746" Name="arenart3" ShowBorders="0" UpperRight="0.68951     -0.2918      1.7841"/>
+	<Machine Environment="" FullScreen="0" Geometry="2560x1600+0+0" LowerLeft="-0.45181    -0.33496     0.31565" LowerRight="-0.4175     0.37573    -0.31699" Name="arenart3" ShowBorders="0" UpperRight="-0.045478     0.64334   0.0038114"/>
   
 
 
 	
 	<!-- "Front" -->
 	<!-- <Machine Name="arenart1"        -->
-	<Machine Environment="" FullScreen="0" Geometry="2560x1600+0+0" LowerLeft="-1.8253    -0.31247    -0.18916" LowerRight="0.30014    -0.50097     -1.7675" Name="arenart1" ShowBorders="0" UpperRight="0.76053      1.0533     -1.3332"/>
+	<Machine Environment="" FullScreen="0" Geometry="2560x1600+0+0" LowerLeft="-0.096338   -0.010224    -0.61289" LowerRight="0.61214    0.052611   -0.086772" Name="arenart1" ShowBorders="0" UpperRight="0.36214     0.46203     0.20099"/>
 	
 		   
 	<!-- "Left" -->
 	<!-- 
 	 -->
-	<Machine Environment="" FullScreen="0" Geometry="2560x1600+0+0" LowerLeft="-0.49468    -0.55883     -1.7053" LowerRight="1.7944    -0.31176    -0.38495" Name="arenart2" ShowBorders="0" UpperRight="1.3748       1.254    0.049405"/>
+	<Machine Environment="" FullScreen="0" Geometry="2560x1600+0+0" LowerLeft="-0.59798    0.052012    -0.15725" LowerRight="0.16503   -0.030345    -0.59738" Name="arenart2" ShowBorders="0" UpperRight="0.38382     0.38723    -0.29623"/>
   
 
 
@@ -84,12 +84,12 @@
 
 	<!-- "Right" 
 	-->
-	<Machine Environment="" FullScreen="0" Geometry="2560x1600+0+0" LowerLeft="-0.55314     -2.0294     0.52892" LowerRight="-1.6451     0.77975     -1.1788" Name="arenart4" ShowBorders="0" UpperRight="-1.2997      1.7288     0.16146"/>
+	<Machine Environment="" FullScreen="0" Geometry="2560x1600+0+0" LowerLeft="0.59232     0.32624    -0.25574" LowerRight="0.22832    -0.61014      0.3135" Name="arenart4" ShowBorders="0" UpperRight="-0.0649    -0.28467     0.66138"/>
   
   
 	<!-- "Top" 
 	-->
-	<Machine Environment="" FullScreen="0" Geometry="2560x1600+0+0" LowerLeft="-1.1543     0.79392     -1.2258" LowerRight="1.4671     0.40896     -1.0702" Name="arenart5" ShowBorders="0" UpperRight="1.4671      1.0376     0.48577"/>
+	<Machine Environment="" FullScreen="0" Geometry="2560x1600+0+0" LowerLeft="-0.50126     0.25954    -0.25766" LowerRight="0.37254     0.38786     -0.3095" Name="arenart5" ShowBorders="0" UpperRight="0.4039     0.39992     0.24889"/>
   
   
   

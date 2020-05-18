@@ -99,16 +99,31 @@ for frustumIndex_in = 1 : numel(frusta_FOV_Euler)
   lr = [  tan(fovR), -tan(fovD), -1.0]' ;
   ur = [  tan(fovR),  tan(fovU), -1.0]' ;
   
+  #DEBUG TEST
+  ll /= 3.0;
+  lr /= 3.0;
+  ur /= 3.0;
+  
   #yaw pitch roll -> rotate about y,x,z
-  yaw =   deg2rad(str2double(frusta_FOV_Euler(frustumIndex_in).eulerAngles.yaw));
+  yaw =   deg2rad(str2double(frusta_FOV_Euler(frustumIndex_in).eulerAngles.yaw))
+  ## TEST TO MAKE SENSE OF OPENSPACE'S AND OTHER'S HANDEDNESS
+  yaw *= -1.0;
+                                                                                 
   pitch = deg2rad(str2double(frusta_FOV_Euler(frustumIndex_in).eulerAngles.pitch));
+  ## TEST TO MAKE SENSE OF OPENSPACE'S AND OTHER'S HANDEDNESS
+  #pitch *= -1.0;
   roll =  deg2rad(str2double(frusta_FOV_Euler(frustumIndex_in).eulerAngles.roll));
+  ## TEST TO MAKE SENSE OF OPENSPACE'S AND OTHER'S HANDEDNESS
+  roll *= -1.0;
+  
+  #desparation         
+  #domeTiltMat =  createRotationOx( deg2rad(21.0) );
   
   yawMat   = createRotationOy( yaw );
   pitchMat = createRotationOx( pitch );
   rollMat  = createRotationOz( roll );
   
-  rotationMat = rollMat * pitchMat * yawMat;
+  rotationMat = rollMat * pitchMat * yawMat; #* domeTiltMat;
   rotationMat = rotationMat(1:3,1:3) 
   
   planeCorners = struct(
