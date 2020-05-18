@@ -104,13 +104,10 @@
   
 
 
-
-	<!-- 	The following is unused during "bootstrapping-experiments" 
-			with only master machine and two render nodes -->
-  
   
 
 	<!-- "Right" 
+	-->
 	<Machine Name="arenart4"
            Environment=""
 		   Geometry="2560x1600+0+0"
@@ -120,9 +117,10 @@
            LowerRight=" 1 -1  1"
            UpperRight=" 1  1  1"
 	/>
-	-->
+  
   
 	<!-- "Top" 
+	-->
 	<Machine Name="arenart5"
            Environment=""
 		   Geometry="2560x1600+0+0"
@@ -132,7 +130,6 @@
            LowerRight=" 1  1 -1"
            UpperRight=" 1  1  1"
 	/>
-	-->
   
   
   
