@@ -118,7 +118,7 @@ for frustumIndex_in = 1 : numel(frusta_FOV_Euler)
   ul *= 3.0;
   ur *= 3.0;
   
-  mainDir *= 3.0;
+  mainDir *= 6.0;
   
   #yaw pitch roll -> rotate about y,x,z
   yaw =   deg2rad(str2double(frusta_FOV_Euler(frustumIndex_in).eulerAngles.yaw))
@@ -128,7 +128,7 @@ for frustumIndex_in = 1 : numel(frusta_FOV_Euler)
   ## TEST TO MAKE SENSE OF OPENSPACE'S AND OTHER'S HANDEDNESS,
   ## see glm::quat sgct_core::ReadConfig::parseOrientationNode(tinyxml2::XMLElement* element)
   yaw *= -1.0;
-  #pitch *= -1.0;
+  #pitch *= -1.0; NOT negate
   roll *= -1.0;
   
   #desparation         
@@ -138,7 +138,11 @@ for frustumIndex_in = 1 : numel(frusta_FOV_Euler)
   pitchMat = createRotationOx( pitch );
   rollMat  = createRotationOz( roll );
   
-  rotationMat = rollMat * pitchMat * yawMat;
+  ## original try: yxz -> yaw pitch roll
+  #rotationMat = rollMat * pitchMat * yawMat;
+  #next try: xyz: pitch yaw roll
+  rotationMat = rollMat * yawMat * pitchMat ;
+  
   # 4x4 -> 3x3
   rotationMat = rotationMat(1:3, 1:3) 
   
@@ -180,6 +184,8 @@ for frustumIndex_in = 1 : numel(frusta_FOV_Euler)
     
     planeCorners.screenFrame_xs, planeCorners.screenFrame_ys, planeCorners.screenFrame_zs, "-"
   )
+  text ( planeCorners.mainDir(1), planeCorners.mainDir(2), planeCorners.mainDir(3),
+         strcat( "frustum", num2str(frustumIndex_in)));
   
 
   
