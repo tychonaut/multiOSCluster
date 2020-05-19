@@ -63,20 +63,20 @@
 			we have to put it on top of both machines.txt and this file!
 			 
 	-->
-	<Machine Environment="" FullScreen="0" Geometry="2560x1600+0+0" LowerLeft="-1.7352      1.3959      5.3604" LowerRight="-4.2733      2.8613     -2.6917" Name="arenart3" ShowBorders="0" UpperRight="0.40385      4.2717     -3.9093"/>
+	<Machine Environment="" FullScreen="0" Geometry="2560x1600+0+0" LowerLeft="-0.31899      2.0946      5.4041" LowerRight="-5.7039    -0.93498    -0.53308" Name="arenart3" ShowBorders="0" UpperRight="-3.6678      2.1481      -3.953"/>
   
 
 
 	
 	<!-- "Front" -->
 	<!-- <Machine Name="arenart1"        -->
-	<Machine Environment="" FullScreen="0" Geometry="2560x1600+0+0" LowerLeft="-0.44274     -1.8573     -5.2479" LowerRight="5.5732   -0.075283    -0.34586" Name="arenart1" ShowBorders="0" UpperRight="3.4229      4.3597     0.68096"/>
+	<Machine Environment="" FullScreen="0" Geometry="2560x1600+0+0" LowerLeft="-0.095775     -2.6471     -4.9163" LowerRight="5.5599    -0.46276     0.24513" Name="arenart1" ShowBorders="0" UpperRight="3.6639         4.2     0.34932"/>
 	
 		   
 	<!-- "Left" -->
 	<!-- 
 	 -->
-	<Machine Environment="" FullScreen="0" Geometry="2560x1600+0+0" LowerLeft="-5.4903    -0.24232    -0.99191" LowerRight="1.1021     -2.0088     -5.0928" Name="arenart2" ShowBorders="0" UpperRight="3.009      2.5149     -3.9759"/>
+	<Machine Environment="" FullScreen="0" Geometry="2560x1600+0+0" LowerLeft="-5.5339    -0.57693    -0.47859" LowerRight="0.78381     -2.5675     -4.8969" Name="arenart2" ShowBorders="0" UpperRight="2.549      2.1298     -4.4892"/>
   
 
 
@@ -84,7 +84,7 @@
 
 	<!-- "Right" 
 	-->
-	<Machine Environment="" FullScreen="0" Geometry="2560x1600+0+0" LowerLeft="5.4366      2.9163     -2.0678" LowerRight="-0.1647     0.87755      6.4451" Name="arenart4" ShowBorders="0" UpperRight="-4.296      2.5982      4.1389"/>
+	<Machine Environment="" FullScreen="0" Geometry="2560x1600+0+0" LowerLeft="6.4959   -0.097218    -0.36125" LowerRight="-1.4307      2.0419      6.0101" Name="arenart4" ShowBorders="0" UpperRight="-3.538       4.889      2.4324"/>
   
   
 	<!-- "Top" 
