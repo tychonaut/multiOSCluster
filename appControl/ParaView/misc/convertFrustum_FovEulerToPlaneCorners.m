@@ -125,23 +125,68 @@ for frustumIndex_in = 1 : numel(frusta_FOV_Euler)
   pitch = deg2rad((frusta_FOV_Euler(frustumIndex_in).eulerAngles.pitch));
   roll =  deg2rad((frusta_FOV_Euler(frustumIndex_in).eulerAngles.roll));
   
-  ## TEST TO MAKE SENSE OF OPENSPACE'S AND OTHER'S HANDEDNESS,
-  ## see glm::quat sgct_core::ReadConfig::parseOrientationNode(tinyxml2::XMLElement* element)
-  yaw *= -1.0;
-  #pitch *= -1.0; #NOT negate
-  roll *= -1.0;
   
+  
+  ##-----------------------------------------------------------------------------
+  ## Below code works, yet looks obfuscated. Cleaner version below.
+  ##
+  ## see glm::quat sgct_core::ReadConfig::parseOrientationNode(tinyxml2::XMLElement* element)
+  #yaw   *= -1.0;
+  #pitch *=  1.0; #NOT negate
+  #roll  *= -1.0;
+  #
+  #yawMat   = createRotationOy( yaw );
+  #pitchMat = createRotationOx( pitch );
+  #rollMat  = createRotationOz( roll );
+  #
+  ### original try: yxz -> yaw pitch roll; that's how OpenSpace does it
+  ##rotationMat = rollMat * pitchMat * yawMat;
+  ##next try: xyz: pitch yaw roll; looks good in plot, NEARLY correct in Paraview...
+  ##rotationMat = rollMat * yawMat * pitchMat ;
+  ##desparation: invert order:yxz -> zxy
+  
+  ## AAAAND THIS WORKS! WTF am I going crazy? since when does 
+  ## concatenated matrix rotation work like this???
+  ## If I am still sane, this would imply that VIOSO has the euler angle convention 
+  ## "roll pitch yaw".
+  #rotationMat = yawMat * pitchMat *  rollMat;
+  ##-----------------------------------------------------------------------------
+  
+  
+  #-----------------------------------------------------------------------------
+  # The above is equivalent  to the stuff below: This way, 
+  # yxz- convention is maintained,
+  # but all angle's signs are negated w.r.t. how OpenSpace handles them internally.
+  # This might be interpreted like this:
+  # OpenSpace, VIOSO and Google Earth rotate the scene into camera coordinates.
+  # ParaView rotates the camera (the frustum) into world coordinates
+  # by doing the same kind of "concatenated rotation"-operation,
+  # but with all angles flipped.
+  # The very confusing thing about this is that ParaView's way is NOT
+  # the inverted operation of OpenSpace etc.!!!111
+  # I don't have a good explanation for this. 
+  # The plot shows that the frusta are correct in the "ParaView" way. 
+  # So, this is no idiosyncrasy of ParaView.
+  # This leaves us with the question: 
+  # What is the convention of VIOSO, OpenSpace Google Earth that makes them both legit,
+  # and how are they geometrically related?
+  # TODO: read all about euler angles!
+  
+  yaw   *=  1.0; # do NOT negate
+  pitch *= -1.0; # DO negate
+  roll  *=  1.0; # do NOT negate
   
   yawMat   = createRotationOy( yaw );
   pitchMat = createRotationOx( pitch );
   rollMat  = createRotationOz( roll );
   
-  ## original try: yxz -> yaw pitch roll; that's how OpenSpace does it
-  #rotationMat = rollMat * pitchMat * yawMat;
-  #next try: xyz: pitch yaw roll; looks good in plot, NEARLY correct in Paraview...
-  #rotationMat = rollMat * yawMat * pitchMat ;
-  #desparation: invert order:yxz -> zxy
-  rotationMat = yawMat * pitchMat *  rollMat;
+  ## original try: yxz -> yaw pitch roll; that's how OpenSpace does it;
+  ## but this time, invert it:
+  rotationMat = (rollMat * pitchMat * yawMat)';
+  #-----------------------------------------------------------------------------
+  
+  
+  
   
   # 4x4 -> 3x3
   rotationMat = rotationMat(1:3, 1:3) 
@@ -152,13 +197,8 @@ for frustumIndex_in = 1 : numel(frusta_FOV_Euler)
   ur = rotationMat * ur;
   
   mainDir = rotationMat * mainDir;
-  
-  origin = [0 0 0]';
-  
-  #DEBUG TEST: compensate for the hypothetical non-[0 0 0 ]'-camaera origin
-  #ll -= [0 0 0.5]';
-  #lr -= [0 0 0.5]';
-  #ur -= [0 0 0.5]';
+
+
   
   planeCorners = struct(
     "LowerLeft",  ll,
