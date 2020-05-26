@@ -4,31 +4,14 @@
     "_comments": [
 
 		  {
+			"displayIDs": "check '<multiOSCluster directory>/workaround/setPrimaryDisplay.sh --help' for their purpose and usage."
+		  },
+
+
+		  {
 			"hostname": "MUHS-DT007WX",
 			"username": "dontcare"
-		  },
-		  {
-			"hostname": "arenamaster",
-			"username": "ARENAMASTER+arena"
-		  },
-		  {
-			"hostname": "10.0.0.5",
-			"username": "ARENAMASTER+arena"
 		  }
-		,
-	    
-		  {
-            "hostname": "arenart3",
-            "username": "ARENART3+arena"
-          },
-          {
-            "hostname": "arenart4",
-            "username": "ARENART4+arena"
-          },
-          {
-            "hostname": "arenart5",
-            "username": "ARENART5+arena"
-          }
 	  
     ],
       "Windows"
@@ -45,23 +28,53 @@
         "slaves": [
           {
             "hostname": "arenart1",
-            "username": "ARENART1+arena"
+            "username": "ARENART1+arena",
+			"displayIDs":
+			{
+				"KVM": 1,
+				"warpedProjector": 2,
+				"unwarpedProjector": 3
+			}
           },
           {
             "hostname": "arenart2",
-            "username": "ARENART2+arena"
+            "username": "ARENART2+arena",
+			"displayIDs":
+			{
+				"KVM": 1,
+				"warpedProjector": 2,
+				"unwarpedProjector": 3
+			}
           },
 		  {
             "hostname": "arenart3",
-            "username": "ARENART3+arena"
+            "username": "ARENART3+arena",
+			"displayIDs":
+			{
+				"KVM": 1,
+				"warpedProjector": 2,
+				"unwarpedProjector": 3
+			}
           },
 		  {
             "hostname": "arenart4",
-            "username": "ARENART4+arena"
+            "username": "ARENART4+arena",
+			"displayIDs":
+			{
+				"KVM": 1,
+				"warpedProjector": 2,
+				"unwarpedProjector": 3
+			}
           },
           {
             "hostname": "arenart5",
-            "username": "ARENART5+arena"
+            "username": "ARENART5+arena",
+			"displayIDs":
+			{
+				"KVM": 1,
+				"warpedProjector": 2,
+				"unwarpedProjector": 3
+			}
           }
         ]
       },
