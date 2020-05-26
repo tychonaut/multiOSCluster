@@ -11,7 +11,7 @@
 
 #-------------------------------------------------------------------------------
 pkg load matgeom
-#pkg load linear-algebra
+pkg load linear-algebra
 
 
 javaaddpath ("D:/devel/xerces_java/xerces-2_12_1/xercesImpl.jar")
@@ -150,10 +150,28 @@ for frustumIndex_in = 1 : numel(frusta_FOV_Euler)
   ## If I am still sane, this would imply that VIOSO has the euler angle convention 
   ## "roll pitch yaw".
   #rotationMat = yawMat * pitchMat *  rollMat;
+  # 
+  # Reason this works: After freshing up on quaternions,
+  # ( https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation#Using_quaternion_as_rotations )
+  # I saw on the OpenSpace parsing code that is actually is the
+  # roll -> ptich -> yaw order, obfuscated by "read from bottom to top"-code
+  # just like matrix transforms are to be read from left to right:
+  #      quat = glm::rotate(quat, glm::radians(y), glm::vec3(0.0f, 1.0f, 0.0f));
+  #      quat = glm::rotate(quat, glm::radians(x), glm::vec3(1.0f, 0.0f, 0.0f));
+  #      quat = glm::rotate(quat, glm::radians(z), glm::vec3(0.0f, 0.0f, 1.0f));
+  # So this is totally legit. In hindsight, there are the following general problems:
+  # This convention is nowhere documented to be used, neither by Vioso 
+  # nor by Paraview, OpenSpace or Google Earth.
+  # Also, I have nowhere found that this is a *common* convention.
+  # Finally, when asked to confirm "yaw pitch roll", by our Calibration provider,
+  # he did so, although the order was the opposite. One may argue that it is confusing that
+  # semantic and notational order are different, but this underlines the point
+  # how much trouble can be saved by decent documentation.
   ##-----------------------------------------------------------------------------
   
   
   #-----------------------------------------------------------------------------
+  # Below is obfuscated; TODO delete and undo stuff above, validate.
   # The above is equivalent  to the stuff below: This way, 
   # yxz- convention is maintained,
   # but all angle's signs are negated w.r.t. how OpenSpace handles them internally.
@@ -184,7 +202,6 @@ for frustumIndex_in = 1 : numel(frusta_FOV_Euler)
   ## but this time, invert it:
   rotationMat = (rollMat * pitchMat * yawMat)';
   #-----------------------------------------------------------------------------
-  
   
   
   
