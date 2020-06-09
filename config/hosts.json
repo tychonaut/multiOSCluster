@@ -32,8 +32,8 @@
 			"displayIDs":
 			{
 				"KVM": 1,
-				"warpedProjector": 2,
-				"unwarpedProjector": 3
+				"warpedProjector": 3,
+				"unwarpedProjector": 2
 			}
           },
           {

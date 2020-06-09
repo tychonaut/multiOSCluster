@@ -1,6 +1,10 @@
 #!/bin/bash 
 
 
+#jq-on-mys-workaround
+PATH="/d/apps/PSTools:/mingw64/bin/:$PATH"
+
+
 ###############################################################################
 #
 usage()
@@ -60,6 +64,7 @@ setPrimaryDisplay()
     
     # for each slave node:
 	local numNodes=$( jq ".hosts.${activeOS}.slaves | length" ${hostsFilePath} )
+
 
 	for (( hostIndex=0; hostIndex < "${numNodes}"; hostIndex++ )); 
     do
