@@ -2,7 +2,7 @@
 <Servers>
 
 
-   <Server name="arenaCluster" resource="cs://arenart3">
+   <Server name="arenaCluster" resource="cs://10.0.10.23">
     <CommandStartup>
       <Command 
 		exec="powershell.exe .\launchClusterServers.ps1"
@@ -11,6 +11,23 @@
       </Command>
     </CommandStartup>
   </Server>
+
+
+
+
+   <Server name="localServer" resource="cs://localhost">
+    <CommandStartup>
+      <Command 
+		exec="powershell.exe .\launchLocalServer.ps1"
+        delay="2"
+	  >
+      </Command>
+    </CommandStartup>
+  </Server>
+
+
+ <!-- only test crap from here xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+
   
   <Server name="arenaClusterReverseConnect" resource="csrc://arenart1">
    

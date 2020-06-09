@@ -1,7 +1,7 @@
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <pvx>
  
-  <Process Type="client" />
+  <Process Type="client"/>
  
  
   <Process Type="server">
@@ -63,44 +63,20 @@
 			we have to put it on top of both machines.txt and this file!
 			 
 	-->
-	<Machine Name="arenart3"
-           Environment=""
-		   Geometry="2560x1600+0+0"
-           FullScreen="0"
-           ShowBorders="0"
-           LowerLeft="  1 -1  1"
-           LowerRight="-1 -1  1"
-           UpperRight="-1  1  1"
-	/>
+	<Machine Environment="" FullScreen="0" Geometry="2560x1600+0+0" LowerLeft="-0.31899      2.0946      5.4041" LowerRight="-5.7039    -0.93498    -0.53308" Name="arenart3" ShowBorders="0" UpperRight="-3.6678      2.1481      -3.953"/>
   
 
 
 	
 	<!-- "Front" -->
 	<!-- <Machine Name="arenart1"        -->
-	<Machine Name="arenart1"       
-		   Environment=""  
-		   Geometry="2560x1600+0+0"
-           FullScreen="0"
-           ShowBorders="0"	   
-           LowerLeft=" -1 -1 -1"
-           LowerRight=" 1 -1 -1"
-           UpperRight=" 1  1 -1" 
-	/>
+	<Machine Environment="" FullScreen="0" Geometry="2560x1600+0+0" LowerLeft="-0.095775     -2.6471     -4.9163" LowerRight="5.5599    -0.46276     0.24513" Name="arenart1" ShowBorders="0" UpperRight="3.6639         4.2     0.34932"/>
 	
 		   
 	<!-- "Left" -->
 	<!-- 
 	 -->
-	<Machine Name="arenart2"        
-		   Environment=""		   
-		   Geometry="2560x1600+0+0"
-           FullScreen="0"
-           ShowBorders="0"
-           LowerLeft=" -1 -1  1"
-           LowerRight="-1 -1 -1"
-           UpperRight="-1  1 -1"
-	/>
+	<Machine Environment="" FullScreen="0" Geometry="2560x1600+0+0" LowerLeft="-5.5339    -0.57693    -0.47859" LowerRight="0.78381     -2.5675     -4.8969" Name="arenart2" ShowBorders="0" UpperRight="2.549      2.1298     -4.4892"/>
   
 
 
@@ -108,28 +84,12 @@
 
 	<!-- "Right" 
 	-->
-	<Machine Name="arenart4"
-           Environment=""
-		   Geometry="2560x1600+0+0"
-           FullScreen="0"
-           ShowBorders="0"
-           LowerLeft="  1 -1 -1"
-           LowerRight=" 1 -1  1"
-           UpperRight=" 1  1  1"
-	/>
+	<Machine Environment="" FullScreen="0" Geometry="2560x1600+0+0" LowerLeft="6.4959   -0.097218    -0.36125" LowerRight="-1.4307      2.0419      6.0101" Name="arenart4" ShowBorders="0" UpperRight="-3.538       4.889      2.4324"/>
   
   
 	<!-- "Top" 
 	-->
-	<Machine Name="arenart5"
-           Environment=""
-		   Geometry="2560x1600+0+0"
-           FullScreen="0"
-           ShowBorders="0"
-           LowerLeft=" -1  1 -1"
-           LowerRight=" 1  1 -1"
-           UpperRight=" 1  1  1"
-	/>
+	<Machine Environment="" FullScreen="0" Geometry="2560x1600+0+0" LowerLeft="-4.473      1.8386     -2.7925" LowerRight="3.3912      1.8386      -4.038" Name="arenart5" ShowBorders="0" UpperRight="4.1214      3.7245     0.57249"/>
   
   
   
