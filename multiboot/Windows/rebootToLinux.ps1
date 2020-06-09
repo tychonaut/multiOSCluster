@@ -6,4 +6,4 @@ $scriptdir = Split-Path $scriptpath
 cd "$scriptdir"
 
 # "Manjaro" is the currently installed Linux distribution installed on this machine
-.\rebootToSelectedOS "Manjaro"
+.\rebootToSelectedOS "$scriptdir" "Manjaro"

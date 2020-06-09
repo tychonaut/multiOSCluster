@@ -5,4 +5,4 @@ $scriptpath = $MyInvocation.MyCommand.Path
 $scriptdir = Split-Path $scriptpath
 cd "$scriptdir"
 
-.\rebootToSelectedOS "Windows"
+.\rebootToSelectedOS "$scriptdir" "Windows"

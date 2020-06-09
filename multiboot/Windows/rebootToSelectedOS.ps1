@@ -7,32 +7,29 @@
 
 
 
-
-# self-elevation to admin:
-if(!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) 
-{ 
-	echo "DEBUG: self-elevating..."
-	# you have to pass new the arguments to the elevated instance.
-	# Reason: this script is RESTARTED with admin privildges, resetting current working directory and initial arguments!
-	#-WorkingDirectory $currentWorkingDir
-	
-	$currentWorkingDir=(pwd).path
-	$whichOS_name=$args[0]
-	
-	Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"  $currentWorkingDir `"$whichOS_name`" "  -Verb RunAs  ; 
-	
-	# exit this non-elevated script execution, otherwise two instances of this script run, one a admin and onw without
-	exit 
-}
-
-
-
 # assign the params passed to the "Admin"-instance:
 #https://stackoverflow.com/questions/43494863/start-process-workingdirectory-as-administrator-does-not-set-location
 $currentWorkingDir=$args[0]
 cd $currentWorkingDir
 
 $whichOS_name=$args[1]
+
+
+
+# self-elevation to admin:
+if(!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) 
+{ 
+	echo "DEBUG: self-elevating..."
+	
+	# you have to pass new arguments to the elevated instance.
+	# Reason: this script is RESTARTED with admin privildges, resetting current working directory and initial arguments!
+	#-WorkingDirectory $currentWorkingDir
+	
+	Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"  $currentWorkingDir `"$whichOS_name`" "  -Verb RunAs  ; 
+	
+	# exit this non-elevated script execution, otherwise two instances of this script run, one a admin and onw without
+	exit 
+}
 
 
 
@@ -91,13 +88,16 @@ switch ( $whichOS_name )
 
 
 
-
-
 echo "DEBUG: OS name to set in UEFI for next boot:"
 echo $whichOS_name
  
 echo "DEBUG: OS ID to set in UEFI for next boot:"
 echo $whichOS_ID
+
+#echo "DRY RUN FOR TESTING:exiting early.."
+#sleep 3
+#exit
+
 
 bcdedit /set "{fwbootmgr}" bootsequence "$whichOS_ID" /addfirst
 
