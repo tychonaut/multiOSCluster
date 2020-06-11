@@ -138,81 +138,50 @@ for frustumIndex_in = 1 : numel(frusta_FOV_Euler)
   
   
   ##-----------------------------------------------------------------------------
-  ## Below code works, yet looks obfuscated. Cleaner version below.
-  ##
+  ## Mirroring OpenSpace's approach here, as the calibration works there:
   ## see glm::quat sgct_core::ReadConfig::parseOrientationNode(tinyxml2::XMLElement* element)
-  #yaw   *= -1.0;
-  #pitch *=  1.0; #NOT negate
-  #roll  *= -1.0;
-  #
-  #yawMat   = createRotationOy( yaw );
-  #pitchMat = createRotationOx( pitch );
-  #rollMat  = createRotationOz( roll );
-  #
-  ### original try: yxz -> yaw pitch roll; that's how OpenSpace does it
-  ##rotationMat = rollMat * pitchMat * yawMat;
-  ##next try: xyz: pitch yaw roll; looks good in plot, NEARLY correct in Paraview...
-  ##rotationMat = rollMat * yawMat * pitchMat ;
-  ##desparation: invert order:yxz -> zxy
-  
-  ## AAAAND THIS WORKS! WTF am I going crazy? since when does 
-  ## concatenated matrix rotation work like this???
-  ## If I am still sane, this would imply that VIOSO has the euler angle convention 
-  ## "roll pitch yaw".
-  #rotationMat = yawMat * pitchMat *  rollMat;
-  # 
-  # Reason this works: After freshing up on quaternions,
-  # ( https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation#Using_quaternion_as_rotations )
-  # I saw on the OpenSpace parsing code that is actually is the
-  # roll -> ptich -> yaw order, obfuscated by "read from bottom to top"-code
-  # just like matrix transforms are to be read from left to right:
-  #      quat = glm::rotate(quat, glm::radians(y), glm::vec3(0.0f, 1.0f, 0.0f));
-  #      quat = glm::rotate(quat, glm::radians(x), glm::vec3(1.0f, 0.0f, 0.0f));
-  #      quat = glm::rotate(quat, glm::radians(z), glm::vec3(0.0f, 0.0f, 1.0f));
-  # So this is totally legit. In hindsight, there are the following general problems:
-  # This convention is nowhere documented to be used, neither by Vioso 
-  # nor by Paraview, OpenSpace or Google Earth.
-  # Also, I have nowhere found that this is a *common* convention.
-  # Finally, when asked to confirm "yaw pitch roll", by our Calibration provider,
-  # he did so, although the order was the opposite. One may argue that it is confusing that
-  # semantic and notational order are different, but this underlines the point
-  # how much trouble can be saved by decent documentation.
-  ##-----------------------------------------------------------------------------
-  
-  
-  #-----------------------------------------------------------------------------
-  # Below is obfuscated; TODO delete and undo stuff above, validate.
-  # The above is equivalent  to the stuff below: This way, 
-  # yxz- convention is maintained,
-  # but all angle's signs are negated w.r.t. how OpenSpace handles them internally.
-  # This might be interpreted like this:
-  # OpenSpace, VIOSO and Google Earth rotate the scene into camera coordinates.
-  # ParaView rotates the camera (the frustum) into world coordinates
-  # by doing the same kind of "concatenated rotation"-operation,
-  # but with all angles flipped.
-  # The very confusing thing about this is that ParaView's way is NOT
-  # the inverted operation of OpenSpace etc.!!!111
-  # I don't have a good explanation for this. 
-  # The plot shows that the frusta are correct in the "ParaView" way. 
-  # So, this is no idiosyncrasy of ParaView.
-  # This leaves us with the question: 
-  # What is the convention of VIOSO, OpenSpace Google Earth that makes them both legit,
-  # and how are they geometrically related?
-  # TODO: read all about euler angles!
-  
-  yaw   *=  1.0; # do NOT negate
-  pitch *= -1.0; # DO negate
-  roll  *=  1.0; # do NOT negate
+  yaw   *= -1.0;
+  pitch *=  1.0; #NOT negate
+  roll  *= -1.0;
   
   yawMat   = createRotationOy( yaw );
   pitchMat = createRotationOx( pitch );
   rollMat  = createRotationOz( roll );
   
-  ## original try: yxz -> yaw pitch roll; that's how OpenSpace does it;
-  ## but this time, invert it:
-  rotationMat = (rollMat * pitchMat * yawMat)';
-  #-----------------------------------------------------------------------------
-  
+  ## original try: yxz -> yaw pitch roll; that's how OpenSpace does it
+  #   rotationMat = rollMat * pitchMat * yawMat;
+  ## next try: xyz: pitch yaw roll; looks good in plot, NEARLY correct in Paraview...
+  #   rotationMat = rollMat * yawMat * pitchMat ;
+  #
+  ## Trial out of desparation: invert order: yxz -> zxy
+  ## AAAAND THIS WORKS! WTF am I going crazy? since when does 
+  ## concatenated matrix rotation work like this???
+  ## If I am still sane, this would imply that VIOSO has the euler angle convention 
+  ## "roll pitch yaw" ("zxy"), despite verbal claims and GUI and calibration artifacts
+  ## claiming "yxz".
+  rotationMat = yawMat * pitchMat *  rollMat;
+  # 
+  ## HINDSIGHT INSIGHT:
+  ## Reason this works: After freshing up on quaternions
+  ## ( https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation#Using_quaternion_as_rotations ),
+  ## I saw in the OpenSpace parsing code that it has actually the order
+  ##   roll -> ptich -> yaw , 
+  ## obfuscated by "read from bottom to top"-style-code
+  ## just like matrix transforms are to be read from left to right:
+  ##      quat = glm::rotate(quat, glm::radians(y), glm::vec3(0.0f, 1.0f, 0.0f));
+  ##      quat = glm::rotate(quat, glm::radians(x), glm::vec3(1.0f, 0.0f, 0.0f));
+  ##      quat = glm::rotate(quat, glm::radians(z), glm::vec3(0.0f, 0.0f, 1.0f));
+  ## So this is totally legit. In hindsight, there are the following general problems:
+  ## This convention is nowhere documented to be used, neither by Vioso 
+  ## nor by Paraview, OpenSpace or Google Earth.
+  ## Also, I have nowwhere found that this is a *common* convention.
+  ## Finally, when asked our calibration provider to confirm the "yaw pitch roll"-convention,
+  ## he did so, although the order is the opposite. 
+  ## One may argue that it is confusing that
+  ## semantic and notational order are different, but this underlines the point
+  ## how much trouble can be saved by decent documentation.
+  ##-----------------------------------------------------------------------------
+
   
   
   # 4x4 -> 3x3
