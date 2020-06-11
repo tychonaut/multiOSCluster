@@ -41,8 +41,8 @@
             "username": "ARENART2+arena",
 			"displayIDs":
 			{
-				"KVM": 1,
-				"warpedProjector": 2,
+				"KVM": 2,
+				"warpedProjector": 1,
 				"unwarpedProjector": 3
 			}
           },
