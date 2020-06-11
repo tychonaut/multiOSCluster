@@ -15,12 +15,12 @@ ${!header}#start of file header, following is written first to the file
 
 <!--
 
-     Export of frusta from VIOSO Calibrator views, date: ${date,%Y%m%d%H%M%S}.#date,format=see strftime
+    Export of frusta from VIOSO Calibrator views, date: ${date,%Y%m%d%H%M%S}.#date,format=see strftime
 
-	-- WARNING: THIS FILE WILL BE CONTINUOUSLY OVERWRITTEN BY rsync!!111 
-	-- Only edit it on a master machine, and check it into git. It will automatically distributed
-	-- to the relevant cluster machines each launch of the script 
-	-- <multiOSCluster dir>/appControl/OpenSpace/startOpenSpaceEverywhere.sh
+	WARNING: THIS FILE WILL BE CONTINUOUSLY OVERWRITTEN BY rsync!!111 
+	Only edit it on a master machine, and check it into git. It will automatically distributed
+	to the relevant cluster machines each launch of the script 
+	<multiOSCluster dir>/appControl/OpenSpace/startOpenSpaceEverywhere.sh
 -->
 
 	<!--
@@ -91,7 +91,7 @@ ${!header}#start of file header, following is written first to the file
 ${!channel}#!channel starts the channels section, this is written for every channel
 	
 	
-	<!-- RealTime node ${name} ------------------------------------------------------------------------ -->
+	<!-- RealTime node ${name} +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
 	<!--
 	swapLock="false"
 	-->

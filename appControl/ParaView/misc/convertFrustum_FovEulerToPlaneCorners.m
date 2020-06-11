@@ -1,13 +1,23 @@
 # Script to parse view frustum data from an xml file
-# (an SGCT config file used in OpenSpace, to pe precise.),
+# (an SGCT config file used in OpenSpace, to pe precise),
 # converts them vom FOV+EulerAngles(YawPitchRoll/YXZ) representation
 # to "3 corners of the projection plane" representation.
 # The result is written into another xml file
 # (a ParaView .pvx file).
 #
-# Input is assumed to be in the order: arenamaster, arenart1 .. arenart5.
-# Input Output can have any order, but is assumed to contain 
-# Elements of type <Machine Name="arenart<n>" > Elements, n in 1..5
+# IMPORTANT:
+#   Input is REQUIRED to be IN ORDER: 
+#     arenamaster, arenart1 .. arenart5.
+# Output will have the following order:
+#    arenart3, arenart1, arenart2, arenart4, arenart5.
+# This is because for the ParaView .pvx files, 
+# The association between a real server computer (a.k.a. arenartX) 
+#	and a "Machine" xml-element seems to have nothing to do with their host names!
+# It is instead done in the same order as the machines are specified in 
+#   machines.txt 
+# for mpiexec!
+# If we want the "main" server to be arenart3 (because it is the QuadroSync master!),
+# we have to put it on top of both machines.txt and this file!
 
 #-------------------------------------------------------------------------------
 pkg load matgeom
@@ -21,7 +31,7 @@ javaaddpath ("D:/devel/xerces_java/xerces-2_12_1/xml-apis.jar")
 file_path = fileparts(mfilename('fullpath'))
 
 
-filename_in = strcat( file_path, "/frusta_FOVEulerAngles_in.xml")
+filename_in = strcat( file_path, "/openspace_sgct_config.xml")
 ## These three lines are equivalent to xDoc_in = xmlread(filename_in) in Matlab
 parser_in = javaObject("org.apache.xerces.parsers.DOMParser");
 parser_in.parse(filename_in);
@@ -270,7 +280,7 @@ endfor
 
 #create XML string by loading a Paraview .pvx file, and modify the relevant values:
 
-filename_toMod = strcat( file_path, "/frusta_PlaneCorners_CAVE_template.pvx");
+filename_toMod = strcat( file_path, "/frusta_PlaneCorners_cave_TEMPLATE.pvx");
 ## These three lines are equivalent to xDoc_in = xmlread(filename_in) in Matlab
 parser_out = javaObject("org.apache.xerces.parsers.DOMParser");
 parser_out.parse(filename_toMod);
@@ -287,11 +297,20 @@ for frustumIndex_out = 0 : (numFrusta_out -1 )
   
   machineElem = xDoc_out.getElementsByTagName("Machine").item(frustumIndex_out);
   
-  hostname = machineElem.getAttributes().getNamedItem("Name").getNodeValue()
-  # As be cannot rely on the order of the data thx .pvx file,
-  # and as machine names are only available as attributes,
-  # we have to extract the index: "arenart" are 7 digits.
-  hostIndex= str2num( hostname(8))
+  #hostname = machineElem.getAttributes().getNamedItem("Name").getNodeValue()
+  ## As be cannot rely on the order of the data in the .pvx file,
+  ## and as machine names are only available as attributes,
+  ## we have to extract the index: "arenart" are 7 digits.
+  #hostIndex= str2num( hostname(8))
+  
+  hostIP = machineElem.getAttributes().getNamedItem("Name").getNodeValue()
+  ## As be cannot rely on the order of the data in the .pvx file,
+  ## and there are only machine "names" (actually, IPs, see notes above) 
+  ## available, we have to extract the machine index: from the IP:
+  ## "10.0.10.2x" has nine literals before the relevant digit implying the 
+  ## number of the RealTime node.
+  hostIndex= str2num( hostIP(10))
+  
   
   planeCorners =  frusta_planeCorners(hostIndex);
   LowerLeft_string  = num2str( planeCorners.LowerLeft' )
@@ -317,7 +336,7 @@ xmlString_out = strWriter.toString();
 
 
 
-filename_out = strcat( file_path, "/frusta_PlaneCorners_dome_out.pvx");
+filename_out = strcat( file_path, "/frusta_PlaneCorners_dome_OUT.pvx");
 
 fid = fopen (filename_out, "w");
 if (fid == -1)
