@@ -1,0 +1,69 @@
+local assetHelper = asset.require('util/asset_helper')
+
+
+
+local textures = asset.syncedResource({
+    Name = "Stars Textures",
+    Type = "HttpSynchronization",
+    Identifier = "stars_textures",
+    Version = 1
+})
+
+local speck = asset.syncedResource({
+    Name = "Stars Speck Files",
+    Type = "HttpSynchronization",
+    Identifier = "stars_du",
+    Version = 4
+})
+
+local sunspeck = asset.syncedResource({
+    Name = "Stars Speck Files",
+    Type = "HttpSynchronization",
+    Identifier = "digitaluniverse_sunstar_speck",
+    Version = 1
+})
+
+local colorLUT = asset.syncedResource({
+    Name = "Stars Color Table",
+    Type = "HttpSynchronization",
+    Identifier = "stars_colormap",
+    Version = 2
+})
+
+local stars = {
+    Identifier = "Stars",
+    Renderable = {
+        Type = "RenderableStars",
+        File = speck .. "/stars.speck",
+        Texture = textures .. "/halo.png",
+        --ShapeTexture = textures .. "/disc.png",
+        ColorMap = colorLUT .. "/colorbv.cmap",
+        MagnitudeExponent = 6.2,
+        SizeComposition = "Distance Modulus",
+        RenderMethod = "Texture Based" -- or PSF
+    },
+    GUI = {
+        Path = "/Milky Way/Stars"
+    }
+}
+
+local sunstar = {
+    Identifier = "SunStar",
+    Renderable = {
+        Type = "RenderableStars",
+        File = sunspeck .. "/sunstar.speck",
+        Texture = textures .. "/halo.png",
+        --ShapeTexture = textures .. "/disc.png",
+        ColorMap = colorLUT .. "/colorbv.cmap",
+        MagnitudeExponent = 6.2,
+        SizeComposition = "Distance Modulus",
+        RenderMethod = "Texture Based", -- or PSF
+        FadeInDistances = {0.0001, 0.1}
+    },
+    GUI = {
+        Name = "Sun",
+        Path = "/Milky Way/Stars"
+    }
+}
+
+assetHelper.registerSceneGraphNodesAndExport(asset, { stars, sunstar })

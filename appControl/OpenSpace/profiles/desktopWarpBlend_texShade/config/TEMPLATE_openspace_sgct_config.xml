@@ -1,0 +1,174 @@
+#example template for exporting all view parameter
+#pick the ones you need and create individual settings files for your IGs
+#this is a comment
+#macros are in ${}
+#macros are case sensitive, no white spaces allowed
+#first there is the settings section, nothing is written to file
+## Actually, this should be ZXY, afater the pain with paraview and the confirmation in openSpace code.
+## but whatever Vioso may think, I keep it like this, maybe the documenter 
+## didn't get the "read right to left or bottom to top"- rule of matrix or quaternion multiplication"
+## BUT KEEP THIS IN MIND IS STH. IS NOT RIGHT!
+${!rotationOrder,YXZ}#rotationOrder,param=[XYZ,XZY,YXZ,YZX,ZXY,ZYX]
+${!angles,degree}#angles,param=[degree,radian]
+${!header}#start of file header, following is written first to the file
+<?xml version="1.0" ?>
+
+<!--
+
+    Export of frusta from VIOSO Calibrator views, date: ${date,%Y%m%d%H%M%S}.#date,format=see strftime
+
+	WARNING: THIS FILE WILL BE CONTINUOUSLY OVERWRITTEN BY rsync!!111 
+	Only edit it on a master machine, and check it into git. It will automatically distributed
+	to the relevant cluster machines each launch of the script 
+	<multiOSCluster dir>/appControl/OpenSpace/startOpenSpaceEverywhere.sh
+-->
+
+	<!--
+	firmSync="true"
+	masterAddress="10.0.0.22" 
+	masterAddress="10.0.0.25" 
+	markus' devel machine from complexity hell:
+	masterAddress="134.245.213.179"
+	masterAddress="172.21.213.208"
+	-->
+<Cluster 
+	masterAddress="10.0.0.5" 
+>
+
+    <Settings>
+        <Display swapInterval="0" />
+    </Settings>
+	
+	
+    <Scene>
+	
+		<!-- TODO maybe rotate sth. by 21 degrees?-->
+	
+        <Orientation yaw="0.0" pitch="0.0" roll="0.0" />
+        <Offset x="0.0" y="0.0" z="0.0" />
+        <Scale value="1.0" />
+		
+    </Scene>
+    
+
+	<!-- Master node, no MPCDI stuff required here -->
+	<!--
+		address="172.21.213.208"
+    -->
+	<Node 
+		port="20401"
+		address="10.0.0.5" 
+	>
+
+        <Window fullScreen="false" border="true"		>
+            <Stereo type="none" />
+            <Pos x="100" y="100" />
+            <Size x="1680" y="1050" />
+
+            <Viewport>
+                <Pos x="0.0" y="0.0" />
+                <Size x="1.0" y="1.0" />
+
+			
+                <PlanarProjection>
+                    <FOV down="25.267007923362" left="40.0" right="40.0" up="25.267007923362" />
+                    <Orientation heading="0.0" pitch="0.0" roll="0.0" />
+                </PlanarProjection>
+            				<!--
+                <FisheyeProjection fov="180" quality="1k"  tilt="21.0">
+                    <Background r="1.0" g="0.1" b="0.1" a="1.0" />
+                </FisheyeProjection>
+				-->
+
+            </Viewport>
+
+        </Window>
+
+    </Node>
+
+
+
+${!channel}#!channel starts the channels section, this is written for every channel
+	
+	
+	<!-- RealTime node ${name} +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+	<!--
+	swapLock="false"
+	-->
+	<!-- as MPCDI has some issues, let's try Openspace's "native" window + frustum definition -->
+	
+		<!-- address="10.0.0.21"  -->
+		<!-- 
+			ATTENTION: the following tag:
+				address="${name}" 
+			must be edited by hand after export to get rid off the barco clutter string
+		-->
+	<Node 
+		address="${name}"
+		port="20402" 
+	>
+		<Window 
+			fullScreen="false" 
+			border="false"		
+		>
+            <Stereo type="none" />
+            <Pos x="0" y="0" />
+			<!--
+			Using Template gives strange and different numbers for height; so hardcode, see below
+            <Size 
+				x="${viewPortW}" 
+				y="${viewPortH}" 
+			/>
+			-->
+			<Size x="2560" y="1600" />
+            <Viewport>
+                <Pos x="0.0" y="0.0" />
+                <Size x="1.0" y="1.0" />
+                
+				<PlanarProjection>
+                    
+					<FOV 
+						up="${fovT,0.5}" 
+						down="${fovB,0.5}" 
+						left="${fovL,0.5}" 
+						right="${fovR,0.5}"  
+					/>
+				
+					<!-- 
+						yaw=${aY,0.5}#aY,format=[digits.precision] rotation around Y axis, if format is omitted it's set to "0.5"
+						pitch=${aX,0.5}
+						roll=${aZ,0.5}
+					-->
+                    <Orientation 
+						heading="${aY,0.5}" 
+						pitch="${aX,0.5}" 
+						roll="${aZ,0.5}" 
+					/>
+                </PlanarProjection>
+				
+            </Viewport>
+        </Window>
+		
+    </Node> 
+	
+		<!--
+        <Window fullScreen="false"
+			border="false"		
+			fxaa="false" 
+			msaa="1" 
+			again this will fail due to limits of the template mechanism:
+			mpcdi="calibration/display/rt${name}.mpcdi"
+		>
+			<Stereo type="none" />
+        </Window>
+		-->
+	
+
+${!footer}#starts the footer, this is written at the end of the file, once all channels are written	
+	
+	<User eyeSeparation="0.06">
+        <Pos x="0.0" y="0.0" z="0.0" />
+    </User>
+	
+	
+</Cluster>

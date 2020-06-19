@@ -1,0 +1,47 @@
+local assetHelper = asset.require('util/asset_helper')
+
+
+
+local textures = asset.syncedResource({
+    Name = "Planetary Nebulae Textures",
+    Type = "HttpSynchronization",
+    Identifier = "digitaluniverse_planetarynebulae_textures",
+    Version = 1
+})
+
+local speck = asset.syncedResource({
+    Name = "Planetary Nebulae Speck Files",
+    Type = "HttpSynchronization",
+    Identifier = "digitaluniverse_planetarynebulae_speck",
+    Version = 2
+})
+
+local object = {
+    Identifier = "PlanetaryNebulae",
+    Renderable = {
+        Type = "RenderableBillboardsCloud",
+        Enabled = false,
+        Color = { 0.4, 0.4, 0.9 },
+        Opacity = 1.0,
+        File = speck .. "/pn.speck",
+        Texture = textures .. "/point4.png",
+        PolygonSides = 3,
+        LabelFile = speck .. "/pn.label",
+        TextColor = { 0.25, 0.25, 0.65, 1.0 },
+        ScaleFactor = 435.0,
+        TextSize = 16.68,
+        TextMinSize = 4.5,
+        TextMaxSize = 30.0,
+        Unit = "pc",
+        BillboardMaxSize = 35,
+        EnablePixelSizeControl = true
+    },
+    GUI = {
+        Name = "Planetary Nebulae",
+        Path = "/Milky Way"
+    }
+}
+
+
+
+assetHelper.registerSceneGraphNodesAndExport(asset, { object })

@@ -1,0 +1,63 @@
+local assetHelper = asset.require('util/asset_helper')
+local transforms = asset.require('scene/solarsystem/sun/transforms')
+asset.require("spice/base")
+
+
+
+local EarthBarycenter = {
+    Identifier = "EarthBarycenter",
+    Parent = transforms.SolarSystemBarycenter.Identifier,
+    Transform = {
+        Translation = {
+            Type = "SpiceTranslation",
+            Target = "EARTH",
+            Observer = "SUN"
+        }
+    },
+    GUI = {
+        Name = "Earth Barycenter",
+        Path = "/Solar System/Planets/Earth",
+        Hidden = true
+    }
+}
+
+local EarthInertial = {
+    -- The default reference frame for Earth-orbiting satellites
+    Identifier = "EarthInertial",
+    Parent = EarthBarycenter.Identifier,
+    Transform = {
+        Rotation = {
+            Type = "SpiceRotation",
+            SourceFrame = "J2000",
+            DestinationFrame = "GALACTIC",
+        }
+    },
+    GUI = {
+        Name = "Earth Inertial",
+        Path = "/Solar System/Planets/Earth",
+        Hidden = true
+    }
+}
+
+local EarthIAU = {
+    Identifier = "EarthIAU",
+    Parent = EarthBarycenter.Identifier,
+    Transform = {
+        Rotation = {
+            Type = "SpiceRotation",
+            SourceFrame = "IAU_EARTH",
+            DestinationFrame = "GALACTIC",
+        }
+    },
+    GUI = {
+        Name = "Earth IAU",
+        Path = "/Solar System/Planets/Earth",
+        Hidden = true
+    }
+}
+
+assetHelper.registerSceneGraphNodesAndExport(asset, {
+    EarthBarycenter,
+    EarthInertial,
+    EarthIAU
+})

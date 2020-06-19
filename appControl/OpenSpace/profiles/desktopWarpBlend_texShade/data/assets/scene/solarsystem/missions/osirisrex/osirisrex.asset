@@ -1,0 +1,17 @@
+asset.request('./bennu')
+asset.request('./model')
+asset.request('./trail')
+asset.request('scene/solarsystem/sun/marker')
+
+asset.require('./script_schedule')
+
+local mission = asset.localResource('osirisrex.mission')
+local missionName
+
+asset.onInitialize(function()
+    missionName = openspace.loadMission(mission)
+end)
+
+asset.onDeinitialize(function()
+    openspace.unloadMission(missionName)
+end)

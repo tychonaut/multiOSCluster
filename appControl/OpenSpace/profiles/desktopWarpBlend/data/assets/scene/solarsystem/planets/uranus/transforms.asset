@@ -1,0 +1,24 @@
+local assetHelper = asset.require('util/asset_helper')
+local transforms = asset.require('scene/solarsystem/sun/transforms')
+asset.require("spice/base")
+
+
+
+local UranusBarycenter = {
+    Identifier = "UranusBarycenter",
+    Parent = transforms.SolarSystemBarycenter.Identifier,
+    Transform = {
+        Translation = {
+            Type = "SpiceTranslation",
+            Target = "URANUS BARYCENTER",
+            Observer = "SUN"
+        }
+    },
+    GUI = {
+        Name = "Uranus Barycenter",
+        Path = "/Solar System/Planets/Uranus",
+        Hidden = true
+    }
+}
+
+assetHelper.registerSceneGraphNodesAndExport(asset, { UranusBarycenter })

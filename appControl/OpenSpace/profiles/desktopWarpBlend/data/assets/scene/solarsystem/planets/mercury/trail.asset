@@ -1,0 +1,30 @@
+local assetHelper = asset.require('util/asset_helper')
+local transforms = asset.require('scene/solarsystem/sun/transforms')
+asset.require("spice/base")
+
+
+
+local MercuryTrail = {
+    Identifier = "MercuryTrail",
+    Parent = transforms.SolarSystemBarycenter.Identifier,
+    Renderable = {
+        Type = "RenderableTrailOrbit",
+        Translation = {
+            Type = "SpiceTranslation",
+            Target = "MERCURY",
+            Observer = "SUN"
+        },
+        Color = { 0.6, 0.5, 0.5 },
+        Period = 87.968,
+        Resolution = 1000
+    },
+    Tag = { "planetTrail_solarSystem", "planetTrail_terrestrial" },
+    GUI = {
+        Name = "Mercury Trail",
+        Path = "/Solar System/Planets/Mercury"
+    }
+}
+
+
+
+assetHelper.registerSceneGraphNodesAndExport(asset, { MercuryTrail })

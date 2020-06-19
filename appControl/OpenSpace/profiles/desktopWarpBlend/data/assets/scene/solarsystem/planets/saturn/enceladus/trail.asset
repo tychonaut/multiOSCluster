@@ -1,0 +1,31 @@
+local transforms = asset.require('../transforms')
+local assetHelper = asset.require('util/asset_helper')
+local kernel = asset.require('../kernels').sat375
+
+
+
+local EnceladusTrail = {
+    Identifier = "EnceladusTrail",
+    Parent = transforms.SaturnBarycenter.Identifier,
+    Renderable = {
+        Type = "RenderableTrailOrbit",
+        Translation = {
+            Type = "SpiceTranslation",
+            Target = "ENCELADUS",
+            Observer = "SATURN BARYCENTER",
+            Kernels = kernel
+        },
+        Color = { 0.5, 0.3, 0.3 },
+        Period = 33.0 / 24.0,
+        Resolution = 1000
+    },
+    Tag = { "moonTrail_solarSystem", "moonTrail_giants", "moonTrail_saturn" },
+    GUI = {
+        Name = "Enceladus Trail",
+        Path = "/Solar System/Planets/Saturn/Moons"
+    }
+}
+
+
+
+assetHelper.registerSceneGraphNodesAndExport(asset, { EnceladusTrail })

@@ -1,0 +1,44 @@
+local assetHelper = asset.require('util/asset_helper')
+
+
+
+local textures = asset.syncedResource({
+    Name = "6dF Textures",
+    Type = "HttpSynchronization",
+    Identifier = "digitaluniverse_6dF_textures",
+    Version = 2
+})
+
+local speck = asset.syncedResource({
+    Name = "6dF Speck Files",
+    Type = "HttpSynchronization",
+    Identifier = "digitaluniverse_6dF_speck",
+    Version = 2
+})
+
+local object = {
+    Identifier = "6dF",
+    Renderable = {
+        Type = "RenderableBillboardsCloud",
+        Enabled = false,
+        Color = { 1.0, 1.0, 0.0 },
+        Opacity = 1.0,
+        File = speck .. "/6dF.speck",
+        Texture = textures .. "/point3A.png",
+        ColorMap = speck .. "/6dF.cmap",
+        ColorOption = { "redshift", "proximity" },
+        ColorRange = { { 0.0, 0.075 }, { 1.0, 10.0 } },
+        Unit = "Mpc",
+        ScaleFactor = 534.0,
+        BillboardMaxSize = 7.0,
+        EnablePixelSizeControl = true,
+    },
+    GUI = {
+        Name = "6dF Galaxies",
+        Path = "/Universe/Galaxies"
+    }
+}
+
+
+
+assetHelper.registerSceneGraphNodesAndExport(asset, { object })
