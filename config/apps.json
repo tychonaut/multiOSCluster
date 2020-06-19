@@ -5,7 +5,7 @@
 
       "OpenSpace": {
 	  
-        "profile": "desktopWarpBlend",
+        "profile": "desktopWarpBlend_texShade",
 
         "installDir": "/d/apps/OpenSpace/v0.15.1_git_arena",
         "executable": "bin/OpenSpace.exe",
@@ -34,7 +34,7 @@
 	  
 	
 	  "ParaView": {
-		"profile": "default",
+		"profile": "debugging",
 		"installDir": "/d/apps/ParaView/v5.8.0_CAVE",
         "executable": "bin/paraview.exe"	
 	  },
