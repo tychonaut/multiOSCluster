@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<pvx>
+ 
+  <Process Type="client"/>
+ 
+ 
+  <Process Type="server">
+	
+
+	<!-- localhost -->
+	<Machine 
+		Environment="" 
+		FullScreen="0" 
+		Geometry="1920x1200+1920+0" Name="localhost" ShowBorders="0" 
+		LowerLeft="-1.0 -1.0 -1.0"
+		LowerRight="1.0 -1.0 -1.0"
+		UpperRight="1.0  1.0 -1.0"
+	/>
+  
+  
+ </Process>
+</pvx>
