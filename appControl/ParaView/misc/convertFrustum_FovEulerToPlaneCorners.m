@@ -154,11 +154,9 @@ for frustumIndex_in = 1 : numel(frusta_FOV_Euler)
   #   rotationMat = rollMat * yawMat * pitchMat ;
   #
   ## Trial out of desparation: invert order: yxz -> zxy
-  ## AAAAND THIS WORKS! WTF am I going crazy? since when does 
-  ## concatenated matrix rotation work like this???
-  ## If I am still sane, this would imply that VIOSO has the euler angle convention 
+  ## This works! This would imply that VIOSO has the euler angle convention 
   ## "roll pitch yaw" ("zxy"), despite verbal claims and GUI and calibration artifacts
-  ## claiming "yxz".
+  ## claiming "yxz". 
   rotationMat = yawMat * pitchMat *  rollMat;
   # 
   ## HINDSIGHT INSIGHT:
@@ -176,7 +174,7 @@ for frustumIndex_in = 1 : numel(frusta_FOV_Euler)
   ## nor by Paraview, OpenSpace or Google Earth.
   ## Also, I have nowwhere found that this is a *common* convention.
   ## Finally, when asked our calibration provider to confirm the "yaw pitch roll"-convention,
-  ## he did so, although the order is the opposite. 
+  ## he did so, although the order is the opposite even after reporting these results.
   ## One may argue that it is confusing that
   ## semantic and notational order are different, but this underlines the point
   ## how much trouble can be saved by decent documentation.

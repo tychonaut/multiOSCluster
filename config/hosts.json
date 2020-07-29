@@ -31,8 +31,8 @@
             "username": "ARENART1+arena",
 			"displayIDs":
 			{
-				"KVM": 1,
-				"warpedProjector": 3,
+				"KVM": 3,
+				"warpedProjector": 1,
 				"unwarpedProjector": 2
 			}
           },
@@ -41,9 +41,9 @@
             "username": "ARENART2+arena",
 			"displayIDs":
 			{
-				"KVM": 2,
+				"KVM": 3,
 				"warpedProjector": 1,
-				"unwarpedProjector": 3
+				"unwarpedProjector": 2
 			}
           },
 		  {
@@ -51,9 +51,9 @@
             "username": "ARENART3+arena",
 			"displayIDs":
 			{
-				"KVM": 1,
-				"warpedProjector": 2,
-				"unwarpedProjector": 3
+				"KVM": 3,
+				"warpedProjector": 1,
+				"unwarpedProjector": 2
 			}
           },
 		  {
@@ -61,8 +61,8 @@
             "username": "ARENART4+arena",
 			"displayIDs":
 			{
-				"KVM": 1,
-				"warpedProjector": 2,
+				"KVM": 2,
+				"warpedProjector": 1,
 				"unwarpedProjector": 3
 			}
           },
@@ -71,9 +71,9 @@
             "username": "ARENART5+arena",
 			"displayIDs":
 			{
-				"KVM": 1,
-				"warpedProjector": 2,
-				"unwarpedProjector": 3
+				"KVM": 3,
+				"warpedProjector": 1,
+				"unwarpedProjector": 2
 			}
           }
         ]

@@ -60,6 +60,12 @@ launchOpenSpaceOnCluster()
     # now it stoppped working on master without any noticable change from one run to another, i.e. within seconds! 
     # no reboot, change of scripts, change in OS whatsoever!
     ${REPO_DIRECTORY}/manage/performOnClusterNodes.sh --all -NAS --execute-command "/D/apps/PSTools/PsExec64.exe -i -d \\\\\\\\\$(hostname) -h -u \$(${hostCredPath} username) -p \$(${hostCredPath} pw) ${installDir_windowsStyle}/${exe_windowsStyle}"
+	
+	
+	##after windows update from 2020/07/23 that reset all graphics settings, the old "which permutation works on which machine, and only after som other permutations have been 
+	## tried for the same machine"-issue was back. The following sepeation for master and slaves seems to work now:
+	#${REPO_DIRECTORY}/manage/performOnClusterNodes.sh -m -NAS --execute-command "/D/apps/PSTools/PsExec64.exe -i -d \\\\\\\\\$(hostname) -h -u \$(${hostCredPath} username) -p \$(${hostCredPath} pw) ${installDir_windowsStyle}/${exe_windowsStyle}"
+	#${REPO_DIRECTORY}/manage/performOnClusterNodes.sh -s -NAS --execute-command "/D/apps/PSTools/PsExec64.exe -i -d \\\\\\\\\$(hostname) -h -s ${installDir_windowsStyle}/${exe_windowsStyle}"
 
 
     echo "done launching Openspace on cluster ..."
