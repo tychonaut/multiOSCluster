@@ -1,4 +1,4 @@
-#example template for exporting all view parameter
+#example template for exporting all view parameters
 #pick the ones you need and create individual settings files for your IGs
 #this is a comment
 #macros are in ${}
@@ -20,7 +20,7 @@ ${!header}#start of file header, following is written first to the file
 	WARNING: THIS FILE WILL BE CONTINUOUSLY OVERWRITTEN BY rsync!!111 
 	Only edit it on a master machine, and check it into git. It will automatically distributed
 	to the relevant cluster machines each launch of the script 
-	<multiOSCluster dir>/appControl/OpenSpace/startOpenSpaceEverywhere.sh
+	<multiOSCluster dir>/appControl/OpenSpace/launch/cluster/launchOpenSpaceOnCluster..sh
 -->
 
 	<!--
