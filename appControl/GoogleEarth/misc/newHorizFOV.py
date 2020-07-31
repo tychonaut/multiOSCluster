@@ -14,16 +14,25 @@ def tan_degree(angle_deg):
     return math.tan(deg2rad(angle_deg))
 
 
+def atan_degree(tan_of_angle):
+    return rad2deg(math.atan(tan_of_angle))
+
+
 def draw_alignment_rectangles(resolution_projector_x, resolution_projector_y, resolutions_GE_x, resolutions_GE_y):
     im = Image.new('RGB', (resolution_projector_x, resolution_projector_y), (128, 128, 128))
     draw = ImageDraw.Draw(im)
 
+    # RT1 is red
     red = (255, 0, 0)
+    # RT2 is green
     green = (0, 255, 0)
+    # RT3 is blue
     blue = (0, 64, 255)
+    # RT4 is yellow
     yellow = (255, 255, 0)
+    # RT5 is magenta
     magenta = (255, 0, 255)
-    cyan = (0, 255, 255)
+    #cyan = (0, 255, 255)
     colors = [red, green, blue, yellow, magenta]
 
     for idx in range(0, 5):
@@ -46,34 +55,35 @@ def draw_alignment_rectangles(resolution_projector_x, resolution_projector_y, re
     im.save('GoogleEarthAlignment2.png', quality=95)
 
 
-
-
-#-----------------------------------------------------------------
+# ----------------------------------------------------------------------------------------------------------------------
 x_projector = 2560
 y_projector = 1600
 
 num_projectors = 5
 
 print("per - projector vertical and horizontal FOV from VIOSO calibration (half angles in degrees!):")
-alphas_VIO = [61.0, 61.0, 53.0, 60.0, 56.0]
-betas_VIO  = [46.0, 48.0, 37.0, 45.0, 44.0]
-print("horiz.: ", alphas_VIO)
-print("vert.: ", betas_VIO)
+alphas_VIO_deg = [61.0, 61.0, 53.0, 60.0, 56.0]
+betas_VIO_deg  = [46.0, 48.0, 37.0, 45.0, 44.0]
+print("horiz.: ", alphas_VIO_deg)
+print("vert.: ", betas_VIO_deg)
 
+# ----------------------------------------------------------------------------------------------------------------------
 # constant to be found by trial & error to fit the final rendering into the projector resolutions
 # respecting the VIOSO aspect ratio and Google Earth's 51 pixels of fulllscren+non-fullscreen-menu-bars
-c_x = 100
+# 130 is found to yield the  max. y resolution is of 1600-2*51=1498 pixels
+c_x = 130
 
-x_GE = x_projector - 2 * c_x
+x_GE = x_projector - (2 * c_x)
 x_GEs = [x_GE, x_GE, x_GE, x_GE, x_GE]
 print("new x resolutions of GE renderings: ", x_GEs)
 
+# ----------------------------------------------------------------------------------------------------------------------
 # new horizontal FoVs in degrees:
 alphas_GE_rad = []
 alphas_GE_deg = []
 fovHs_GE_deg = []
 for i in range(0, num_projectors):
-    alpha_GE_rad = math.atan(x_GEs[i] * tan_degree(alphas_VIO[i]) / x_projector)
+    alpha_GE_rad = math.atan(x_GEs[i] * tan_degree(alphas_VIO_deg[i]) / x_projector)
     alphas_GE_rad.append(alpha_GE_rad)
     alphas_GE_deg.append(rad2deg(alpha_GE_rad))
     fovHs_GE_deg.append(2 * alphas_GE_deg[i])
@@ -83,6 +93,43 @@ print("new horizontal FoVs in degrees: ", fovHs_GE_deg)
 
 
 
+# ----------------------------------------------------------------------------------------------------------------------
+# # new vertical FoVs in degrees  respecting the aspect ratio conditions:
+# # aspectRatio_angles_VIO = aspectRatio_angles_GE
+betas_GE_deg = []
+for i in range(0, num_projectors):
+    tan_beta_GE_deg = tan_degree(alphas_GE_deg[i]) * tan_degree(betas_VIO_deg[i]) / tan_degree(alphas_VIO_deg[i])
+    beta_GE_deg = atan_degree(tan_beta_GE_deg)
+    betas_GE_deg.append(beta_GE_deg)
+print("new horizontal FoVs (half angles) in degrees: ", betas_GE_deg)
+
+# ----------------------------------------------------------------------------------------------------------------------
+# sanity checks: aspect ratios
+# derived from VIOSO angles:
+aspectRatio_angles_VIO = []
+for i in range(0, num_projectors):
+    aspectRatio_angles_VIO.append(tan_degree(alphas_VIO_deg[i]) / tan_degree(betas_VIO_deg[i]))
+print("aspect ratio of FoV angles from VIOSO calibration: ")
+print(aspectRatio_angles_VIO)
+# from calculated GE angles:
+aspectRatio_angles_GE = []
+for i in range(0, num_projectors):
+    aspectRatio_angles_GE.append(tan_degree(alphas_GE_deg[i]) / tan_degree(betas_GE_deg[i]))
+print("new aspect ratio of FoV angles, must be equal to thos of VIOSO  calibration: ")
+print(aspectRatio_angles_GE)
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+# y resolutions respecting the aspect ratio conditions:
+# aspectRatio_angles_VIO =  aspectRatio_angles_GE
+y_GEs = []
+for i in range(0, num_projectors):
+    y_GE = x_projector / tan_degree(alphas_VIO_deg[i]) * tan_degree(betas_GE_deg[i])
+    y_GEs.append(y_GE)
+print("new y resolutions of GE renderings: ", y_GEs)
+
+
+draw_alignment_rectangles(x_projector, y_projector, x_GEs, y_GEs)
 
 exit(0)
 
