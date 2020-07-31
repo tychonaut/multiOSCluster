@@ -89,7 +89,8 @@ for i in range(0, num_projectors):
     fovHs_GE_deg.append(2 * alphas_GE_deg[i])
 print("alphas_GE in radians: ", alpha_GE_rad)
 print("alphas_GE in degrees: ", alphas_GE_deg)
-print("new horizontal FoVs in degrees: ", fovHs_GE_deg)
+print("new horizontal FoVs in degrees: PUT THIS INTO drivers.ini -> ViewSync/horizFov !")
+print(fovHs_GE_deg)
 
 
 
@@ -115,8 +116,9 @@ print(aspectRatio_angles_VIO)
 aspectRatio_angles_GE = []
 for i in range(0, num_projectors):
     aspectRatio_angles_GE.append(tan_degree(alphas_GE_deg[i]) / tan_degree(betas_GE_deg[i]))
-print("new aspect ratio of FoV angles, must be equal to thos of VIOSO  calibration: ")
+print("new aspect ratio of FoV angles, must be equal to those of VIOSO  calibration: ")
 print(aspectRatio_angles_GE)
+
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -127,6 +129,14 @@ for i in range(0, num_projectors):
     y_GE = x_projector / tan_degree(alphas_VIO_deg[i]) * tan_degree(betas_GE_deg[i])
     y_GEs.append(y_GE)
 print("new y resolutions of GE renderings: ", y_GEs)
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+aspectRatio_res_GE = []
+for i in range(0, num_projectors):
+    aspectRatio_res_GE.append(x_GEs[i] / y_GEs[i])
+print("new aspect ratio of resolutions angles:")
+print(aspectRatio_res_GE)
 
 
 draw_alignment_rectangles(x_projector, y_projector, x_GEs, y_GEs)
