@@ -1,12 +1,17 @@
 import math
 from PIL import Image, ImageDraw
 
+
 def deg2rad(angle_deg):
     return angle_deg * math.pi / 180
 
 
 def rad2deg(angle_rad):
     return angle_rad * 180 / math.pi
+
+
+def tan_degree(angle_deg):
+    return math.tan(deg2rad(angle_deg))
 
 
 def draw_alignment_rectangles(resolution_projector_x, resolution_projector_y, resolutions_GE_x, resolutions_GE_y):
@@ -47,13 +52,43 @@ def draw_alignment_rectangles(resolution_projector_x, resolution_projector_y, re
 x_projector = 2560
 y_projector = 1600
 
-# per - projector vertical and horizontal FOV:
+num_projectors = 5
+
+print("per - projector vertical and horizontal FOV from VIOSO calibration (half angles in degrees!):")
 alphas_VIO = [61.0, 61.0, 53.0, 60.0, 56.0]
 betas_VIO  = [46.0, 48.0, 37.0, 45.0, 44.0]
+print("horiz.: ", alphas_VIO)
+print("vert.: ", betas_VIO)
+
+# constant to be found by trial & error to fit the final rendering into the projector resolutions
+# respecting the VIOSO aspect ratio and Google Earth's 51 pixels of fulllscren+non-fullscreen-menu-bars
+c_x = 100
+
+x_GE = x_projector - 2 * c_x
+x_GEs = [x_GE, x_GE, x_GE, x_GE, x_GE]
+print("new x resolutions of GE renderings: ", x_GEs)
+
+# new horizontal FoVs in degrees:
+alphas_GE_rad = []
+alphas_GE_deg = []
+fovHs_GE_deg = []
+for i in range(0, num_projectors):
+    alpha_GE_rad = math.atan(x_GEs[i] * tan_degree(alphas_VIO[i]) / x_projector)
+    alphas_GE_rad.append(alpha_GE_rad)
+    alphas_GE_deg.append(rad2deg(alpha_GE_rad))
+    fovHs_GE_deg.append(2 * alphas_GE_deg[i])
+print("alphas_GE in radians: ", alpha_GE_rad)
+print("alphas_GE in degrees: ", alphas_GE_deg)
+print("new horizontal FoVs in degrees: ", fovHs_GE_deg)
+
+
+
+
+exit(0)
 
 
 #-----------------------------------------------------------------------------------
-
+# #stuff that didns have the desired effect:
 
 # height of annoying bar in pixels
 #h_bar = 51
