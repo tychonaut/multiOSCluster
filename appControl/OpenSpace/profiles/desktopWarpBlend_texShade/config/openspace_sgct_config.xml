@@ -97,7 +97,12 @@
 			border="false"		
 		>
             <Stereo type="none" />
-            <Pos x="0" y="0" />
+
+			<!-- 
+			<Pos x="0" y="0" />
+			-->
+            <Pos x="1920" y="0" />
+
 			<!--
 			Using Template gives strange and different numbers for height; so hardcode, see below
             <Size 
@@ -171,7 +176,12 @@
 			border="false"		
 		>
             <Stereo type="none" />
-            <Pos x="0" y="0" />
+
+			<!-- 
+			<Pos x="0" y="0" />
+			-->
+            <Pos x="1920" y="0" />
+
 			<!--
 			Using Template gives strange and different numbers for height; so hardcode, see below
             <Size 
@@ -246,7 +256,13 @@
 			border="false"		
 		>
             <Stereo type="none" />
-            <Pos x="0" y="0" />
+
+			<!-- 
+			<Pos x="0" y="0" />
+			-->
+            <Pos x="1920" y="0" />
+
+
 			<!--
 			Using Template gives strange and different numbers for height; so hardcode, see below
             <Size 
@@ -312,6 +328,9 @@
 				address="10.0.10.24" 
 			must be edited by hand after export to get rid off the barco clutter string
 		-->
+		
+		
+<!--
 	<Node 
 		address="10.0.0.24"
 		port="20405" 
@@ -321,14 +340,9 @@
 			border="false"		
 		>
             <Stereo type="none" />
-            <Pos x="0" y="0" />
-			<!--
-			Using Template gives strange and different numbers for height; so hardcode, see below
-            <Size 
-				x="2560" 
-				y="1478" 
-			/>
-			-->
+
+            <Pos x="1920" y="0" />
+
 			<Size x="2560" y="1600" />
             <Viewport>
                 <Pos x="0.0" y="0.0" />
@@ -343,11 +357,6 @@
 						right="60.00000"  
 					/>
 				
-					<!-- 
-						yaw=120.44204
-						pitch=57.37793
-						roll=-24.74764
-					-->
                     <Orientation 
 						heading="120.44204" 
 						pitch="57.37793" 
@@ -360,6 +369,7 @@
 		
     </Node> 
 	
+-->	
 		<!--
         <Window fullScreen="false"
 			border="false"		
@@ -396,7 +406,13 @@
 			border="false"		
 		>
             <Stereo type="none" />
-            <Pos x="0" y="0" />
+
+			<!-- 
+			<Pos x="0" y="0" />
+			-->
+            <Pos x="1920" y="0" />
+
+
 			<!--
 			Using Template gives strange and different numbers for height; so hardcode, see below
             <Size 
