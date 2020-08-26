@@ -1,0 +1,90 @@
+	
+[user]
+	name = Markus Schlüter
+	email = mschlueter@geomar.de
+
+# remember: on first setup, issue following command:
+# 	echo GIT_PS1_DESCRIBE_STYLE=branch >> ~/.bashrc
+# explanation:  https://medium.com/@porteneuve/mastering-git-submodules-34c65e940407
+
+
+[core]
+	editor = 'C:/Program Files/Notepad++/notepad++.exe' -multiInst -notabbar -nosession -noPlugin
+	autocrlf = input
+	ignorecase = false
+
+[credential]
+	#only use this on trusted computers!
+	helper = store
+
+
+[status]
+	# show useful info about submodules in main repo (container):
+	submoduleSummary = true
+
+
+
+[diff]
+	submodule = log
+    tool = meld
+[difftool]
+    prompt = false
+[difftool "meld"]
+    cmd = meld \"$LOCAL\" \"$REMOTE\"
+	
+[pull]
+	# preserve merges of the history that is to be rebased:
+	rebase = preserve
+
+
+[push]
+	recurseSubmodules = on-demand
+
+[alias]
+	# sources:  https://haacked.com/archive/2014/07/28/github-flow-aliases/
+	#			https://medium.com/@porteneuve/mastering-git-submodules-34c65e940407
+	
+	ec = config --global -e
+	
+	st = status
+	lg = log --all --decorate --oneline --graph
+
+	
+	co = checkout
+	# shorthand for newly creating a branch
+	cob = checkout -b
+
+	sclone = clone --recursive
+
+	# checkout existing branch with all submodule baggage:
+	sco = "!f() { git checkout $@ && git submodule sync --recursive && git submodule update --init --recursive; }; f"
+	
+	# up = "!f() { git pull --rebase --prune $@ && git submodule update --init --recursive; }; f"
+	# spull = !git pull && git submodule sync --recursive && git submodule update --init --recursive
+	# merge of the above tricks
+	spull = "!f() { git pull --rebase --prune $@ && git submodule sync --recursive && git submodule update --init --recursive; }; f"
+	
+	cm = !git add -A && git commit -m
+	
+	save = !git add -A && git commit -m 'SAVEPOINT'
+	wip = !git add -u && git commit -m "WIP"
+	
+	amend = commit -a --amend
+	undo = reset HEAD~1 --mixed
+	wipe = !git add -A && git commit -qm 'WIPE SAVEPOINT' && git reset HEAD~1 --hard	
+
+	# source for following: https://medium.com/@porteneuve/getting-solid-at-git-rebase-vs-merge-4fa1a48c53aa
+
+	# omit fast forward rebasing when a true merge is desired for a topic branch visible in history
+	truemerge = merge --noff
+	
+	# workflow for rebasing an old branch on tip of master:
+	# 	git rebase master <topic-branch>
+	# force the push because of the rewritten history
+	#	git push -f
+
+	# interactive history rewrite beginning with the remote branch's tip:
+	tidy = rebase -i @{upstream}..
+	# then commit splitting, hunk-wise:
+	# git reset -p HEAD^ <file name>
+
