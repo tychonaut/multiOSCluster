@@ -38,7 +38,9 @@ ROLE="${3:-launcher}"
 
 # get the directory and name of this script
 SCRIPT_DIR="$( cd "$( dirname "$0" )" && pwd )"
+echo "script dir : ${SCRIPT_DIR}"
 SCRIPT_NAME="$( basename "$0" )"
+echo "script name : ${SCRIPT_NAME}"
 
 # Set paths so that all libraries are found.
 export LD_LIBRARY_PATH=../lib:../lib/DriverPlugins:$LD_LIBRARY_PATH
@@ -67,8 +69,8 @@ else # slaves
     cmd //c ".\\${EXECUTABLE} ${SETTINGS} ${VISTA_INI} -newclusterslave $(hostname)"
 	
 fi
-
-
+# required?
+#logout
 
 exit 0
 

@@ -29,7 +29,7 @@ rem Set paths so that all libraries are found.
 set VISTACORELIBS_DRIVER_PLUGIN_DIRS=%SCRIPT_DIR%\..\lib\DriverPlugins
 set PATH=%SCRIPT_DIR%\..\lib;%PATH%
 
-cosmoscout.exe --settings=%SETTINGS% -vistaini %VISTA_INI% %1 %2
+.\cosmoscout.exe --settings=%SETTINGS% -vistaini %VISTA_INI% %1 %2
 
 rem Go back to where we came from
 cd "%CURRENT_DIR%"
