@@ -39,6 +39,15 @@
         "executable": "bin/paraview.exe"	
 	  },
 	
+	  "CosmoScoutVR": {
+		"profile": "distributed_cluster",
+		"installDir": "/d/apps/CosmoScoutVR/v1_2_0_prebuilt",
+        "executable": "bin/start.bat"	
+		
+		"_COMMENTS": [
+			"executable": "bin/start_clusterInstance.bat"	
+        ]
+	  },
 	  
       "Google Earth": {
         
