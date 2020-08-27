@@ -46,6 +46,37 @@ export VISTACORELIBS_DRIVER_PLUGIN_DIRS=../lib/DriverPlugins
 
 export PATH=${SCRIPT_DIR}/../lib/DriverPlugins:$PATH
 
+
+if [ $(hostname) == "arenamaster" ]
+then
+    cd $SCRIPT_DIR
+    # Linux:
+    #./$EXECUTABLE --settings=$SETTINGS -vistaini $VISTA_INI -newclustermaster MASTER
+    # Windows:
+    #powershell.exe "./${EXECUTABLE} --settings=${SETTINGS} -vistaini ${VISTA_INI} -newclustermaster MASTER"
+    cmd //c ".\\${EXECUTABLE} ${SETTINGS} ${VISTA_INI} -newclustermaster MASTER"
+	
+else # slaves
+
+    cd $SCRIPT_DIR
+    # Linux:
+    #./$EXECUTABLE --settings=$SETTINGS -vistaini $VISTA_INI -newclusterslave $4
+    # Windows:
+    #powershell.exe "./${EXECUTABLE} --settings=${SETTINGS} -vistaini ${VISTA_INI} -newclusterslave $4"
+	#local finalCmdCommand=".\\${EXECUTABLE} ${SETTINGS} ${VISTA_INI} -newclusterslave ${4}"
+    cmd //c ".\\${EXECUTABLE} ${SETTINGS} ${VISTA_INI} -newclusterslave $(hostname)"
+	
+fi
+
+
+
+exit 0
+
+
+# REST BELOW IS OBSOLETE, TODO REMOVE when sure ----------------------------------------------------------------
+
+
+
 # launcher mode ----------------------------------------------------------------
 if [ "$ROLE" == "launcher" ]
 then
@@ -93,5 +124,6 @@ then
     #./$EXECUTABLE --settings=$SETTINGS -vistaini $VISTA_INI -newclusterslave $4
     # Windows:
     #powershell.exe "./${EXECUTABLE} --settings=${SETTINGS} -vistaini ${VISTA_INI} -newclusterslave $4"
+	#local finalCmdCommand=".\\${EXECUTABLE} ${SETTINGS} ${VISTA_INI} -newclusterslave ${4}"
     cmd //c ".\\${EXECUTABLE} ${SETTINGS} ${VISTA_INI} -newclusterslave ${4}"
 fi

@@ -43,14 +43,16 @@
 	
 	  "CosmoScoutVR": {
 	  
-		"profile": "simple_desktop",
+		"profile": "local_cluster",
 		"installDir": "/d/apps/CosmoScoutVR/v1_2_0_prebuilt",
         "executable": "bin/start.bat",
 		
 		"_COMMENTS": [
 		  {
 			"executable": "bin/start_clusterInstance.bat",
-			"profile": "distributed_cluster"
+			"profile": "distributed_cluster",
+			"profile": "local_cluster",
+			"profile": "simple_desktop"
 		  }
         ]
 		
