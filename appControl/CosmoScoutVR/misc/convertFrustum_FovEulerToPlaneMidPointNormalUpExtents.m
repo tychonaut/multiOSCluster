@@ -1,29 +1,36 @@
-# Script to parse view frustum data from an xml file
-# (an SGCT config file used in OpenSpace, to pe precise),
-# converts them vom FOV+EulerAngles(YawPitchRoll/YXZ) representation
-# to "3 corners of the projection plane" representation.
-# The result is written into another xml file
-# (a ParaView .pvx file).
+# Script to load+parse view frustum data from an xml file
+# (an SGCT config file used in OpenSpace, to pe precise):
+# It converts the frustum data vom a "FOV+EulerAngles"-representation
+# (roll->pitch->yaw / ZXY) to a "projection plane"- representation of type
+# " midpoint: point on dome along view direction:
+#             yaw(yaw_angle) * pitch(pitch_angle) * roll(roll_angle) 
+#                * (0, 0, -radius_dome)^T;
+#              = Rotate(y, yaw_angle)* Rotate(x, pitch_angle)* Rotate(z, roll_angle) 
+#                * (0, 0, -radius_dome)^T
+#              = RollPitchYawMatrix * (0, 0, -radius_dome)^T
+#   normal:   normalized inverse view direction
+#   extents:  x_min = (-1.0) * radius_dome * tan(fov_left);
+#             x_max =          radius_dome * tan(fov_right);
+#             y_min = (-1.0) * radius_dome * tan(fov_down);
+#             y_max =          radius_dome * tan(fov_up);
+#   up:       RollPitchYawMatrix * (0,1,0)
+#   near clip: 0.2
+#   far clip:  5000
+# ".
+#
+# The result is written into an ini file
+# to be read by CosmoScout VR.
 #
 # IMPORTANT:
 #   Input is REQUIRED to be IN ORDER: 
 #     arenamaster, arenart1 .. arenart5.
-# Output will have the following order:
-#    arenart3, arenart1, arenart2, arenart4, arenart5.
-# This is because for the ParaView .pvx files, 
-# The association between a real server computer (a.k.a. arenartX) 
-#	and a "Machine" xml-element seems to have nothing to do with their host names!
-# It is instead done in the same order as the machines are specified in 
-#   machines.txt 
-# for mpiexec!
-# If we want the "main" server to be arenart3 (because it is the QuadroSync master!),
-# we have to put it on top of both machines.txt and this file!
-
+# (TODO: check if this restriction still applies for the ini stuff)
+#
 #-------------------------------------------------------------------------------
 pkg load matgeom
 pkg load linear-algebra
 
-
+# load xml-parser stuff:
 javaaddpath ("D:/devel/xerces_java/xerces-2_12_1/xercesImpl.jar")
 javaaddpath ("D:/devel/xerces_java/xerces-2_12_1/xml-apis.jar")
 
@@ -31,16 +38,19 @@ javaaddpath ("D:/devel/xerces_java/xerces-2_12_1/xml-apis.jar")
 file_path = fileparts(mfilename('fullpath'))
 
 
-filename_in = strcat( file_path, "/openspace_sgct_config.xml")
+# load an parse input xml file:
+filename_in = strcat( file_path, "/openspace_sgct_config_INPUT.xml")
 ## These three lines are equivalent to xDoc_in = xmlread(filename_in) in Matlab
-parser_in = javaObject("org.apache.xerces.parsers.DOMParser");
-parser_in.parse(filename_in);
-xDoc_in = parser_in.getDocument();
+xml_parser_in = javaObject("org.apache.xerces.parsers.DOMParser");
+xml_parser_in.parse(filename_in);
+xDoc_in = xml_parser_in.getDocument();
+
 
 numFrusta_in = xDoc_in.getElementsByTagName("PlanarProjection").getLength();
 
 frusta_FOV_Euler = [] ;
 
+# Read relevant frustum data into structure:
 # skip index 0, as we are not interested in the master node
 for frustumIndex = 1 : (numFrusta_in-1)
   
@@ -49,8 +59,8 @@ for frustumIndex = 1 : (numFrusta_in-1)
   childNodes = planarProjElem.getChildNodes();
 
   
-   fov = struct ( "up", 10, "down", 20, "left", 30, "right", 40 ) ;
-   eulerAngles = struct ( "yaw", 0, "pitch", 0 , "roll", 0) ;
+  fov = struct ( "up", 10, "down", 20, "left", 30, "right", 40 ) ;
+  eulerAngles = struct ( "yaw", 0, "pitch", 0 , "roll", 0) ;
   
   for childIndex = 0 : (childNodes.getLength() - 1)
       
@@ -88,6 +98,10 @@ for frustumIndex = 1 : (numFrusta_in-1)
   frusta_FOV_Euler = [frusta_FOV_Euler, frustum_FOV_Euler];
   
 endfor
+
+#debug print
+frusta_FOV_Euler
+return
 
 #-------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -163,7 +177,7 @@ for frustumIndex_in = 1 : numel(frusta_FOV_Euler)
   ## Reason this works: After freshing up on quaternions
   ## ( https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation#Using_quaternion_as_rotations ),
   ## I saw in the OpenSpace parsing code that it has actually the order
-  ##   roll -> ptich -> yaw , 
+  ##   roll -> pitch -> yaw , 
   ## obfuscated by "read from bottom to top"-style-code
   ## just like matrix transforms are to be read from left to right:
   ##      quat = glm::rotate(quat, glm::radians(y), glm::vec3(0.0f, 1.0f, 0.0f));
