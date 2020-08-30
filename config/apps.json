@@ -50,6 +50,8 @@
 		"_COMMENTS": [
 		  {
 			"executable": "bin/start_clusterInstance.bat",
+			"installDir": "/d/apps/CosmoScoutVR/v1_2_0_prebuilt",
+			"installDir": "/d/devel/cosmoscout/git_official/install",
 			"profile": "distributed_cluster",
 			"profile": "local_cluster",
 			"profile": "simple_desktop"
