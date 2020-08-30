@@ -14,6 +14,7 @@ function Result = writeIniFile(fileName, iniStructure)
     
   endfor
 
+  fflush(fid);
   fclose (fid);
   
   Result = 0;

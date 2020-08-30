@@ -224,105 +224,75 @@ function ret = convertFrustum_FovEulerToPlaneMidPointNormalUpExtents()
     
   endfor
 
-  #projectionPlanes
-
+  
+  # Load template ini file
   iniFileName_in = "display_distributed_cluster_TEMPLATE.ini";
-  iniStruct_in = ini2struct(iniFileName_in);
-
-  #iniStruct_in
-  #printf("----------------------------------------------------------------\n");
-
-  #iniStruct_in.SYSTEM.DISPLAYSYSTEMS
-
-
-  writeIniFile("display_distributed_cluster_OUTPUT.ini", iniStruct_in);
-
-
-  #debug
-  return
-
-
-
-
-
+  iniStruct_in_out = ini2struct(iniFileName_in);
 
   #-------------------------------------------------------------------------------
   #-------------------------------------------------------------------------------
-
-  #create XML string by loading a Paraview .pvx file, and modify the relevant values:
-
-  filename_toMod = strcat( file_path, "/frusta_PlaneCorners_cave_TEMPLATE.pvx");
-  ## These three lines are equivalent to xDoc_in = xmlread(filename_in) in Matlab
-  parser_out = javaObject("org.apache.xerces.parsers.DOMParser");
-  parser_out.parse(filename_toMod);
-  xDoc_out = parser_out.getDocument();
-
-
-  numFrusta_out = xDoc_out.getElementsByTagName("Machine").getLength();
-
-  if(numel(frusta_FOV_Euler) != numFrusta_out)
-   error("in/out frustum count do not match!")
-  endif
-
-  for frustumIndex_out = 0 : (numFrusta_out -1 )
+  # modify relevant values in the loaded ini struct:
+  
+  
+  
+  for planeIndex_out = 1 : numel(frusta_FOV_Euler)
     
-    machineElem = xDoc_out.getElementsByTagName("Machine").item(frustumIndex_out);
+    currProjPlaneName = strcat("arenart", num2str(planeIndex_out), "_PROJECTION");
+    currProjPlaneIniStruct = iniStruct_in_out.(currProjPlaneName);
     
-    #hostname = machineElem.getAttributes().getNamedItem("Name").getNodeValue()
-    ## As be cannot rely on the order of the data in the .pvx file,
-    ## and as machine names are only available as attributes,
-    ## we have to extract the index: "arenart" are 7 digits.
-    #hostIndex= str2num( hostname(8))
+    currProjPlaneSGCTStruct = projectionPlanes(planeIndex_out);
     
-    hostIP = machineElem.getAttributes().getNamedItem("Name").getNodeValue()
-    ## As be cannot rely on the order of the data in the .pvx file,
-    ## and there are only machine "names" (actually, IPs, see notes above) 
-    ## available, we have to extract the machine index: from the IP:
-    ## "10.0.10.2x" has nine literals before the relevant digit implying the 
-    ## number of the RealTime node.
-    hostIndex= str2num( hostIP(10))
+    midpoint = currProjPlaneSGCTStruct.PROJ_PLANE_MIDPOINT;
+    normal =   currProjPlaneSGCTStruct.PROJ_PLANE_NORMAL;
+    up =       currProjPlaneSGCTStruct.PROJ_PLANE_UP;
+    extents =  currProjPlaneSGCTStruct.PROJ_PLANE_EXTENTS;
     
+    currProjPlaneIniStruct.PROJ_PLANE_MIDPOINT = ...
+      strcat(
+        num2str(midpoint(1)), ", ",
+        num2str(midpoint(2)), ", ",
+        num2str(midpoint(3))
+      );
+    currProjPlaneIniStruct.PROJ_PLANE_NORMAL = ...
+      strcat(
+        num2str(normal(1)), ", ",
+        num2str(normal(2)), ", ",
+        num2str(normal(3))
+      );
+    currProjPlaneIniStruct.PROJ_PLANE_UP = ...
+      strcat(
+        num2str(up(1)), ", ",
+        num2str(up(2)), ", ",
+        num2str(up(3))
+      );
+    currProjPlaneIniStruct.PROJ_PLANE_EXTENTS = ...
+      strcat(
+        num2str(extents.x_min), ", ",
+        num2str(extents.x_max), ", ",
+        num2str(extents.y_min), ", ",
+        num2str(extents.y_max)
+      );      
+     
+     
+    # assign updated structure to main struct:
+    iniStruct_in_out.(currProjPlaneName) = currProjPlaneIniStruct;
     
-    planeCorners =  frusta_planeCorners(hostIndex);
-    LowerLeft_string  = num2str( planeCorners.LowerLeft' )
-    LowerRight_string = num2str( planeCorners.LowerRight' )
-    UpperRight_string = num2str( planeCorners.UpperRight' )
-    
-    
-    machineElem.getAttributes().getNamedItem("LowerLeft").setNodeValue(LowerLeft_string);
-    machineElem.getAttributes().getNamedItem("LowerRight").setNodeValue(LowerRight_string);
-    machineElem.getAttributes().getNamedItem("UpperRight").setNodeValue(UpperRight_string);
-      
-  endfor 
-
-
-  #-------------------------------------------------------------------------------
-  # write the XML string to file:
-
-  serializer = javaObject("org.apache.xml.serialize.XMLSerializer");
-  strWriter  = javaObject("java.io.StringWriter");
-  serializer.setOutputCharStream(strWriter);
-  serializer.serialize(xDoc_out);
-  xmlString_out = strWriter.toString();
+  endfor
+  
 
 
 
-  filename_out = strcat( file_path, "/frusta_PlaneCorners_dome_OUT.pvx");
-
-  fid = fopen (filename_out, "w");
-  if (fid == -1)
-    error ("Unable to open file ", filename_out,"  Aborting...\n");
-  endif
-  fprintf(fid, "%s\n", xmlString_out);
-  fflush(fid);
-  fclose (fid);
-
-  #-------------------------------------------------------------------------------
+  #-----------------------------------------------------------------------------
+  # write the modified INI struct to output INI file:
+  writeIniFile("display_distributed_cluster_OUTPUT.ini", iniStruct_in_out);
+  
   
   ret = 0; # success
+  return
   
 endfunction
-  
+#------------------------------------------------------------------------------- 
+#-------------------------------------------------------------------------------
   
 
 #https://stackoverflow.com/questions/11453165/matlab-get-string-containing-variable-name
