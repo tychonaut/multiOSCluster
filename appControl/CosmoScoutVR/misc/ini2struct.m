@@ -96,7 +96,11 @@ while ~feof(f)                          % and read until it ends
     end;
     if ( s(1)=='[' ) && (s(end)==']' )
         % We found section
-        CurrMainField = genvarname(lower(s(2:end-1)));
+        #CurrMainField = genvarname(lower(s(2:end-1)));
+        # I prefer case sensitivity:
+        #CurrMainField = genvarname(s(2:end-1));
+        CurrMainField = matlab.lang.makeValidName.(s(2:end-1));
+        
         Result.(CurrMainField) = [];    % Create field in Result
     else
         % ??? This is not a section start
@@ -104,7 +108,8 @@ while ~feof(f)                          % and read until it ends
         val = CleanValue(val);
         if ~isempty(CurrMainField)
             % But we found section before and have to fill it
-            Result.(CurrMainField).(lower(genvarname(par))) = val;
+            #Result.(CurrMainField).(lower(genvarname(par))) = val;
+            Result.(CurrMainField).(matlab.lang.makeValidName(par)) = val;
         else
             % No sections found before. Orphan value
             Result.(lower(genvarname(par))) = val;
