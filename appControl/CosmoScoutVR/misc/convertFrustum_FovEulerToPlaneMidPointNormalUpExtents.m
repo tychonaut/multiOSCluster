@@ -38,6 +38,10 @@ javaaddpath ("D:/devel/xerces_java/xerces-2_12_1/xml-apis.jar")
 file_path = fileparts(mfilename('fullpath'))
 
 
+
+radius_dome_metres = 3.0;
+
+
 # load an parse input xml file:
 filename_in = strcat( file_path, "/openspace_sgct_config_INPUT.xml")
 ## These three lines are equivalent to xDoc_in = xmlread(filename_in) in Matlab
@@ -93,22 +97,22 @@ for frustumIndex = 1 : (numFrusta_in-1)
     
   endfor
 
-  frustum_FOV_Euler = struct("fov", fov, "eulerAngles", eulerAngles)
+  frustum_FOV_Euler = struct("fov", fov, "eulerAngles", eulerAngles);
   
   frusta_FOV_Euler = [frusta_FOV_Euler, frustum_FOV_Euler];
   
 endfor
 
+
+
 #debug print
-frusta_FOV_Euler
-return
+#frusta_FOV_Euler
+#frusta_FOV_Euler(1).fov
+#frusta_FOV_Euler(1).eulerAngles
 
-#-------------------------------------------------------------------------------
-#-------------------------------------------------------------------------------
 
-# do the conversions :
 
-#for plotting:
+# for debug  plotting: -------------
 clf # clear figure
 hold on
 xlabel("x")
@@ -117,43 +121,55 @@ zlabel("z")
 axis("equal")
 
 plotData = [];
+# ----------------------------------
 
-frusta_planeCorners = [];
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+# do the conversions from one frustum representation to the other:
+
+
+projectionPlanes = [];
 for frustumIndex_in = 1 : numel(frusta_FOV_Euler)
  
   printf("frustum #: %d\n", frustumIndex_in)
+  projectionName = strcat("arenart", num2str(frustumIndex_in), "_PROJECTION");
  
+  # degrees to radians:
   fovU = deg2rad(frusta_FOV_Euler(frustumIndex_in).fov.up);
   fovD = deg2rad(frusta_FOV_Euler(frustumIndex_in).fov.down);
   fovL = deg2rad(frusta_FOV_Euler(frustumIndex_in).fov.left);
   fovR = deg2rad(frusta_FOV_Euler(frustumIndex_in).fov.right);
+  
 
-  ll = [ -tan(fovL), -tan(fovD), -1.0]' ;
-  lr = [  tan(fovR), -tan(fovD), -1.0]' ;
-  ul = [ -tan(fovL),  tan(fovU), -1.0]' ;
-  ur = [  tan(fovR),  tan(fovU), -1.0]' ;
+  plane_extents = struct(
+    "x_min", (-1.0) * radius_dome_metres * tan(fovL),
+    "x_max",          radius_dome_metres * tan(fovR),
+    "y_min", (-1.0) * radius_dome_metres * tan(fovD),
+    "y_max",          radius_dome_metres * tan(fovU) 
+  );
+
+  
+  # start view direction: negative z-axis:
+  mainDir_normalized = [0, 0, -1.0]' ;
+
+  #initial position and vector params of projection plane:
+  plane_midPoint =  mainDir_normalized * radius_dome_metres;
+  # inverse view direciton
+  plane_normal = -1.0 * mainDir_normalized * radius_dome_metres;
+  plane_up     = [0, 1.0, 0]'; # positive y
   
   
-  mainDir = [0, 0, -1.0]' ;
+  ##----------------------------------------------------------------------------
+  # Set up rotation matrix:
+  # On reasons for this particular rotation order and angle signs, check 
+  # <multiOSCluster dir>/appControl/ParaView/misc/convertFrustum_FovEulerToPlaneCorners.m
   
-  #DEBUG TEST: 3m radius, like in dome
-  ll *= 3.0;
-  lr *= 3.0;
-  ul *= 3.0;
-  ur *= 3.0;
-  
-  mainDir *= 6.0;
-  
-  #yaw pitch roll -> rotate about y,x,z
+  # degrees to radians:
   yaw =   deg2rad((frusta_FOV_Euler(frustumIndex_in).eulerAngles.yaw));
   pitch = deg2rad((frusta_FOV_Euler(frustumIndex_in).eulerAngles.pitch));
   roll =  deg2rad((frusta_FOV_Euler(frustumIndex_in).eulerAngles.roll));
   
-  
-  
-  ##-----------------------------------------------------------------------------
-  ## Mirroring OpenSpace's approach here, as the calibration works there:
-  ## see glm::quat sgct_core::ReadConfig::parseOrientationNode(tinyxml2::XMLElement* element)
   yaw   *= -1.0;
   pitch *=  1.0; #NOT negate
   roll  *= -1.0;
@@ -162,97 +178,56 @@ for frustumIndex_in = 1 : numel(frusta_FOV_Euler)
   pitchMat = createRotationOx( pitch );
   rollMat  = createRotationOz( roll );
   
-  ## original try: yxz -> yaw pitch roll; that's how OpenSpace does it
-  #   rotationMat = rollMat * pitchMat * yawMat;
-  ## next try: xyz: pitch yaw roll; looks good in plot, NEARLY correct in Paraview...
-  #   rotationMat = rollMat * yawMat * pitchMat ;
-  #
-  ## Trial out of desparation: invert order: yxz -> zxy
-  ## This works! This would imply that VIOSO has the euler angle convention 
-  ## "roll pitch yaw" ("zxy"), despite verbal claims and GUI and calibration artifacts
-  ## claiming "yxz". 
   rotationMat = yawMat * pitchMat *  rollMat;
-  # 
-  ## HINDSIGHT INSIGHT:
-  ## Reason this works: After freshing up on quaternions
-  ## ( https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation#Using_quaternion_as_rotations ),
-  ## I saw in the OpenSpace parsing code that it has actually the order
-  ##   roll -> pitch -> yaw , 
-  ## obfuscated by "read from bottom to top"-style-code
-  ## just like matrix transforms are to be read from left to right:
-  ##      quat = glm::rotate(quat, glm::radians(y), glm::vec3(0.0f, 1.0f, 0.0f));
-  ##      quat = glm::rotate(quat, glm::radians(x), glm::vec3(1.0f, 0.0f, 0.0f));
-  ##      quat = glm::rotate(quat, glm::radians(z), glm::vec3(0.0f, 0.0f, 1.0f));
-  ## So this is totally legit. In hindsight, there are the following general problems:
-  ## This convention is nowhere documented to be used, neither by Vioso 
-  ## nor by Paraview, OpenSpace or Google Earth.
-  ## Also, I have nowwhere found that this is a *common* convention.
-  ## Finally, when asked our calibration provider to confirm the "yaw pitch roll"-convention,
-  ## he did so, although the order is the opposite even after reporting these results.
-  ## One may argue that it is confusing that
-  ## semantic and notational order are different, but this underlines the point
-  ## how much trouble can be saved by decent documentation.
-  ##-----------------------------------------------------------------------------
 
-  
-  
   # 4x4 -> 3x3
   rotationMat = rotationMat(1:3, 1:3) 
-  
-  ll = rotationMat * ll;
-  lr = rotationMat * lr;
-  ul = rotationMat * ul;
-  ur = rotationMat * ur;
-  
-  mainDir = rotationMat * mainDir;
+  ##----------------------------------------------------------------------------
 
+  mainDir_normalized = rotationMat * mainDir_normalized;
+  plane_midPoint =  rotationMat * plane_midPoint;
+  plane_normal   =  rotationMat * plane_normal;
+  plane_up       =  rotationMat * plane_up;
+  
+  
 
   
-  planeCorners = struct(
-    "LowerLeft",  ll,
-    "LowerRight", lr,
-    "UpperLeft", ul,
-    "UpperRight", ur,
-    "mainDir", mainDir,
-    "screenFrame_xs", [ ll(1), lr(1), ur(1), ul(1), ll(1) ],
-    "screenFrame_ys", [ ll(2), lr(2), ur(2), ul(2), ll(2) ],
-    "screenFrame_zs", [ ll(3), lr(3), ur(3), ul(3), ll(3) ]
+  currentProjectionPlane = struct(
+    "NAME", projectionName,
+    "PROJ_PLANE_MIDPOINT",  plane_midPoint,
+    "PROJ_PLANE_NORMAL", plane_normal,
+    "PROJ_PLANE_UP", plane_up,
+    "PROJ_PLANE_EXTENTS", plane_extents,
+    "CLIPPING_RANGE", [0.2, 5000.0]
   )
   
-  frusta_planeCorners = [frusta_planeCorners, planeCorners];
+  projectionPlanes = [projectionPlanes, currentProjectionPlane];
   
-  #plot stuff
-  i = frustumIndex_in;
-  plot3( 
-     
-    [0, planeCorners.mainDir(1)],    [0,planeCorners.mainDir(2)],    [0,planeCorners.mainDir(3)] , "",
-    [0, planeCorners.LowerLeft(1)],  [0,planeCorners.LowerLeft(2)],  [0,planeCorners.LowerLeft(3)] , "",
-    [0, planeCorners.LowerRight(1)], [0,planeCorners.LowerRight(2)], [0,planeCorners.LowerRight(3)] , "",
-    [0, planeCorners.UpperLeft(1)],  [0,planeCorners.UpperLeft(2)],  [0,planeCorners.UpperLeft(3)] , "",
-    [0, planeCorners.UpperRight(1)], [0,planeCorners.UpperRight(2)], [0,planeCorners.UpperRight(3)] , "",
-    
-    planeCorners.screenFrame_xs, planeCorners.screenFrame_ys, planeCorners.screenFrame_zs, "-"
-  )
-  text ( planeCorners.mainDir(1), planeCorners.mainDir(2), planeCorners.mainDir(3),
-         strcat( "frustum", num2str(frustumIndex_in)));
-  
-
+  #plot stuff --------------------
+  #i = frustumIndex_in;
+  #plot3(     
+  #  [0, planeCorners.mainDir(1)],    [0,planeCorners.mainDir(2)],    [0,planeCorners.mainDir(3)] , "",
+  #  [0, planeCorners.LowerLeft(1)],  [0,planeCorners.LowerLeft(2)],  [0,planeCorners.LowerLeft(3)] , "",
+  #  [0, planeCorners.LowerRight(1)], [0,planeCorners.LowerRight(2)], [0,planeCorners.LowerRight(3)] , "",
+  #  [0, planeCorners.UpperLeft(1)],  [0,planeCorners.UpperLeft(2)],  [0,planeCorners.UpperLeft(3)] , "",
+  #  [0, planeCorners.UpperRight(1)], [0,planeCorners.UpperRight(2)], [0,planeCorners.UpperRight(3)] , "",   
+  #  planeCorners.screenFrame_xs, 
+  #  planeCorners.screenFrame_ys, 
+  #  planeCorners.screenFrame_zs, 
+  #  "-"
+  #)
+  #text ( planeCorners.mainDir(1), planeCorners.mainDir(2), planeCorners.mainDir(3),
+  #       strcat( "frustum", num2str(frustumIndex_in)));
   
 endfor
 
+projectionPlanes
+
+#debug
+return
 
 
-#  plot3( 
-#  
-#    [0, planeCorners(1).mainDir(1)], [0,planeCorners(1).mainDir(2)], [0,planeCorners(1).mainDir(3)] , "",
-#    [0, planeCorners(1).LowerLeft(1)], [0,planeCorners(1).LowerLeft(2)], [0,planeCorners(1).LowerLeft(3)] , "",
-#    [0, planeCorners(1).LowerRight(1)], [0,planeCorners(1).LowerRight(2)], [0,planeCorners(1).LowerRight(3)] , "",
-#    [0, planeCorners(1).UpperLeft(1)], [0,planeCorners(1).UpperLeft(2)], [0,planeCorners(1).UpperLeft(3)] , "",
-#    [0, planeCorners(1).UpperRight(1)], [0,planeCorners(1).UpperRight(2)], [0,planeCorners(1).UpperRight(3)] , "",
-#    
-#    planeCorners(1).screenFrame_xs, planeCorners(1).screenFrame_ys, planeCorners(1).screenFrame_zs, ""
-#  )
-  
+
 
 
 
