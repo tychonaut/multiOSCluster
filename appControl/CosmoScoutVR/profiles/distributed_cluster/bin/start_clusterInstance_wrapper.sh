@@ -90,8 +90,8 @@ then
     $SCRIPT_DIR/$SCRIPT_NAME $SETTINGS $VISTA_INI client BOTTOM_LEFT  &> $SCRIPT_DIR/local_cluster_bottom_left.log &
     $SCRIPT_DIR/$SCRIPT_NAME $SETTINGS $VISTA_INI client BOTTOM_RIGHT &> $SCRIPT_DIR/local_cluster_bottom_right.log &
 
-    #sleep 5
-    sleep 2
+    sleep 5
+    #sleep 2
 
     echo "Launching master..."
 
@@ -109,6 +109,8 @@ then
 # master mode ------------------------------------------------------------------
 elif [ "$ROLE" == "master" ]
 then
+
+    sleep 5
 
     cd $SCRIPT_DIR
     # Linux:

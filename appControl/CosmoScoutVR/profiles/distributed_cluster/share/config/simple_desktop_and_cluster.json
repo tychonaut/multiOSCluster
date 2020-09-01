@@ -1,5 +1,17 @@
 {
   "enableSensorSizeControl": false,
+  "guiPosition": {
+    "heightMeter": 5,
+    "heightPixel": 900,
+    "posXMeter": 0.0,
+    "posYMeter": 0.8,
+    "posZMeter": -4.5,
+    "rotX": 0.0,
+    "rotY": 0.0,
+    "rotZ": 0.0,
+    "widthMeter": 10,
+    "widthPixel": 1800
+  },
   "startDate": "today",
   "resetDate": "today",
   "minDate": "1950-01-02 00:00:00.000",

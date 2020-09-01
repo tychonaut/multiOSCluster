@@ -43,17 +43,8 @@ launchCosmoScoutVROnCluster()
     # this construct requires the whole script repo to reside on each computer, and in the same directory!
     local hostCredPath="${REPO_DIRECTORY}/helpers/getHostCreds.sh"
 
-    #[-m|--master|--masters]  [-s|--slaves] ] 
-
-    #${REPO_DIRECTORY}/manage/performOnClusterNodes.sh --all -NAS --execute-script "${installDir_windowsStyle}/${exe_windowsStyle}"
-	##this one started everywhere, but without GUI
-	#${REPO_DIRECTORY}/manage/performOnClusterNodes.sh --all --execute-command "${installDir_windowsStyle}/${exe_windowsStyle}"
 	
 	${REPO_DIRECTORY}/manage/performOnClusterNodes.sh --all -NAS --execute-command "/D/apps/PSTools/PsExec64.exe -i -d \\\\\\\\\$(hostname) -h -u \$(${hostCredPath} username) -p \$(${hostCredPath} pw) C:\\\\msys64\\\\usr\\\\bin\\\\mintty.exe /bin/env MSYSTEM=MSYS /bin/bash -l ${installDir_windowsStyle}/${exe_windowsStyle}"
-	
-	#C:\msys64\usr\bin\mintty.exe /bin/env MSYSTEM=MSYS /bin/bash -l /d/devel/scripts/multiOSCluster/appControl/CosmoScoutVR/launch/cluster/launchCosmoScoutVROnCluster.sh
-	
-	#${REPO_DIRECTORY}/manage/performOnClusterNodes.sh --all -NAS --execute-command "/D/apps/PSTools/PsExec64.exe -i -d \\\\\\\\\$(hostname) -h -u \$(${hostCredPath} username) -p \$(${hostCredPath} pw) cmd //c \"${installDir_windowsStyle}/${exe_windowsStyle}\""
 	
 	
     echo "done launching CosmoScoutVR on cluster ..."
