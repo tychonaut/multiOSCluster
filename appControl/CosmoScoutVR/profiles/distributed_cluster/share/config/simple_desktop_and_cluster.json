@@ -12,6 +12,7 @@
     "widthMeter": 10,
     "widthPixel": 1800
   },
+  "enableMouseRay": true,
   "startDate": "today",
   "resetDate": "today",
   "minDate": "1950-01-02 00:00:00.000",
