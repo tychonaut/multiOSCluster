@@ -1,0 +1,72 @@
+\begindata
+
+PATH_VALUES  = (
+    '..\share\download\spice', 
+    'D:\app_data\global\CosmoScoutVR\spice\mex',
+    'D:\app_data\global\CosmoScoutVR\spice\mro'
+)
+
+PATH_SYMBOLS = ( 
+    'COM', 'MEX', 'MRO'
+)
+
+KERNELS_TO_LOAD = (
+    '$COM\naif0011.tls',
+    '$COM\pck00010.tpc',
+    '$COM\cg_1950_2050_v01.bsp',
+    '$MEX\ORHM_______________00038.BSP',
+    '$MEX\ORMF_______________01216.BSP',
+    '$MEX\MEX_171227_STEP.TSC',
+    '$MEX\MEX_V12.TF',
+    '$MRO\mro_ab.bsp',
+    '$MRO\mro_cruise.bsp',
+    '$MRO\mro_psp.bsp',
+    '$MRO\mro_psp1.bsp',
+    '$MRO\mro_psp2.bsp',
+    '$MRO\mro_psp3.bsp',
+    '$MRO\mro_psp4.bsp',
+    '$MRO\mro_psp5.bsp',
+    '$MRO\mro_psp6.bsp',
+    '$MRO\mro_psp7.bsp',
+    '$MRO\mro_psp8.bsp',
+    '$MRO\mro_psp9.bsp',
+    '$MRO\mro_psp10.bsp',
+    '$MRO\mro_psp11.bsp',
+    '$MRO\mro_psp12.bsp',
+    '$MRO\mro_psp13.bsp',
+    '$MRO\mro_psp14.bsp',
+    '$MRO\mro_psp15.bsp',
+    '$MRO\mro_psp16.bsp',
+    '$MRO\mro_psp17.bsp',
+    '$MRO\mro_psp18.bsp',
+    '$MRO\mro_psp19.bsp',
+    '$MRO\mro_psp20.bsp',
+    '$MRO\mro_psp21.bsp',
+    '$MRO\mro_psp22.bsp',
+    '$MRO\mro_psp23.bsp',
+    '$MRO\mro_psp24.bsp',
+    '$MRO\mro_psp25.bsp',
+    '$MRO\mro_psp26.bsp',
+    '$MRO\mro_psp27.bsp',
+    '$MRO\mro_psp28.bsp',
+    '$MRO\mro_psp29.bsp',
+    '$MRO\mro_psp30.bsp',
+    '$MRO\mro_psp31.bsp',
+    '$MRO\mro_psp32.bsp',
+    '$MRO\mro_psp33.bsp',
+    '$MRO\mro_psp34.bsp',
+    '$MRO\mro_psp35.bsp',
+    '$MRO\mro_psp36.bsp',
+    '$MRO\mro_psp37.bsp',
+    '$MRO\mro_psp38.bsp',
+    '$MRO\mro_psp39.bsp',
+    '$MRO\mro_psp40.bsp',
+    '$MRO\mro_psp41.bsp',
+    '$MRO\mro_psp42.bsp',
+    '$MRO\mro_psp43.bsp',
+    '$MRO\mro_psp44.bsp',
+    '$MRO\mro_v15.tf'
+)
+
+\begintext
+
