@@ -43,7 +43,7 @@
 	
 	  "CosmoScoutVR": {
 	  
-		"profile": "distributed_cluster",
+		"profile": "flow_vis_cluster",
 		"installDir": "/d/apps/CosmoScoutVR/git_official",
         "executable": "bin/start_clusterInstance_wrapper.sh",
 		
