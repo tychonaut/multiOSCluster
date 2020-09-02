@@ -447,10 +447,10 @@
     },
 	
     "csp-lod-bodies": {
-	  "maxGPUTilesColor": 1024,
-	  "maxGPUTilesGray": 1024,
-	  "maxGPUTilesDEM": 1024,
-	  "mapCache": "D:/tmp/map-cache/",
+	  "maxGPUTilesColor": 2048,
+	  "maxGPUTilesGray": 2048,
+	  "maxGPUTilesDEM": 2048,
+	  "mapCache": "D:/app_data/global/CosmoScoutVR/map-cache/",
 	  "bodies": {
 		"Earth": {
 		  "activeImgDataset": "Blue Marble",
