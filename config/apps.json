@@ -44,7 +44,7 @@
 	  "CosmoScoutVR": {
 	  
 		"profile": "flow_vis_cluster",
-		"installDir": "/d/apps/CosmoScoutVR/git_official",
+		"installDir": "/d/apps/CosmoScoutVR/git_arena",
         "executable": "bin/start_clusterInstance_wrapper.sh",
 		
 		"_COMMENTS": [
@@ -52,6 +52,7 @@
 			"executable": "bin/start_clusterInstance.bat",
 			"installDir": "/d/apps/CosmoScoutVR/v1_2_0_prebuilt",
 			"installDir": "/d/devel/cosmoscout/git_official/install",
+			"installDir": "/d/apps/CosmoScoutVR/git_official",
 			"profile": "distributed_cluster",
 			"profile": "local_cluster",
 			"profile": "simple_desktop"
