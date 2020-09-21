@@ -16,6 +16,7 @@ usage()
 "Usage syntax: $0 
     <app name>
     [--dry-run]
+    [-l|--local-only)]
 
 Synchronize configuration/calibration/asset files 
 ${REPO_DIRECTORY}/appControl/<app name>/profiles/<activeProfile>/
@@ -41,6 +42,8 @@ The installation directory of <app name> is parsed from the corresponding
 
 '--dry-run' will execute a dry run, i.e. not change remote files.
 
+'-l|--local-only' will only rsync configs on the local machine and skip remote machines.
+
 This script builds on ${REPO_DIRECTORY}/helpers/rsyncToCluster.sh.
 Hence, self-targeting (e.g. from and to a master node) is handled gracefully, either by omission or by local (non-ssh) rsyncing.
 
@@ -56,6 +59,12 @@ Usage examples:
 "
 }
 #------------------------------------------------------------------------------
+
+
+
+localOnly="false"
+
+
 
 #------------------------------------------------------------------------------
 rsyncAppConfigToCluster()
@@ -94,8 +103,8 @@ rsyncAppConfigToCluster()
 
     # special treatment of dev machine: for security reasons, I don't want the dev machine to be ssh-able from the cluster, hence the common logic does not apply here:
     # special treatment of dev machine: for security reasons, I don't want the dev machine to be ssh-able from the cluster, hence the common logic does not apply here:
-    if [[ $(${REPO_DIRECTORY}/helpers/thisMachineIsInHostsList.sh) == "false" ]]; then
-        echo "The launching machine is not part of the cluster config. Inferring that this is a remote development machine:"
+    if [[ $(${REPO_DIRECTORY}/helpers/thisMachineIsInHostsList.sh) == "false" ||  ${localOnly} == "true" ]]; then
+        echo "Either syncing shall only occur locally, or the launching machine is not part of the cluster config."
         echo "Hence rsyncing ${appName} config locally from ${sourcePath} to ${installDir_unixStyle}:"
         sleep 1
         
@@ -110,6 +119,11 @@ rsyncAppConfigToCluster()
         rsync $optionFlags  "${sourcePath}"  "${installDir_unixStyle}"
     fi
 
+    if [[ ${localOnly} == "true" ]]; then
+        echo "Skipping remote (cluster) rsyncing, hence exiting ..."
+        exit 0
+    fi
+
     #"${@}"
     echo "rsyncing  config and calib files to cluster: source directory : ${sourcePath} ; target directory : ${installDir_unixStyle}"
     ${REPO_DIRECTORY}/helpers/rsyncToCluster.sh  --ignorefile "${rsyncignoreFilePath}" --source-path "${sourcePath}" --target-dir "${installDir_unixStyle}" "${@}"
@@ -120,6 +134,8 @@ rsyncAppConfigToCluster()
 
 
 #------------------------------------------------------------------------------
+
+
 # parse some args
 POSITIONAL=()
 while [[ $# -gt 0 ]]
@@ -129,6 +145,10 @@ do
         -h|--help)
             usage
             exit 0
+        ;;
+        -l|--local-only)
+            localOnly="true"
+            shift
         ;;
         *)    # unknown param,  implies incorrect use here
             POSITIONAL+=("$1") # save it in an array for later
