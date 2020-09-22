@@ -25,8 +25,6 @@
 EXECUTABLE=start_clusterInstance.bat
 
 # scene config file can be passed as first parameter
-#SETTINGS="${1:-../share/config/local_cluster.json}"
-# above does not work
 SETTINGS="${1:-../share/config/flow_vis_cluster.json}"
 
 # vista ini can be passed as second parameter
@@ -55,7 +53,6 @@ then
     # Linux:
     #./$EXECUTABLE --settings=$SETTINGS -vistaini $VISTA_INI -newclustermaster MASTER
     # Windows:
-    #powershell.exe "./${EXECUTABLE} --settings=${SETTINGS} -vistaini ${VISTA_INI} -newclustermaster MASTER"
     cmd //c ".\\${EXECUTABLE} ${SETTINGS} ${VISTA_INI} -newclustermaster MASTER"
 	
 else # slaves
@@ -64,70 +61,12 @@ else # slaves
     # Linux:
     #./$EXECUTABLE --settings=$SETTINGS -vistaini $VISTA_INI -newclusterslave $4
     # Windows:
-    #powershell.exe "./${EXECUTABLE} --settings=${SETTINGS} -vistaini ${VISTA_INI} -newclusterslave $4"
-	#local finalCmdCommand=".\\${EXECUTABLE} ${SETTINGS} ${VISTA_INI} -newclusterslave ${4}"
     cmd //c ".\\${EXECUTABLE} ${SETTINGS} ${VISTA_INI} -newclusterslave $(hostname)"
 	
 fi
+
 # required?
 #logout
 
 exit 0
 
-
-# REST BELOW IS OBSOLETE, TODO REMOVE when sure ----------------------------------------------------------------
-
-
-
-# launcher mode ----------------------------------------------------------------
-if [ "$ROLE" == "launcher" ]
-then
-
-    echo "Launching clients..."
-
-    $SCRIPT_DIR/$SCRIPT_NAME $SETTINGS $VISTA_INI client TOP_LEFT     &> $SCRIPT_DIR/local_cluster_top_left.log &
-    $SCRIPT_DIR/$SCRIPT_NAME $SETTINGS $VISTA_INI client TOP_RIGHT    &> $SCRIPT_DIR/local_cluster_top_right.log &
-    $SCRIPT_DIR/$SCRIPT_NAME $SETTINGS $VISTA_INI client BOTTOM_LEFT  &> $SCRIPT_DIR/local_cluster_bottom_left.log &
-    $SCRIPT_DIR/$SCRIPT_NAME $SETTINGS $VISTA_INI client BOTTOM_RIGHT &> $SCRIPT_DIR/local_cluster_bottom_right.log &
-
-    sleep 5
-    #sleep 2
-
-    echo "Launching master..."
-
-    
-    # $SCRIPT_DIR/$SCRIPT_NAME $SETTINGS $VISTA_INI master
-    ${SCRIPT_DIR}/${SCRIPT_NAME} ${SETTINGS} ${VISTA_INI} master
-    
-    echo "Killing old processes..."
-
-    #Linux
-    killall -9 ${EXECUTABLE}
-
-    echo "Fare well!"
-
-# master mode ------------------------------------------------------------------
-elif [ "$ROLE" == "master" ]
-then
-
-    sleep 5
-
-    cd $SCRIPT_DIR
-    # Linux:
-    #./$EXECUTABLE --settings=$SETTINGS -vistaini $VISTA_INI -newclustermaster MASTER
-    # Windows:
-    #powershell.exe "./${EXECUTABLE} --settings=${SETTINGS} -vistaini ${VISTA_INI} -newclustermaster MASTER"
-    cmd //c ".\\${EXECUTABLE} ${SETTINGS} ${VISTA_INI} -newclustermaster MASTER"
-
-# client mode ------------------------------------------------------------------
-elif [ "$ROLE" == "client" ]
-then
-
-    cd $SCRIPT_DIR
-    # Linux:
-    #./$EXECUTABLE --settings=$SETTINGS -vistaini $VISTA_INI -newclusterslave $4
-    # Windows:
-    #powershell.exe "./${EXECUTABLE} --settings=${SETTINGS} -vistaini ${VISTA_INI} -newclusterslave $4"
-	#local finalCmdCommand=".\\${EXECUTABLE} ${SETTINGS} ${VISTA_INI} -newclusterslave ${4}"
-    cmd //c ".\\${EXECUTABLE} ${SETTINGS} ${VISTA_INI} -newclusterslave ${4}"
-fi
