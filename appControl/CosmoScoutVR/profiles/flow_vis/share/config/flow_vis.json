@@ -1,6 +1,6 @@
 {
-  "startDate": "today",
-  "resetDate": "today",
+  "startDate": "2019-01-01 12:00:00.000",
+  "resetDate": "2019-01-01 12:00:00.000",
   "minDate": "2019-01-01 00:00:00.000",
   "maxDate": "2019-12-31 00:00:00.000",
   "logLevelScreen": "critical",
@@ -580,7 +580,7 @@
         },
         "Earth": {
           "activeImgDataset": "Helgoland + Blue Marble",
-          "activeDemDataset": "Helgoland + SRTM30",
+          "activeDemDataset": "Gebco 2019",
           "imgDatasets": {
             "Helgoland + Blue Marble": {
               "copyright": "DLR, NASA",
@@ -591,19 +591,19 @@
             }
           },
           "demDatasets": {
-            "Helgoland + SRTM30": {
-              "copyright": "DLR, NASA",
-              "url": "offline",
-              "format": "Float32",
-              "layers": "earth.srtm30.dem,earth.os.helgoland.dem",
-              "maxLevel": 17
-            },
 			"Gebco 2019": {
               "copyright": "i can has no clue",
               "url": "http://134.245.211.244/cgi-bin/mapserv?map=/storage/mapserver-datasets/meta.map&service=wms",
               "format": "Float32",
               "layers": "earth.gebco_2019.dem",
               "maxLevel": 8
+            },
+		    "Helgoland + SRTM30": {
+              "copyright": "DLR, NASA",
+              "url": "offline",
+              "format": "Float32",
+              "layers": "earth.srtm30.dem,earth.os.helgoland.dem",
+              "maxLevel": 17
             }
           }
         },
@@ -707,7 +707,7 @@
 		"east": 32.311336517333984, 
 		"south": -33.9864501953125, 
 		"north": 69.38933563232422,
-		"numTimeSteps" : 8
+		"numTimeSteps" : 12
 	},
 	
 	"csp-measurement-tools": {},
