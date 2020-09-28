@@ -90,7 +90,7 @@
 			must be edited by hand after export to get rid off the barco clutter string
 		-->
 	<Node 
-		address="D2 BARCO WQXGA   (BPS0FF4) @ 10.0.10.24"
+		address="10.0.10.24"
 		port="20402" 
 	>
 		<Window 
@@ -165,7 +165,7 @@
 			must be edited by hand after export to get rid off the barco clutter string
 		-->
 	<Node 
-		address="D3 BARCO WQXGA   (BPS0FF4) @ 10.0.10.21"
+		address="10.0.10.21"
 		port="20402" 
 	>
 		<Window 
@@ -240,7 +240,7 @@
 			must be edited by hand after export to get rid off the barco clutter string
 		-->
 	<Node 
-		address="D3 BARCO WQXGA   (BPS0FF4) @ 10.0.10.22"
+		address="10.0.10.22"
 		port="20402" 
 	>
 		<Window 
@@ -315,7 +315,7 @@
 			must be edited by hand after export to get rid off the barco clutter string
 		-->
 	<Node 
-		address="D3 BARCO WQXGA   (BPS0FF4) @ 10.0.10.23"
+		address="10.0.10.23"
 		port="20402" 
 	>
 		<Window 
@@ -390,7 +390,7 @@
 			must be edited by hand after export to get rid off the barco clutter string
 		-->
 	<Node 
-		address="D3 BARCO WQXGA   (BPS0FF4) @ 10.0.10.25"
+		address="10.0.10.25"
 		port="20402" 
 	>
 		<Window 
