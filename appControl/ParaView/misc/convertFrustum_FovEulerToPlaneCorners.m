@@ -31,7 +31,7 @@ javaaddpath ("D:/devel/xerces_java/xerces-2_12_1/xml-apis.jar")
 file_path = fileparts(mfilename('fullpath'))
 
 
-filename_in = strcat( file_path, "/openspace_sgct_config.xml")
+filename_in = strcat( file_path, "/openspace_sgct_config_IN.xml")
 ## These three lines are equivalent to xDoc_in = xmlread(filename_in) in Matlab
 parser_in = javaObject("org.apache.xerces.parsers.DOMParser");
 parser_in.parse(filename_in);
