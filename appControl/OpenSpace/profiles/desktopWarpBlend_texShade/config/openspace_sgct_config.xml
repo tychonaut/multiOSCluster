@@ -2,7 +2,7 @@
 
 <!--
 
-    Export of frusta from VIOSO Calibrator views, date: 20200928170754.
+    Export of frusta from VIOSO Calibrator views, date: 20200928190345.
 
 	WARNING: THIS FILE WILL BE CONTINUOUSLY OVERWRITTEN BY rsync!!111 
 	Only edit it on a master machine, and check it into git. It will automatically distributed
@@ -76,78 +76,7 @@
 
 
 	
-	
-	<!-- RealTime node D2 BARCO WQXGA   (BPS0FF4) @ 10.0.10.24 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
-	<!--
-	swapLock="false"
-	-->
-	<!-- as MPCDI has some issues, let's try Openspace's "native" window + frustum definition -->
-	
-		<!-- address="10.0.0.21"  -->
-		<!-- 
-			ATTENTION: the following tag:
-				address="D2 BARCO WQXGA   (BPS0FF4) @ 10.0.10.24" 
-			must be edited by hand after export to get rid off the barco clutter string
-		-->
-	<Node 
-		address="10.0.10.24"
-		port="20402" 
-	>
-		<Window 
-			fullScreen="false" 
-			border="false"		
-		>
-            <Stereo type="none" />
-            <Pos x="0" y="0" />
-			<!--
-			Using Template gives strange and different numbers for height; so hardcode, see below
-            <Size 
-				x="2560" 
-				y="1731" 
-			/>
-			-->
-			<Size x="2560" y="1600" />
-            <Viewport>
-                <Pos x="0.0" y="0.0" />
-                <Size x="1.0" y="1.0" />
-                
-				<PlanarProjection>
-                    
-					<FOV 
-						up="49.00000" 
-						down="49.00000" 
-						left="61.48000" 
-						right="61.48000"  
-					/>
-				
-					<!-- 
-						yaw=115.04655
-						pitch=53.06404
-						roll=-28.09002
-					-->
-                    <Orientation 
-						heading="115.04655" 
-						pitch="53.06404" 
-						roll="-28.09002" 
-					/>
-                </PlanarProjection>
-				
-            </Viewport>
-        </Window>
-		
-    </Node> 
-	
-		<!--
-        <Window fullScreen="false"
-			border="false"		
-			fxaa="false" 
-			msaa="1" 
-			again this will fail due to limits of the template mechanism:
-			mpcdi="calibration/display/rtD2 BARCO WQXGA   (BPS0FF4) @ 10.0.10.24.mpcdi"
-		>
-			<Stereo type="none" />
-        </Window>
-		-->
+
 	
 
 	
@@ -189,10 +118,10 @@
 				<PlanarProjection>
                     
 					<FOV 
-						up="49.00000" 
-						down="49.00000" 
-						left="61.48000" 
-						right="61.48000"  
+						up="41.00000" 
+						down="41.00000" 
+						left="55.00000" 
+						right="55.00000"  
 					/>
 				
 					<!-- 
@@ -264,10 +193,10 @@
 				<PlanarProjection>
                     
 					<FOV 
-						up="49.00000" 
-						down="49.00000" 
-						left="61.48000" 
-						right="61.48000"  
+						up="45.00000" 
+						down="45.00000" 
+						left="61.00000" 
+						right="61.00000"  
 					/>
 				
 					<!-- 
@@ -339,21 +268,21 @@
 				<PlanarProjection>
                     
 					<FOV 
-						up="49.00000" 
-						down="49.00000" 
-						left="61.48000" 
-						right="61.48000"  
+						up="42.00000" 
+						down="42.00000" 
+						left="58.00000" 
+						right="58.00000"  
 					/>
 				
 					<!-- 
 						yaw=-116.45371
 						pitch=52.31257
-						roll=25.71615
+						roll=25.71614
 					-->
                     <Orientation 
 						heading="-116.45371" 
 						pitch="52.31257" 
-						roll="25.71615" 
+						roll="25.71614" 
 					/>
                 </PlanarProjection>
 				
@@ -374,6 +303,79 @@
         </Window>
 		-->
 	
+	
+	
+		<!-- RealTime node D2 BARCO WQXGA   (BPS0FF4) @ 10.0.10.24 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+	<!--
+	swapLock="false"
+	-->
+	<!-- as MPCDI has some issues, let's try Openspace's "native" window + frustum definition -->
+	
+		<!-- address="10.0.0.21"  -->
+		<!-- 
+			ATTENTION: the following tag:
+				address="D2 BARCO WQXGA   (BPS0FF4) @ 10.0.10.24" 
+			must be edited by hand after export to get rid off the barco clutter string
+		-->
+	<Node 
+		address="10.0.10.24"
+		port="20402" 
+	>
+		<Window 
+			fullScreen="false" 
+			border="false"		
+		>
+            <Stereo type="none" />
+            <Pos x="0" y="0" />
+			<!--
+			Using Template gives strange and different numbers for height; so hardcode, see below
+            <Size 
+				x="2560" 
+				y="1731" 
+			/>
+			-->
+			<Size x="2560" y="1600" />
+            <Viewport>
+                <Pos x="0.0" y="0.0" />
+                <Size x="1.0" y="1.0" />
+                
+				<PlanarProjection>
+                    
+					<FOV 
+						up="44.00000" 
+						down="44.00000" 
+						left="55.00000" 
+						right="55.00000"  
+					/>
+				
+					<!-- 
+						yaw=115.04663
+						pitch=53.06412
+						roll=-28.08995
+					-->
+                    <Orientation 
+						heading="115.04663" 
+						pitch="53.06412" 
+						roll="-28.08995" 
+					/>
+                </PlanarProjection>
+				
+            </Viewport>
+        </Window>
+		
+    </Node> 
+	
+		<!--
+        <Window fullScreen="false"
+			border="false"		
+			fxaa="false" 
+			msaa="1" 
+			again this will fail due to limits of the template mechanism:
+			mpcdi="calibration/display/rtD2 BARCO WQXGA   (BPS0FF4) @ 10.0.10.24.mpcdi"
+		>
+			<Stereo type="none" />
+        </Window>
+		-->
 
 	
 	
@@ -414,21 +416,21 @@
 				<PlanarProjection>
                     
 					<FOV 
-						up="49.00000" 
-						down="49.00000" 
-						left="61.48000" 
-						right="61.48000"  
+						up="43.00000" 
+						down="43.00000" 
+						left="57.00000" 
+						right="57.00000"  
 					/>
 				
 					<!-- 
-						yaw=-6.74951
-						pitch=72.18381
-						roll=4.26130
+						yaw=-6.74970
+						pitch=72.18367
+						roll=4.26111
 					-->
                     <Orientation 
-						heading="-6.74951" 
-						pitch="72.18381" 
-						roll="4.26130" 
+						heading="-6.74970" 
+						pitch="72.18367" 
+						roll="4.26111" 
 					/>
                 </PlanarProjection>
 				
