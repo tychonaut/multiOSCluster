@@ -69,7 +69,7 @@
 	<!-- "Back" : arenart3 --> 
 	<Machine Name="10.0.10.23"
            Environment=""
-		   Geometry="2560x1600+2560+0"
+		   Geometry="2560x1600+1920+0"
            FullScreen="0"
            ShowBorders="0"
            LowerLeft="  1 -1  1"
@@ -81,7 +81,7 @@
 	<!-- "Front": arenart1 -->
 	<Machine Name="10.0.10.21"       
 		   Environment=""  
-		   Geometry="2560x1600+2560+0"
+		   Geometry="2560x1600+1920+0"
            FullScreen="0"
            ShowBorders="0"	   
            LowerLeft=" -1 -1 -1"
@@ -93,7 +93,7 @@
 	<!-- "Left": arenart2-->
 	<Machine Name="10.0.10.22"        
 		   Environment=""		   
-		   Geometry="2560x1600+2560+0"
+		   Geometry="2560x1600+1920+0"
            FullScreen="0"
            ShowBorders="0"
            LowerLeft=" -1 -1  1"
@@ -105,7 +105,7 @@
 	<!-- "Right": arenart4 -->
 	<Machine Name="10.0.10.24"
            Environment=""
-		   Geometry="2560x1600+2560+0"
+		   Geometry="2560x1600+1920+0"
            FullScreen="0"
            ShowBorders="0"
            LowerLeft="  1 -1 -1"
@@ -117,7 +117,7 @@
 	<!-- "Top": arenart5-->
 	<Machine Name="10.0.10.25"
            Environment=""
-		   Geometry="2560x1600+2560+0"
+		   Geometry="2560x1600+1920+0"
            FullScreen="0"
            ShowBorders="0"
            LowerLeft=" -1  1 -1"

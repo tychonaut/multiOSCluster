@@ -67,23 +67,23 @@
 
 
 	<!-- "Back" : arenart3 --> 
-	<Machine Environment="" FullScreen="0" Geometry="2560x1600+2560+0" LowerLeft="0.55871      2.1598      5.8625" LowerRight="-6.247    -0.38734    -0.41385" Name="10.0.10.23" ShowBorders="0" UpperRight="-3.8428      2.5883     -4.2285"/>
+	<Machine Environment="" FullScreen="0" Geometry="2560x1600+1920+0" LowerLeft="0.55871      2.1598      5.8625" LowerRight="-6.247    -0.38734    -0.41385" Name="10.0.10.23" ShowBorders="0" UpperRight="-3.8428      2.5883     -4.2285"/>
   
 	
 	<!-- "Front": arenart1 -->
-	<Machine Environment="" FullScreen="0" Geometry="2560x1600+2560+0" LowerLeft="-0.10771     -2.1852     -5.4195" LowerRight="5.8283    -0.13831     0.41148" Name="10.0.10.21" ShowBorders="0" UpperRight="3.5566      4.5069      1.0934"/>
+	<Machine Environment="" FullScreen="0" Geometry="2560x1600+1920+0" LowerLeft="-0.10771     -2.1852     -5.4195" LowerRight="5.8283    -0.13831     0.41148" Name="10.0.10.21" ShowBorders="0" UpperRight="3.5566      4.5069      1.0934"/>
 	
 		   
 	<!-- "Left": arenart2-->
-	<Machine Environment="" FullScreen="0" Geometry="2560x1600+2560+0" LowerLeft="-6.8551     0.06116     0.54381" LowerRight="1.1258     -2.5555     -6.2844" Name="10.0.10.22" ShowBorders="0" UpperRight="3.8976       2.615     -5.0261"/>
+	<Machine Environment="" FullScreen="0" Geometry="2560x1600+1920+0" LowerLeft="-6.8551     0.06116     0.54381" LowerRight="1.1258     -2.5555     -6.2844" Name="10.0.10.22" ShowBorders="0" UpperRight="3.8976       2.615     -5.0261"/>
   
 
 	<!-- "Right": arenart4 -->
-	<Machine Environment="" FullScreen="0" Geometry="2560x1600+2560+0" LowerLeft="5.9676    -0.35019     0.12223" LowerRight="-0.15453      2.0744      5.6056" Name="10.0.10.24" ShowBorders="0" UpperRight="-2.7011       5.146      1.4042"/>
+	<Machine Environment="" FullScreen="0" Geometry="2560x1600+1920+0" LowerLeft="5.9676    -0.35019     0.12223" LowerRight="-0.15453      2.0744      5.6056" Name="10.0.10.24" ShowBorders="0" UpperRight="-2.7011       5.146      1.4042"/>
   
   
 	<!-- "Top": arenart5-->
-	<Machine Environment="" FullScreen="0" Geometry="2560x1600+2560+0" LowerLeft="-5.163      2.1076     -2.6587" LowerRight="3.91      1.8975     -4.3907" Name="10.0.10.25" ShowBorders="0" UpperRight="4.9472      3.6047     0.83567"/>
+	<Machine Environment="" FullScreen="0" Geometry="2560x1600+1920+0" LowerLeft="-5.163      2.1076     -2.6587" LowerRight="3.91      1.8975     -4.3907" Name="10.0.10.25" ShowBorders="0" UpperRight="4.9472      3.6047     0.83567"/>
   
   
 
