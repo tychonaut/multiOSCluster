@@ -699,6 +699,7 @@
     },
     
 	"csp-flow-vis": {
+	    "isEnabled": true,
 		"tifDirectory": "D:/app_data/global/CosmoScoutVR/plugin-data/csp-flow-vis/flow-data-simon",
 		"anchor": "Earth",
 	    "startDate": "2019-01-01 00:00:00.000",
@@ -707,7 +708,9 @@
 		"east": 32.311336517333984, 
 		"south": -33.9864501953125, 
 		"north": 69.38933563232422,
-		"numTimeSteps" : 12
+		"numTimeSteps" : 12,
+		"flowSpeedScale" : 1.0,
+		"particleSeedThreshold": 0.1
 	},
 	
 	"csp-measurement-tools": {},
