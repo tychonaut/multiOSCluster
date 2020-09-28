@@ -118,14 +118,14 @@ function ret = convertFrustum_FovEulerToPlaneMidPointNormalUpExtents()
 
 
   # for debug  plotting: -------------
-  clf # clear figure
-  hold on
-  xlabel("x")
-  ylabel("y")
-  zlabel("z")
-  axis("equal")
+  #clf # clear figure
+  #hold on
+  #xlabel("x")
+  #ylabel("y")
+  #zlabel("z")
+  #axis("equal")
 
-  plotData = [];
+  #plotData = [];
   # ----------------------------------
 
 
