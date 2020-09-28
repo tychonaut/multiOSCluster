@@ -102,7 +102,7 @@
 			border="false"		
 		>
             <Stereo type="none" />
-            <Pos x="2560" y="0" />
+            <Pos x="1920" y="0" />
 			<!--
 			Using Template gives strange and different numbers for height; so hardcode, see below
             <Size 
@@ -177,7 +177,7 @@
 			border="false"		
 		>
             <Stereo type="none" />
-            <Pos x="2560" y="0" />
+            <Pos x="1920" y="0" />
 			<!--
 			Using Template gives strange and different numbers for height; so hardcode, see below
             <Size 
@@ -252,7 +252,7 @@
 			border="false"		
 		>
             <Stereo type="none" />
-            <Pos x="2560" y="0" />
+            <Pos x="1920" y="0" />
 			<!--
 			Using Template gives strange and different numbers for height; so hardcode, see below
             <Size 
@@ -326,7 +326,7 @@
 			border="false"		
 		>
             <Stereo type="none" />
-            <Pos x="2560" y="0" />
+            <Pos x="1920" y="0" />
 			<!--
 			Using Template gives strange and different numbers for height; so hardcode, see below
             <Size 
@@ -400,7 +400,7 @@
 			border="false"		
 		>
             <Stereo type="none" />
-            <Pos x="2560" y="0" />
+            <Pos x="1920" y="0" />
 			<!--
 			Using Template gives strange and different numbers for height; so hardcode, see below
             <Size 
