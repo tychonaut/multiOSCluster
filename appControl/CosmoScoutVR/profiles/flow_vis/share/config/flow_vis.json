@@ -710,7 +710,7 @@
 		"north": 69.38933563232422,
 		"numTimeSteps" : 12,
 		"flowSpeedScale" : 1.0,
-		"particleSeedThreshold": 0.1
+		"particleSeedThreshold": 0.01
 	},
 	
 	"csp-measurement-tools": {},
