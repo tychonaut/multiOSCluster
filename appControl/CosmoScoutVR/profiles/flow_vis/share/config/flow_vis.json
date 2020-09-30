@@ -579,9 +579,16 @@
           }
         },
         "Earth": {
-          "activeImgDataset": "Helgoland + Blue Marble",
+          "activeImgDataset": "TerrainTexShadGebco2019",
           "activeDemDataset": "Gebco 2019",
           "imgDatasets": {
+		  "TerrainTexShadGebco2019": {
+              "copyright": "t.b.d.",
+              "url": "http://134.245.211.244/cgi-bin/mapserv?map=/storage/mapserver-datasets/meta.map&service=wms",
+              "format": "U8Vec3",
+              "layers": "earth.tts_gebco_2019.rgb",
+              "maxLevel": 8
+            },
             "Helgoland + Blue Marble": {
               "copyright": "DLR, NASA",
               "url": "offline",
