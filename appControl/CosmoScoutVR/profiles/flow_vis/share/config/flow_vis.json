@@ -708,9 +708,9 @@
 		"east": 32.311336517333984, 
 		"south": -33.9864501953125, 
 		"north": 69.38933563232422,
-		"numTimeSteps" : 12,
-		"flowSpeedScale" : 1.0,
-		"particleSeedThreshold": 0.01
+		"numTimeSteps" : 72,
+		"flowSpeedScale" : 0.01,
+		"particleSeedThreshold": 0.001
 	},
 	
 	"csp-measurement-tools": {},
