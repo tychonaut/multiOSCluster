@@ -81,11 +81,19 @@
 		
 		"profile": "cluster_mono",
 		
-		"installDir": "C/2020-10-05 Client für ClusterTEST/Client",
+		"installDir": "/c/Client",
         "executable": "moreViz.exe",
 
 		"configDir": "/c/Users/arena/AppData/Local/moreViz",
-		"configDistributionMode": "differentFilesForEachInstance"
+		"configDistributionMode": "differentFilesForEachInstance",
+		
+
+		"_COMMENTS": [
+		  {
+			"installDir": "/c/2020-10-05 Client für ClusterTEST/Client",
+			"installDir": "/c/moreVizClient_cluster/Client"
+		  }
+        ]
 		
 	  },
       
