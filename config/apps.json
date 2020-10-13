@@ -10,6 +10,9 @@
         "installDir": "/d/apps/OpenSpace/v0.15.1_git_arena",
         "executable": "bin/OpenSpace.exe",
 		
+		"configDir":  "/d/apps/OpenSpace/v0.15.1_git_arena",
+		"configDistributionMode": "sameFilesForAllInstances",
+		
 		
 		"_COMMENTS": [
           "available profiles:",
@@ -32,20 +35,30 @@
 		
       },
 	  
+	  
 	
 	  "ParaView": {
 	  
 		"profile": "debugging",
 		"installDir": "/d/apps/ParaView/v5.8.0_CAVE",
-        "executable": "bin/paraview.exe"	
+        "executable": "bin/paraview.exe",
+		
+		"configDir":  "/d/apps/ParaView/v5.8.0_CAVE",
+		"configDistributionMode": "sameFilesForAllInstances"
 		
 	  },
+	
+	
 	
 	  "CosmoScoutVR": {
 	  
 		"profile": "flow_vis",
 		"installDir": "/d/apps/CosmoScoutVR/git_arena",
         "executable": "bin/start_clusterInstance_wrapper.sh",
+		
+		"configDir":  "/d/apps/CosmoScoutVR/git_arena",
+		"configDistributionMode": "sameFilesForAllInstances",
+		
 		
 		"_COMMENTS": [
 		  {
@@ -62,13 +75,32 @@
 		
 	  },
 	  
-      "Google Earth": {
+	  
+	  	  
+	  "moreViz": {
+		
+		"profile": "cluster_mono",
+		
+		"installDir": "C/2020-10-05 Client für ClusterTEST/Client",
+        "executable": "moreViz.exe",
+
+		"configDir": "/c/Users/arena/AppData/Local/moreViz",
+		"configDistributionMode": "differentFilesForEachInstance"
+		
+	  },
+      
+	  
+	  
+	  "Google Earth": {
         
       }
     
 	
 	
 	},
+	
+	
+	
 	
 	
     "Linux": {
