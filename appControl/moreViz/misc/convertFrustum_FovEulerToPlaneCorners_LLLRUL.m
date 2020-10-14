@@ -124,12 +124,12 @@ function ret = convertFrustum_FovEulerToPlaneCorners_LLLRUL()
     mainDir = [0, 0, -1.0]' ;
     
     #DEBUG TEST: 3m radius, like in dome
-    ll *= 3.0;
-    lr *= 3.0;
-    ul *= 3.0;
-    ur *= 3.0;
+    #ll *= 3.0;
+    #lr *= 3.0;
+    #ul *= 3.0;
+    #ur *= 3.0;
     
-    mainDir *= 6.0;
+    #mainDir *= 6.0;
     
     #yaw pitch roll -> rotate about y,x,z
     yaw =   deg2rad((frusta_FOV_Euler(frustumIndex_in).eulerAngles.yaw));
