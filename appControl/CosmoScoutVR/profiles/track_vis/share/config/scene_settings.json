@@ -1,8 +1,8 @@
 {
-  "startDate": "2019-01-01 12:00:00.000",
-  "resetDate": "2019-01-01 12:00:00.000",
-  "minDate": "2019-01-01 00:00:00.000",
-  "maxDate": "2019-12-31 00:00:00.000",
+  "startDate": "today",
+  "resetDate": "today",
+  "minDate": "1950-01-02 00:00:00.000",
+  "maxDate": "2049-12-31 00:00:00.000",
   "logLevelScreen": "critical",
   "observer": {
     "center": "Earth",
@@ -714,7 +714,7 @@
     },
 	
 	
-	"csp-flow-vis": {
+	"csp-flow-vis_DISABLED": {
 	    "isEnabled": true,
 		"tifDirectory": "D:/app_data/global/CosmoScoutVR/plugin-data/csp-flow-vis/flow-data-simon",
 		"anchor": "Earth",

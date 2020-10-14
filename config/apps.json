@@ -52,7 +52,8 @@
 	
 	  "CosmoScoutVR": {
 	  
-		"profile": "flow_vis",
+		"profile": "track_vis",
+		
 		"installDir": "/d/apps/CosmoScoutVR/git_arena",
         "executable": "bin/start_clusterInstance_wrapper.sh",
 		
@@ -79,6 +80,7 @@
 	  	  
 	  "moreViz": {
 		
+		"profile": "flow_vis",
 		"profile": "cluster_mono",
 		
 		"installDir": "/c/Client",
