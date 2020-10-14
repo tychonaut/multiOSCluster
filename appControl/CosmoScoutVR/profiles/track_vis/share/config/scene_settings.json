@@ -705,6 +705,15 @@
       }
     },
     
+	
+	"csp-transport-tracking": {
+        "flights_url": "https://opensky-network.org/api/states/all",
+        "flight_texture": "../share/resources/textures/plane.png",
+        "vessels_url": "www.vessels.website.com",
+        "vessel_texture": "../share/resources/textures/vessel.png"
+    },
+	
+	
 	"csp-flow-vis": {
 	    "isEnabled": true,
 		"tifDirectory": "D:/app_data/global/CosmoScoutVR/plugin-data/csp-flow-vis/flow-data-simon",
@@ -719,6 +728,7 @@
 		"flowSpeedScale" : 0.01,
 		"particleSeedThreshold": 0.001
 	},
+	
 	
 	"csp-measurement-tools": {},
     "csp-simple-bodies": {
